@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riley Games</title>
+  <link id="favicon" rel="icon" href="" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background-color: black !important;
+      font-family: 'Poppins', sans-serif;
+      width: 100% !important;
+      height: 100% !important;
+      overflow-x: hidden;
+    }
+
+    .main-content {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: #232323;
+      padding: 15px;
+      text-align: center;
+      width: 100%;
+      position: relative;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 18px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .navbar a:hover {
+      color: orange;
+    }
+
+    #searchBar {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-left: 10px;
+      background-color: #333;
+      color: white;
+      outline: none;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    #searchBar::placeholder {
+      color: gray;
+    }
+
+    #usernameDisplay {
+      color: #00ff00;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+
+    /* Sidebar toggle arrow */
+    .sidebar-toggle {
+      position: fixed;
+      top: 60px;
+      right: 0;
+      background-color: #00ff00;
+      color: black;
+      border: none;
+      padding: 10px 8px;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 5px 0 0 5px;
+      z-index: 1000;
+      transition: 0.3s;
+    }
+
+    .sidebar-toggle:hover {
+      background-color: #00cc00;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 350px;
+      height: 100vh;
+      background-color: #1a1a1a;
+      transition: 0.3s;
+      z-index: 999;
+      overflow-y: auto;
+      padding: 20px;
+      border-left: 2px solid #00ff00;
+    }
+
+    .sidebar.open {
+      right: 0;
+    }
+
+    .sidebar h2 {
+      color: white;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .sidebar h3 {
+      color: orange;
+      margin: 20px 0 10px 0;
+      font-size: 18px;
+    }
+
+    .sidebar label {
+      color: gray;
+      font-size: 13px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .sidebar-input {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-input::placeholder {
+      color: #666;
+    }
+
+    .sidebar-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Poppins', sans-serif;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+
+    .sidebar-btn-green {
+      background-color: #00ff00;
+      color: black;
+    }
+
+    .sidebar-btn-green:hover {
+      background-color: #00cc00;
+    }
+
+    .sidebar-btn-orange {
+      background-color: orange;
+      color: black;
+    }
+
+    .sidebar-btn-orange:hover {
+      background-color: darkorange;
+    }
+
+    .sidebar-btn-gray {
+      background-color: #333;
+      color: white;
+    }
+
+    .sidebar-btn-gray:hover {
+      background-color: #444;
+    }
+
+    .sidebar-btn-red {
+      background-color: #cc0000;
+      color: white;
+    }
+
+    .sidebar-btn-red:hover {
+      background-color: #990000;
+    }
+
+    .sidebar-divider {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 15px 0;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* Sidebar tabs */
+    .sidebar-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .sidebar-tab {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: 0.3s;
+      min-width: 60px;
+    }
+
+    .sidebar-tab.active {
+      background-color: orange;
+      color: black;
+    }
+
+    .sidebar-tab.admin-tab {
+      background-color: #660000;
+      color: #ff6666;
+    }
+
+    .sidebar-tab.admin-tab.active {
+      background-color: #cc0000;
+      color: white;
+    }
+
+    .sidebar-panel {
+      display: none;
+    }
+
+    .sidebar-panel.active {
+      display: block;
+    }
+
+    /* Profile styles */
+    .profile-card {
+      background-color: #2a2a2a;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .profile-pic {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid orange;
+    }
+
+    .profile-pic-large {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid orange;
+      display: block;
+      margin: 0 auto 10px auto;
+    }
+
+    .profile-name {
+      color: white;
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    .profile-role {
+      color: orange;
+      font-size: 12px;
+    }
+
+    .profile-bio {
+      color: gray;
+      font-size: 13px;
+    }
+
+    .owner-badge {
+      color: #00ff00;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .coowner-badge {
+      color: orange;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .friend-card {
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .friend-card img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .friend-card span {
+      color: white;
+      font-size: 14px;
+    }
+
+    .friend-btn {
+      margin-left: auto;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .search-result {
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-result img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .search-result span {
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .search-result span:hover {
+      color: orange;
+    }
+
+    /* Online Status */
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    .status-online {
+      background-color: #00ff00;
+      box-shadow: 0 0 8px #00ff00;
+    }
+
+    .status-offline {
+      background-color: #666;
+    }
+
+    .online-count {
+      color: #00ff00;
+      font-size: 12px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    /* Chat styles */
+    .chat-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: orange;
+      color: black;
+      border: none;
+      padding: 15px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 50px;
+      z-index: 1000;
+      transition: 0.3s;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+    }
+
+    .chat-toggle:hover {
+      background-color: darkorange;
+      transform: scale(1.05);
+    }
+
+    .chat-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #cc0000;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+      display: none;
+    }
+
+    .chat-panel {
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      width: 350px;
+      height: 450px;
+      background-color: #1a1a1a;
+      border-radius: 15px;
+      border: 2px solid orange;
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .chat-panel.open {
+      display: flex;
+    }
+
+    .chat-header {
+      background-color: #232323;
+      padding: 15px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header span {
+      color: orange;
+    }
+
+    .chat-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .chat-message {
+      background-color: #2a2a2a;
+      border-radius: 10px;
+      padding: 10px;
+      max-width: 85%;
+    }
+
+    .chat-message.mine {
+      align-self: flex-end;
+      background-color: #3a3a00;
+      border: 1px solid orange;
+    }
+
+    .chat-message-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+
+    .chat-message-pic {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .chat-message-name {
+      color: orange;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .chat-message-name:hover {
+      text-decoration: underline;
+    }
+
+    .chat-message-time {
+      color: #666;
+      font-size: 10px;
+      margin-left: auto;
+    }
+
+    .chat-message-text {
+      color: white;
+      font-size: 14px;
+      word-wrap: break-word;
+    }
+
+    .chat-message-delete {
+      background: none;
+      border: none;
+      color: #cc0000;
+      font-size: 12px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .chat-input-area {
+      padding: 10px;
+      background-color: #232323;
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      background-color: #333;
+      color: white;
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+    }
+
+    .chat-input::placeholder {
+      color: #666;
+    }
+
+    .chat-send {
+      background-color: orange;
+      color: black;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: bold;
+    }
+
+    .chat-send:hover {
+      background-color: darkorange;
+    }
+
+    /* Profile Modal */
+    .profile-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile-modal-overlay.open {
+      display: flex;
+    }
+
+    .profile-modal {
+      background-color: #1a1a1a;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      border: 2px solid orange;
+      position: relative;
+    }
+
+    .profile-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .profile-modal-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid orange;
+      margin-bottom: 15px;
+    }
+
+    .profile-modal-name {
+      color: white;
+      font-size: 24px;
+      margin: 0 0 5px 0;
+    }
+
+    .profile-modal-role {
+      color: orange;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .profile-modal-bio {
+      color: gray;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .profile-modal-status {
+      margin-bottom: 15px;
+    }
+
+    .profile-modal-joined {
+      color: #666;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .profile-modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Admin Panel */
+    .admin-section {
+      background-color: #2a1a1a;
+      border: 1px solid #660000;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .admin-section h4 {
+      color: #ff6666;
+      margin: 0 0 10px 0;
+      font-size: 14px;
+    }
+
+    .admin-user-card {
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-user-card img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .admin-user-info {
+      flex: 1;
+    }
+
+    .admin-user-info span {
+      color: white;
+      font-size: 14px;
+      display: block;
+    }
+
+    .admin-user-info small {
+      color: #666;
+      font-size: 11px;
+    }
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .admin-stat {
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .admin-stat-number {
+      color: orange;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .admin-stat-label {
+      color: gray;
+      font-size: 12px;
+    }
+
+    /* Bookmarklet styles */
+    .bookmarklet-link {
+      display: inline-block;
+      background-color: #333;
+      color: orange;
+      padding: 6px 12px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 12px;
+      margin: 3px;
+      cursor: grab;
+      transition: 0.3s;
+    }
+
+    .bookmarklet-link:hover {
+      background-color: #444;
+    }
+
+    .preset-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .panic-info {
+      color: #00ff00;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    /* Page styles */
+    .page {
+      padding: 20px;
+    }
+
+    .page h1 {
+      color: white;
+      text-align: center;
+    }
+
+    .page h2 {
+      color: white;
+      text-align: center;
+    }
+
+    .page p {
+      color: gray;
+      text-align: center;
+    }
+
+    .games-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .game-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .game-card {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      padding: 20px;
+      width: 200px;
+      text-align: center;
+      transition: 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .game-card:hover {
+      background-color: #2a2a2a;
+      transform: translateY(-5px);
+    }
+
+    .game-card h3 {
+      color: orange;
+      margin: 0;
+    }
+
+    .fav-star {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10;
+      transition: 0.3s;
+      color: orange;
+    }
+
+    .fav-star:hover {
+      transform: scale(1.3);
+    }
+
+    .favorites-section {
+      margin-top: 20px;
+    }
+
+    .favorites-section h2 {
+      color: orange;
+      text-align: center;
+      font-size: 22px;
+    }
+
+    .no-favorites {
+      color: gray;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* Owners section */
+    .owners-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .owners-section h2 {
+      color: white;
+      font-size: 20px;
+    }
+
+    .owners-list {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    /* First time popup */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-box {
+      background-color: #1a1a1a;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      border: 2px solid orange;
+    }
+
+    .popup-box h2 {
+      color: orange;
+      margin: 0 0 15px 0;
+    }
+
+    .popup-box p {
+      color: gray;
+      font-size: 14px;
+    }
+
+    .popup-box input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    /* Announcement banner */
+    .announcement-banner {
+      background: linear-gradient(90deg, #ff6600, #ff9900);
+      color: black;
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .announcement-banner.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Announcement Banner -->
+  <div id="announcementBanner" class="announcement-banner"></div>
+
+  <!-- First time popup -->
+  <div id="welcomePopup" class="popup-overlay" style="display: none;">
+    <div class="popup-box">
+      <h2>Welcome to Riley Games!</h2>
+      <p>Choose a username to get started</p>
+      <input type="text" id="newUsername" placeholder="Enter username...">
+      <br>
+      <button class="sidebar-btn sidebar-btn-orange" onclick="createProfile()" style="font-size: 18px; padding: 12px 30px;">Join</button>
+    </div>
+  </div>
+
+  <!-- Profile View Modal -->
+  <div id="profileModal" class="profile-modal-overlay">
+    <div class="profile-modal">
+      <button class="profile-modal-close" onclick="closeProfileModal()">✕</button>
+      <img id="modalProfilePic" class="profile-modal-pic" src="" alt="Profile">
+      <div id="modalProfileStatus" class="profile-modal-status"></div>
+      <h2 id="modalProfileName" class="profile-modal-name">Username</h2>
+      <p id="modalProfileRole" class="profile-modal-role">Member</p>
+      <p id="modalProfileBio" class="profile-modal-bio">No bio</p>
+      <p id="modalProfileJoined" class="profile-modal-joined">Joined: Unknown</p>
+      <div id="modalProfileActions" class="profile-modal-actions"></div>
+    </div>
+  </div>
+
+  <!-- Chat Toggle Button -->
+  <button class="chat-toggle" onclick="toggleChat()">
+    💬 Chat
+    <span id="chatBadge" class="chat-badge">0</span>
+  </button>
+
+  <!-- Chat Panel -->
+  <div id="chatPanel" class="chat-panel">
+    <div class="chat-header">
+      <span>💬 Global Chat</span>
+      <span id="onlineCount" style="font-size: 12px; color: #00ff00;">0 online</span>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div id="chatMessages" class="chat-messages">
+      <p style="color: gray; text-align: center; font-size: 13px;">Loading messages...</p>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Type a message..." onkeypress="handleChatKeypress(event)">
+      <button class="chat-send" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Sidebar toggle -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()">◀</button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
+    <h2>Menu</h2>
+
+    <div class="sidebar-tabs" id="sidebarTabs">
+      <button class="sidebar-tab active" onclick="showSidebarTab('profileTab', this)">👤</button>
+      <button class="sidebar-tab" onclick="showSidebarTab('friendsTab', this)">👥</button>
+      <button class="sidebar-tab" onclick="showSidebarTab('onlineTab', this)">🟢</button>
+      <button class="sidebar-tab" onclick="showSidebarTab('settingsTab', this)">⚙️</button>
+      <button id="adminTabBtn" class="sidebar-tab admin-tab" onclick="showSidebarTab('adminTab', this)" style="display: none;">👑</button>
+    </div>
+
+    <!-- Profile Tab -->
+    <div id="profileTab" class="sidebar-panel active">
+      <div id="myProfileCard" class="profile-card">
+        <img id="myProfilePic" class="profile-pic-large" src="https://api.dicebear.com/7.x/initials/svg?seed=RG" alt="Profile">
+        <p class="profile-name" id="myProfileName">Loading...</p>
+        <p class="profile-role" id="myProfileRole"></p>
+        <p class="profile-bio" id="myProfileBio"></p>
+      </div>
+
+      <hr class="sidebar-divider">
+
+      <h3>Edit Profile</h3>
+      <label>Username:</label>
+      <input type="text" id="editUsername" class="sidebar-input" placeholder="Your username">
+      <label>Bio:</label>
+      <input type="text" id="editBio" class="sidebar-input" placeholder="Something about you">
+      <label>Profile pic (image URL):</label>
+      <input type="text" id="editPic" class="sidebar-input" placeholder="https://example.com/pic.png">
+      <label>Favorite color:</label>
+      <input type="color" id="editColor" class="sidebar-input" value="#ff8800" style="height: 35px; padding: 3px;">
+      <button class="sidebar-btn sidebar-btn-orange" onclick="saveProfile()">Save Changes</button>
+
+      <hr class="sidebar-divider">
+
+      <h3>🔍 Search Users</h3>
+      <input type="text" id="userSearch" class="sidebar-input" placeholder="Search username..." oninput="searchUsers()">
+      <div id="userSearchResults"></div>
+    </div>
+
+    <!-- Friends Tab -->
+    <div id="friendsTab" class="sidebar-panel">
+      <h3>Your Friends</h3>
+      <div id="friendsList">
+        <p style="color: gray; font-size: 13px;">No friends yet. Search for users and add them!</p>
+      </div>
+
+      <hr class="sidebar-divider">
+
+      <h3>Friend Requests</h3>
+      <div id="friendRequests">
+        <p style="color: gray; font-size: 13px;">No pending requests.</p>
+      </div>
+    </div>
+
+    <!-- Online Users Tab -->
+    <div id="onlineTab" class="sidebar-panel">
+      <h3>🟢 Online Users</h3>
+      <p id="onlineCountSidebar" class="online-count">0 users online</p>
+      <div id="onlineUsersList"></div>
+
+      <hr class="sidebar-divider">
+
+      <h3>Recently Active</h3>
+      <div id="recentUsersList"></div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="settingsTab" class="sidebar-panel">
+      <h3>🚨 Panic Button</h3>
+      <p style="color: gray; font-size: 13px;">Press <strong style="color: white;">` (backtick)</strong> to instantly redirect.</p>
+      <label>Panic URL:</label>
+      <input type="text" id="panicUrl" class="sidebar-input" placeholder="https://classroom.google.com" value="https://classroom.google.com">
+      <button class="sidebar-btn sidebar-btn-green" onclick="savePanicUrl()">Save</button>
+      <p class="panic-info">Key: ` (below Escape)</p>
+
+      <hr class="sidebar-divider">
+
+      <h3>🔒 Tab Cloak</h3>
+      <p style="color: gray; font-size: 13px;">Drag these to your bookmarks bar:</p>
+      <div class="preset-list">
+        <a class="bookmarklet-link" href="javascript:void(document.title='Google Classroom');void(function(){var l=document.querySelector('link[rel*=icon]')||document.createElement('link');l.rel='icon';l.href='https://www.google.com/s2/favicons?domain=classroom.google.com&sz=64';document.head.appendChild(l)})();">📚 Classroom</a>
+        <a class="bookmarklet-link" href="javascript:void(document.title='Google Docs');void(function(){var l=document.querySelector('link[rel*=icon]')||document.createElement('link');l.rel='icon';l.href='https://www.google.com/s2/favicons?domain=docs.google.com&sz=64';document.head.appendChild(l)})();">📝 Docs</a>
+        <a class="bookmarklet-link" href="javascript:void(document.title='Google Drive');void(function(){var l=document.querySelector('link[rel*=icon]')||document.createElement('link');l.rel='icon';l.href='https://www.google.com/s2/favicons?domain=drive.google.com&sz=64';document.head.appendChild(l)})();">📁 Drive</a>
+      </div>
+
+      <hr class="sidebar-divider">
+
+      <h3>🎨 Theme</h3>
+      <label>Base color:</label>
+      <input type="color" id="baseColor" class="sidebar-input" value="#000000" style="height: 35px; padding: 3px;">
+      <label>Accent color:</label>
+      <input type="color" id="accentColor" class="sidebar-input" value="#ffa500" style="height: 35px; padding: 3px;">
+      <button class="sidebar-btn sidebar-btn-orange" onclick="applyTheme()">Apply</button>
+      <button class="sidebar-btn sidebar-btn-gray" onclick="resetTheme()">Reset</button>
+
+      <hr class="sidebar-divider">
+
+            <h3>⭐ Favorites</h3>
+      <button class="sidebar-btn sidebar-btn-red" onclick="clearFavorites()">Clear All Favorites</button>
+      
+      <!-- ADD THIS -->
+      <hr class="sidebar-divider">
+      <h3>🗑️ Reset Account</h3>
+      <p style="color: gray; font-size: 13px;">Made a mistake? Start fresh with a new username.</p>
+      <button class="sidebar-btn sidebar-btn-red" onclick="resetAccount()">Reset My Account</button>
+      
+    </div>  <!-- This closes the settingsTab -->
+    
+
+    <!-- Admin Tab -->
+    <div id="adminTab" class="sidebar-panel">
+      <h3 style="color: #ff6666;">👑 Admin Panel</h3>
+
+      <div class="admin-stats">
+        <div class="admin-stat">
+          <div id="adminUserCount" class="admin-stat-number">0</div>
+          <div class="admin-stat-label">Total Users</div>
+        </div>
+        <div class="admin-stat">
+          <div id="adminOnlineCount" class="admin-stat-number">0</div>
+          <div class="admin-stat-label">Online Now</div>
+        </div>
+        <div class="admin-stat">
+          <div id="adminMessageCount" class="admin-stat-number">0</div>
+          <div class="admin-stat-label">Chat Messages</div>
+        </div>
+        <div class="admin-stat">
+          <div id="adminTodayCount" class="admin-stat-number">0</div>
+          <div class="admin-stat-label">New Today</div>
+        </div>
+      </div>
+
+      <div class="admin-section">
+        <h4>📢 Announcement</h4>
+        <input type="text" id="announcementInput" class="sidebar-input" placeholder="Type announcement...">
+        <button class="sidebar-btn sidebar-btn-orange" onclick="setAnnouncement()">Set</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="clearAnnouncement()">Clear</button>
+      </div>
+
+      <div class="admin-section">
+        <h4>💬 Chat Moderation</h4>
+        <button class="sidebar-btn sidebar-btn-red" onclick="clearAllChat()">Clear All Chat</button>
+      </div>
+
+      <div class="admin-section">
+        <h4>👥 All Users</h4>
+        <div id="adminUsersList" style="max-height: 200px; overflow-y: auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="navbar">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('allgames')">All Games</a>
+      <a onclick="showPage('page1')">Games</a>
+      <a onclick="showPage('page2')">More Games</a>
+      <a onclick="showPage('page3')">Tools</a>
+      <a onclick="showPage('page4')">Videos</a>
+      <a onclick="showPage('page5')">Other</a>
+      <span id="usernameDisplay"></span>
+    </div>
+
+    <div id="home" class="page">
+      <h1>Welcome to Riley Games</h1>
+      <p>The Perfect Gaming Website</p>
+
+      <div class="owners-section">
+        <h2>👑 Team</h2>
+        <div class="owners-list">
+          <div class="profile-card" style="width: 150px; cursor: pointer;" onclick="viewTeamProfile('riley')">
+            <img class="profile-pic-large" src="https://api.dicebear.com/7.x/initials/svg?seed=R" alt="Riley">
+            <p class="profile-name">Riley</p>
+            <p class="owner-badge">👑 OWNER</p>
+          </div>
+          <div class="profile-card" style="width: 150px; cursor: pointer;" onclick="viewTeamProfile('garrett')">
+            <img class="profile-pic-large" src="https://api.dicebear.com/7.x/initials/svg?seed=G" alt="Garrett">
+            <p class="profile-name">Garrett</p>
+            <p class="coowner-badge">⭐ CO-OWNER</p>
+          </div>
+          <div class="profile-card" style="width: 150px; cursor: pointer;" onclick="viewTeamProfile('john')">
+            <img class="profile-pic-large" src="https://api.dicebear.com/7.x/initials/svg?seed=J" alt="John">
+            <p class="profile-name">John</p>
+            <p class="coowner-badge">⭐ CO-OWNER</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="favorites-section">
+        <h2>⭐ Favorites</h2>
+        <div id="favoritesDisplay" class="games-list">
+          <p class="no-favorites">No favorites yet. Click the ☆ on any game to add it.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="allgames" class="page" style="display: none;">
+      <h2>All Games</h2>
+      <div id="allGamesList" class="games-list"></div>
+    </div>
+
+    <div id="page1" class="page" style="display: none;">
+      <h2>Games</h2>
+      <div class="games-list">
+        <a href="https://sites.google.com/view/drive-u-7-home/home?authuser=0" target="_blank" class="game-link">
+          <div class="game-card" data-game="Classroom Resources">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Classroom Resources</h3>
+          </div>
+        </a>
+        <a href="https://sites.google.com/site/thegamecompilation/home" target="_blank" class="game-link">
+          <div class="game-card" data-game="Game Compilation">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Game Compilation</h3>
+          </div>
+        </a>
+        <a href="https://sites.google.com/site/unblockedgamestop" target="_blank" class="game-link">
+          <div class="game-card" data-game="Unblocked Games Top">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Unblocked Games Top</h3>
+          </div>
+        </a>
+        <a href="https://sites.google.com/classroom.center/view-1/" target="_blank" class="game-link">
+          <div class="game-card" data-game="Classroom Center">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Classroom Center</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div id="page2" class="page" style="display: none;">
+      <h2>More Games</h2>
+      <div class="games-list">
+        <a href="https://sites.google.com/view/drive-u-7-home/survival-race/race-fullscreen" target="_blank" class="game-link">
+          <div class="game-card" data-game="Survival Race">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Survival Race</h3>
+          </div>
+        </a>
+        <a href="https://sites.google.com/view/unblokkedsites64/home" target="_blank" class="game-link">
+          <div class="game-card" data-game="Unblocked Sites 64">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Unblocked Sites 64</h3>
+          </div>
+        </a>
+        <a href="https://sites.google.com/gnspes.ca/prodigyhacks/home" target="_blank" class="game-link">
+          <div class="game-card" data-game="Prodigy Hacks">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Prodigy Hacks</h3>
+          </div>
+        </a>
+        <a href="https://yandex.ru/games/" target="_blank" class="game-link">
+          <div class="game-card" data-game="Yandex Games">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Yandex Games</h3>
+          </div>
+        </a>
+        <a href="https://spaceplace.nasa.gov/menu/play/" target="_blank" class="game-link">
+          <div class="game-card" data-game="NASA Space Games">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>NASA Space Games</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div id="page3" class="page" style="display: none;">
+      <h2>Tools</h2>
+      <div class="games-list">
+        <a href="https://www.startpage.com/" target="_blank" class="game-link">
+          <div class="game-card" data-game="Startpage Search">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Startpage Search</h3>
+          </div>
+        </a>
+        <a href="https://www.google.com/search?q=google+games" target="_blank" class="game-link">
+          <div class="game-card" data-game="Google Games Search">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Google Games Search</h3>
+          </div>
+        </a>
+        <a href="https://morsecode.world/international/translator.html" target="_blank" class="game-link">
+          <div class="game-card" data-game="Morse Code Translator">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Morse Code Translator</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div id="page4" class="page" style="display: none;">
+      <h2>Videos</h2>
+      <div class="games-list">
+        <a href="https://web.archive.org/web/20260000000000*/Youtube" target="_blank" class="game-link">
+          <div class="game-card" data-game="YouTube Archive">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>YouTube Archive</h3>
+          </div>
+        </a>
+        <a href="https://www.bing.com/videos/onecolumn/landing" target="_blank" class="game-link">
+          <div class="game-card" data-game="Bing Videos">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>Bing Videos</h3>
+          </div>
+        </a>
+        <a href="https://gem.cbc.ca/" target="_blank" class="game-link">
+          <div class="game-card" data-game="CBC Gem">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>CBC Gem</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div id="page5" class="page" style="display: none;">
+      <h2>Other</h2>
+      <div class="games-list">
+        <a href="https://everyone.ednet.ns.ca/landing.php" target="_blank" class="game-link">
+          <div class="game-card" data-game="EdNet Learning">
+            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
+            <h3>EdNet Learning</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+  <script>
+       // ===== FIREBASE SETUP =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyDv3JRn08FStrEd6cF3x2AFDCgvbJOGtC8",
+      authDomain: "riley-games-1544e.firebaseapp.com",
+      projectId: "riley-games-1544e",
+      storageBucket: "riley-games-1544e.firebasestorage.app",
+      messagingSenderId: "501107166002",
+      appId: "1:501107166002:web:b684a91dbc9d6fb9e7a52b"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ===== LOCAL USER ID =====
+    let userId = localStorage.getItem("userId");
+    if (!userId) {
+      userId = "user_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+      localStorage.setItem("userId", userId);
+    }
+
+    let myProfile = null;
+    let isAdmin = false;
+    let chatOpen = false;
+    let lastMessageCount = 0;
+
+    // ===== SECRET ADMIN TAGS =====
+    const SECRET_TAG = "_2024xAuth";
+    
+    // These are the ACTUAL admin usernames (with the hidden tag) - all lowercase
+    const ADMIN_USERNAMES = {
+      "riley": "riley_2024xauth",
+      "garrett": "garrett_2024xauth",
+      "john": "john_2024xauth"
+    };
+
+    function getDisplayName(fullUsername) {
+      // Remove the secret tag when displaying
+      if (fullUsername && fullUsername.includes(SECRET_TAG)) {
+        return fullUsername.replace(SECRET_TAG, "");
+      }
+      return fullUsername;
+    }
+
+    function isAdminUsername(username) {
+      if (!username) return false;
+      let lower = username.toLowerCase();
+      return lower === ADMIN_USERNAMES.riley || 
+             lower === ADMIN_USERNAMES.garrett || 
+             lower === ADMIN_USERNAMES.john;
+    }
+
+    function checkAdmin() {
+      if (myProfile && isAdminUsername(myProfile.username)) {
+        isAdmin = true;
+        document.getElementById("adminTabBtn").style.display = "block";
+      } else {
+        isAdmin = false;
+        document.getElementById("adminTabBtn").style.display = "none";
+      }
+    }
+
+    function getRole(username) {
+      if (!username) return "🎮 Member";
+      let lower = username.toLowerCase();
+      
+      // Check with secret tag
+      if (lower === ADMIN_USERNAMES.riley) return "👑 Owner";
+      if (lower === ADMIN_USERNAMES.garrett || lower === ADMIN_USERNAMES.john) return "⭐ Co-Owner";
+      
+      return "🎮 Member";
+    }
+
+    // ===== CHECK FIRST VISIT =====
+    async function checkFirstVisit() {
+      let doc = await db.collection("users").doc(userId).get();
+      if (!doc.exists) {
+        document.getElementById("welcomePopup").style.display = "flex";
+      } else {
+        myProfile = doc.data();
+        updateProfileDisplay();
+        updateOnlineStatus();
+        checkAdmin();
+        loadAdminData();
+      }
+    }
+
+    // ===== CREATE PROFILE =====
+    async function createProfile() {
+      let username = document.getElementById("newUsername").value.trim();
+      if (username === "") {
+        alert("Please enter a username");
+        return;
+      }
+
+      // Check if username is trying to impersonate admin without the tag
+      let lowerUsername = username.toLowerCase();
+      if ((lowerUsername === "riley" || lowerUsername === "garrett" || lowerUsername === "john") && 
+          !username.toLowerCase().includes(SECRET_TAG.toLowerCase())) {
+        alert("That username is reserved. Please choose another.");
+        return;
+      }
+
+      myProfile = {
+        username: username,
+        bio: "",
+        pic: "https://api.dicebear.com/7.x/initials/svg?seed=" + username,
+        color: "#ff8800",
+        friends: [],
+        friendRequests: [],
+        lastSeen: Date.now(),
+        createdAt: Date.now()
+      };
+
+      await db.collection("users").doc(userId).set(myProfile);
+      document.getElementById("welcomePopup").style.display = "none";
+      updateProfileDisplay();
+      updateOnlineStatus();
+      checkAdmin();
+    }
+
+    // ===== SAVE PROFILE =====
+    async function saveProfile() {
+      let username = document.getElementById("editUsername").value.trim();
+      let bio = document.getElementById("editBio").value.trim();
+      let pic = document.getElementById("editPic").value.trim();
+      let color = document.getElementById("editColor").value;
+
+      if (username === "") {
+        alert("Username can't be empty");
+        return;
+      }
+
+      // Prevent changing TO an admin name without tag
+      let lowerUsername = username.toLowerCase();
+      if (!myProfile.username.toLowerCase().includes(SECRET_TAG.toLowerCase()) && 
+          (lowerUsername === "riley" || lowerUsername === "garrett" || lowerUsername === "john") && 
+          !username.toLowerCase().includes(SECRET_TAG.toLowerCase())) {
+        alert("That username is reserved. Please choose another.");
+        return;
+      }
+
+      if (pic === "") {
+        pic = "https://api.dicebear.com/7.x/initials/svg?seed=" + username;
+      }
+
+      myProfile.username = username;
+      myProfile.bio = bio;
+      myProfile.pic = pic;
+      myProfile.color = color;
+
+      await db.collection("users").doc(userId).update(myProfile);
+      updateProfileDisplay();
+      checkAdmin();
+      alert("Profile saved!");
+    }
+
+    // ===== UPDATE PROFILE DISPLAY =====
+    function updateProfileDisplay() {
+      if (!myProfile) return;
+
+      let displayName = getDisplayName(myProfile.username);
+      
+      document.getElementById("myProfileName").textContent = displayName;
+      document.getElementById("myProfileBio").textContent = myProfile.bio || "No bio yet";
+      document.getElementById("myProfilePic").src = myProfile.pic;
+      document.getElementById("myProfileRole").textContent = getRole(myProfile.username);
+
+      document.getElementById("editUsername").value = myProfile.username;
+      document.getElementById("editBio").value = myProfile.bio || "";
+      document.getElementById("editPic").value = myProfile.pic.includes("dicebear") ? "" : myProfile.pic;
+      document.getElementById("editColor").value = myProfile.color || "#ff8800";
+
+      document.getElementById("usernameDisplay").textContent = "👤 " + displayName;
+
+      loadFriends();
+      loadFriendRequests();
+    }
+
+    // ===== ONLINE STATUS =====
+    async function updateOnlineStatus() {
+      if (!myProfile) return;
+      await db.collection("users").doc(userId).update({
+        lastSeen: Date.now()
+      });
+    }
+
+    setInterval(function() {
+      if (myProfile) {
+        updateOnlineStatus();
+      }
+    }, 30000);
+
+    function isUserOnline(lastSeen) {
+      if (!lastSeen) return false;
+      let twoMinutesAgo = Date.now() - (2 * 60 * 1000);
+      return lastSeen > twoMinutesAgo;
+    }
+
+    async function loadOnlineUsers() {
+      let snapshot = await db.collection("users").get();
+      let onlineHtml = "";
+      let recentHtml = "";
+      let onlineCount = 0;
+
+      let users = [];
+      snapshot.forEach(function(doc) {
+        users.push({ id: doc.id, data: doc.data() });
+      });
+
+      users.sort(function(a, b) {
+        return (b.data.lastSeen || 0) - (a.data.lastSeen || 0);
+      });
+
+      for (let i = 0; i < users.length; i++) {
+        let user = users[i].data;
+        let docId = users[i].id;
+
+        let online = isUserOnline(user.lastSeen);
+        if (online) onlineCount++;
+
+        let statusDot = online ? 
+          '<span class="status-dot status-online"></span>' : 
+          '<span class="status-dot status-offline"></span>';
+
+        let displayName = getDisplayName(user.username);
+        
+        let card = '<div class="friend-card" style="cursor: pointer;" onclick="viewProfile(\'' + docId + '\')">';
+        card += '<img src="' + user.pic + '" alt="pic">';
+        card += '<span>' + statusDot + displayName + '</span>';
+        card += '</div>';
+
+        if (online) {
+          onlineHtml += card;
+        } else if (i < 10) {
+          recentHtml += card;
+        }
+      }
+
+      document.getElementById("onlineUsersList").innerHTML = onlineHtml || '<p style="color:gray;font-size:13px;">No users online</p>';
+      document.getElementById("recentUsersList").innerHTML = recentHtml || '<p style="color:gray;font-size:13px;">No recent users</p>';
+      document.getElementById("onlineCountSidebar").textContent = onlineCount + " users online";
+      document.getElementById("onlineCount").textContent = onlineCount + " online";
+      document.getElementById("adminOnlineCount").textContent = onlineCount;
+    }
+
+    setInterval(loadOnlineUsers, 30000);
+
+    // ===== PROFILE MODAL =====
+    async function viewProfile(profileUserId) {
+      let doc = await db.collection("users").doc(profileUserId).get();
+      if (!doc.exists) {
+        alert("User not found");
+        return;
+      }
+
+      let user = doc.data();
+      let online = isUserOnline(user.lastSeen);
+      let displayName = getDisplayName(user.username);
+
+      document.getElementById("modalProfilePic").src = user.pic;
+      document.getElementById("modalProfileName").textContent = displayName;
+      document.getElementById("modalProfileRole").textContent = getRole(user.username);
+      document.getElementById("modalProfileBio").textContent = user.bio || "No bio yet";
+
+      let statusHtml = online ?
+        '<span class="status-dot status-online"></span> Online' :
+        '<span class="status-dot status-offline"></span> Offline';
+      document.getElementById("modalProfileStatus").innerHTML = statusHtml;
+
+      let joinedDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "Unknown";
+      document.getElementById("modalProfileJoined").textContent = "Joined: " + joinedDate;
+
+      let actionsHtml = "";
+      if (profileUserId !== userId) {
+        let isFriend = myProfile.friends && myProfile.friends.indexOf(profileUserId) !== -1;
+        if (isFriend) {
+          actionsHtml += '<button class="sidebar-btn sidebar-btn-red" onclick="removeFriend(\'' + profileUserId + '\'); closeProfileModal();">Remove Friend</button>';
+        } else {
+          actionsHtml += '<button class="sidebar-btn sidebar-btn-green" onclick="sendFriendRequest(\'' + profileUserId + '\'); closeProfileModal();">Add Friend</button>';
+        }
+
+        if (isAdmin && !isAdminUsername(user.username)) {
+          actionsHtml += '<button class="sidebar-btn sidebar-btn-red" onclick="deleteUser(\'' + profileUserId + '\'); closeProfileModal();">Delete User</button>';
+        }
+      } else {
+        actionsHtml = '<p style="color: gray; font-size: 13px;">This is you!</p>';
+      }
+      document.getElementById("modalProfileActions").innerHTML = actionsHtml;
+
+      document.getElementById("profileModal").classList.add("open");
+    }
+
+    function closeProfileModal() {
+      document.getElementById("profileModal").classList.remove("open");
+    }
+
+    function viewTeamProfile(name) {
+      let targetUsername = ADMIN_USERNAMES[name.toLowerCase()];
+      if (!targetUsername) return;
+      
+      db.collection("users").get().then(function(snapshot) {
+        snapshot.forEach(function(doc) {
+          if (doc.data().username.toLowerCase() === targetUsername) {
+            viewProfile(doc.id);
+          }
+        });
+      });
+    }
+
+    // ===== CHAT SYSTEM =====
+    function toggleChat() {
+      chatOpen = !chatOpen;
+      document.getElementById("chatPanel").classList.toggle("open", chatOpen);
+      if (chatOpen) {
+        document.getElementById("chatBadge").style.display = "none";
+        document.getElementById("chatInput").focus();
+      }
+    }
+
+    function handleChatKeypress(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    }
+
+    async function sendMessage() {
+      let input = document.getElementById("chatInput");
+      let text = input.value.trim();
+
+      if (text === "" || !myProfile) return;
+
+      await db.collection("chat").add({
+        userId: userId,
+        username: myProfile.username,
+        pic: myProfile.pic,
+        text: text,
+        timestamp: Date.now()
+      });
+
+      input.value = "";
+    }
+
+    function loadChat() {
+      db.collection("chat")
+        .orderBy("timestamp", "desc")
+        .limit(50)
+        .onSnapshot(function(snapshot) {
+          let messages = [];
+          snapshot.forEach(function(doc) {
+            messages.push({ id: doc.id, data: doc.data() });
+          });
+
+          messages.reverse();
+
+          let html = "";
+          for (let i = 0; i < messages.length; i++) {
+            let msg = messages[i].data;
+            let msgId = messages[i].id;
+            let isMine = msg.userId === userId;
+            let time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            let displayName = getDisplayName(msg.username);
+
+            html += '<div class="chat-message' + (isMine ? ' mine' : '') + '">';
+            html += '<div class="chat-message-header">';
+            html += '<img class="chat-message-pic" src="' + msg.pic + '" onclick="viewProfile(\'' + msg.userId + '\')">';
+            html += '<span class="chat-message-name" onclick="viewProfile(\'' + msg.userId + '\')">' + displayName + '</span>';
+            html += '<span class="chat-message-time">' + time + '</span>';
+
+            if (isAdmin || isMine) {
+              html += '<button class="chat-message-delete" onclick="deleteMessage(\'' + msgId + '\')">🗑️</button>';
+            }
+
+            html += '</div>';
+            html += '<div class="chat-message-text">' + escapeHtml(msg.text) + '</div>';
+            html += '</div>';
+          }
+
+          document.getElementById("chatMessages").innerHTML = html || '<p style="color:gray;text-align:center;font-size:13px;">No messages yet. Start chatting!</p>';
+
+          let chatDiv = document.getElementById("chatMessages");
+          chatDiv.scrollTop = chatDiv.scrollHeight;
+
+          if (!chatOpen && messages.length > lastMessageCount && lastMessageCount > 0) {
+            let badge = document.getElementById("chatBadge");
+            badge.textContent = messages.length - lastMessageCount;
+            badge.style.display = "block";
+          }
+          lastMessageCount = messages.length;
+
+          document.getElementById("adminMessageCount").textContent = messages.length;
+        });
+    }
+
+    function escapeHtml(text) {
+      let div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    async function deleteMessage(messageId) {
+      if (confirm("Delete this message?")) {
+        await db.collection("chat").doc(messageId).delete();
+      }
+    }
+
+    // ===== ADMIN FUNCTIONS =====
+    async function loadAdminData() {
+      if (!isAdmin) return;
+
+      let snapshot = await db.collection("users").get();
+      let totalUsers = 0;
+      let todayUsers = 0;
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      let usersHtml = "";
+      snapshot.forEach(function(doc) {
+        let user = doc.data();
+        totalUsers++;
+
+        if (user.createdAt && user.createdAt >= today.getTime()) {
+          todayUsers++;
+        }
+
+        let online = isUserOnline(user.lastSeen);
+        let statusDot = online ? 
+          '<span class="status-dot status-online"></span>' : 
+          '<span class="status-dot status-offline"></span>';
+
+        let displayName = getDisplayName(user.username);
+        
+        usersHtml += '<div class="admin-user-card">';
+        usersHtml += '<img src="' + user.pic + '" alt="pic">';
+        usersHtml += '<div class="admin-user-info">';
+        usersHtml += '<span>' + statusDot + displayName + '</span>';
+        usersHtml += '<small>' + getRole(user.username) + '</small>';
+        usersHtml += '</div>';
+        
+        if (!isAdminUsername(user.username)) {
+          usersHtml += '<button class="friend-btn sidebar-btn-red" onclick="deleteUser(\'' + doc.id + '\')">Delete</button>';
+        }
+        usersHtml += '</div>';
+      });
+
+      document.getElementById("adminUserCount").textContent = totalUsers;
+      document.getElementById("adminTodayCount").textContent = todayUsers;
+      document.getElementById("adminUsersList").innerHTML = usersHtml;
+    }
+
+    async function deleteUser(targetUserId) {
+      if (!isAdmin) return;
+      if (!confirm("Are you sure you want to delete this user?")) return;
+
+      await db.collection("users").doc(targetUserId).delete();
+      alert("User deleted");
+      loadAdminData();
+      loadOnlineUsers();
+    }
+
+    async function setAnnouncement() {
+      if (!isAdmin) return;
+      let text = document.getElementById("announcementInput").value.trim();
+      if (text === "") return;
+
+      await db.collection("settings").doc("announcement").set({
+        text: text,
+        timestamp: Date.now()
+      });
+
+      document.getElementById("announcementInput").value = "";
+      alert("Announcement set!");
+    }
+
+    async function clearAnnouncement() {
+      if (!isAdmin) return;
+      await db.collection("settings").doc("announcement").delete();
+      document.getElementById("announcementBanner").classList.remove("show");
+      alert("Announcement cleared!");
+    }
+
+    function loadAnnouncement() {
+      db.collection("settings").doc("announcement").onSnapshot(function(doc) {
+        let banner = document.getElementById("announcementBanner");
+        if (doc.exists && doc.data().text) {
+          banner.textContent = "📢 " + doc.data().text;
+          banner.classList.add("show");
+        } else {
+          banner.classList.remove("show");
+        }
+      });
+    }
+
+    async function clearAllChat() {
+      if (!isAdmin) return;
+      if (!confirm("Are you sure you want to delete ALL chat messages?")) return;
+
+      let snapshot = await db.collection("chat").get();
+      let batch = db.batch();
+      snapshot.forEach(function(doc) {
+        batch.delete(doc.ref);
+      });
+      await batch.commit();
+      alert("Chat cleared!");
+    }
+
+    // ===== SEARCH USERS =====
+    async function searchUsers() {
+      let searchText = document.getElementById("userSearch").value.trim().toLowerCase();
+      let results = document.getElementById("userSearchResults");
+
+      if (searchText === "") {
+        results.innerHTML = "";
+        return;
+      }
+
+      let snapshot = await db.collection("users").get();
+      let html = "";
+
+      snapshot.forEach(function(doc) {
+        let user = doc.data();
+        let docId = doc.id;
+
+        if (docId === userId) return;
+
+        let displayName = getDisplayName(user.username);
+        
+        if (displayName.toLowerCase().includes(searchText)) {
+          let isFriend = myProfile.friends && myProfile.friends.indexOf(docId) !== -1;
+          let online = isUserOnline(user.lastSeen);
+          let statusDot = online ? 
+            '<span class="status-dot status-online"></span>' : 
+            '<span class="status-dot status-offline"></span>';
+
+          html += '<div class="search-result">';
+          html += '<img src="' + user.pic + '" alt="pic" onclick="viewProfile(\'' + docId + '\')">';
+          html += '<span onclick="viewProfile(\'' + docId + '\')">' + statusDot + displayName + '</span>';
+
+          if (isFriend) {
+            html += '<button class="friend-btn" style="background:#333;color:#00ff00;" disabled>Friends ✓</button>';
+          } else {
+            html += '<button class="friend-btn sidebar-btn-green" onclick="sendFriendRequest(\'' + docId + '\')">Add +</button>';
+          }
+
+          html += '</div>';
+        }
+      });
+
+      if (html === "") {
+        html = '<p style="color:gray;font-size:13px;">No users found.</p>';
+      }
+
+      results.innerHTML = html;
+    }
+
+    // ===== FRIEND REQUESTS =====
+    async function sendFriendRequest(targetId) {
+      let targetDoc = await db.collection("users").doc(targetId).get();
+      if (!targetDoc.exists) return;
+
+      let targetData = targetDoc.data();
+      let requests = targetData.friendRequests || [];
+
+      if (requests.indexOf(userId) !== -1) {
+        alert("Request already sent!");
+        return;
+      }
+
+      requests.push(userId);
+      await db.collection("users").doc(targetId).update({ friendRequests: requests });
+      alert("Friend request sent!");
+    }
+
+    async function loadFriendRequests() {
+      let requestsDiv = document.getElementById("friendRequests");
+
+      if (!myProfile || !myProfile.friendRequests || myProfile.friendRequests.length === 0) {
+        requestsDiv.innerHTML = '<p style="color:gray;font-size:13px;">No pending requests.</p>';
+        return;
+      }
+
+      let html = "";
+      for (let i = 0; i < myProfile.friendRequests.length; i++) {
+        let reqId = myProfile.friendRequests[i];
+        let reqDoc = await db.collection("users").doc(reqId).get();
+        if (reqDoc.exists) {
+          let reqData = reqDoc.data();
+          let displayName = getDisplayName(reqData.username);
+          
+          html += '<div class="friend-card">';
+          html += '<img src="' + reqData.pic + '" alt="pic" style="cursor:pointer;" onclick="viewProfile(\'' + reqId + '\')">';
+          html += '<span style="cursor:pointer;" onclick="viewProfile(\'' + reqId + '\')">' + displayName + '</span>';
+          html += '<button class="friend-btn sidebar-btn-green" onclick="acceptFriend(\'' + reqId + '\')">Accept</button>';
+          html += '<button class="friend-btn sidebar-btn-red" onclick="declineFriend(\'' + reqId + '\')" style="margin-left:5px;">✕</button>';
+          html += '</div>';
+        }
+      }
+
+      requestsDiv.innerHTML = html;
+    }
+
+    async function acceptFriend(requesterId) {
+      let myFriends = myProfile.friends || [];
+      myFriends.push(requesterId);
+
+      let myRequests = myProfile.friendRequests || [];
+      let reqIndex = myRequests.indexOf(requesterId);
+      if (reqIndex !== -1) myRequests.splice(reqIndex, 1);
+
+      myProfile.friends = myFriends;
+      myProfile.friendRequests = myRequests;
+
+      await db.collection("users").doc(userId).update({
+        friends: myFriends,
+        friendRequests: myRequests
+      });
+
+      let requesterDoc = await db.collection("users").doc(requesterId).get();
+      if (requesterDoc.exists) {
+        let requesterFriends = requesterDoc.data().friends || [];
+        requesterFriends.push(userId);
+        await db.collection("users").doc(requesterId).update({ friends: requesterFriends });
+      }
+
+      updateProfileDisplay();
+    }
+
+    async function declineFriend(requesterId) {
+      let myRequests = myProfile.friendRequests || [];
+      let reqIndex = myRequests.indexOf(requesterId);
+      if (reqIndex !== -1) myRequests.splice(reqIndex, 1);
+
+      myProfile.friendRequests = myRequests;
+      await db.collection("users").doc(userId).update({ friendRequests: myRequests });
+      updateProfileDisplay();
+    }
+
+    // ===== LOAD FRIENDS =====
+    async function loadFriends() {
+      let friendsDiv = document.getElementById("friendsList");
+
+      if (!myProfile || !myProfile.friends || myProfile.friends.length === 0) {
+        friendsDiv.innerHTML = '<p style="color:gray;font-size:13px;">No friends yet. Search for users and add them!</p>';
+        return;
+      }
+
+      let html = "";
+      for (let i = 0; i < myProfile.friends.length; i++) {
+        let friendId = myProfile.friends[i];
+        let friendDoc = await db.collection("users").doc(friendId).get();
+        if (friendDoc.exists) {
+          let friendData = friendDoc.data();
+          let online = isUserOnline(friendData.lastSeen);
+          let statusDot = online ? 
+            '<span class="status-dot status-online"></span>' : 
+            '<span class="status-dot status-offline"></span>';
+          
+          let displayName = getDisplayName(friendData.username);
+
+          html += '<div class="friend-card">';
+          html += '<img src="' + friendData.pic + '" alt="pic" style="cursor:pointer;" onclick="viewProfile(\'' + friendId + '\')">';
+          html += '<span style="cursor:pointer;" onclick="viewProfile(\'' + friendId + '\')">' + statusDot + displayName + '</span>';
+          html += '<button class="friend-btn sidebar-btn-red" onclick="removeFriend(\'' + friendId + '\')">Remove</button>';
+          html += '</div>';
+        }
+      }
+
+      friendsDiv.innerHTML = html;
+    }
+
+    async function removeFriend(friendId) {
+      let myFriends = myProfile.friends || [];
+      let index = myFriends.indexOf(friendId);
+      if (index !== -1) myFriends.splice(index, 1);
+
+      myProfile.friends = myFriends;
+      await db.collection("users").doc(userId).update({ friends: myFriends });
+
+      let friendDoc = await db.collection("users").doc(friendId).get();
+      if (friendDoc.exists) {
+        let theirFriends = friendDoc.data().friends || [];
+        let theirIndex = theirFriends.indexOf(userId);
+        if (theirIndex !== -1) theirFriends.splice(theirIndex, 1);
+        await db.collection("users").doc(friendId).update({ friends: theirFriends });
+      }
+
+      updateProfileDisplay();
+    }
+
+    // ===== SIDEBAR =====
+    function toggleSidebar() {
+      let sidebar = document.getElementById("sidebar");
+      let toggle = document.querySelector(".sidebar-toggle");
+      sidebar.classList.toggle("open");
+      toggle.textContent = sidebar.classList.contains("open") ? "▶" : "◀";
+    }
+
+    function showSidebarTab(tabId, btn) {
+      let panels = document.querySelectorAll(".sidebar-panel");
+      let tabs = document.querySelectorAll(".sidebar-tab");
+
+      for (let i = 0; i < panels.length; i++) {
+        panels[i].classList.remove("active");
+      }
+      for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+      }
+
+      document.getElementById(tabId).classList.add("active");
+      btn.classList.add("active");
+
+      if (tabId === "onlineTab") {
+        loadOnlineUsers();
+      } else if (tabId === "adminTab") {
+        loadAdminData();
+      }
+    }
+
+    // ===== FAVORITES =====
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    function toggleFavorite(starElement) {
+      event.stopPropagation();
+      let card = starElement.parentElement;
+      let gameName = card.getAttribute("data-game");
+      let link = card.parentElement.href;
+
+      let index = -1;
+      for (let i = 0; i < favorites.length; i++) {
+        if (favorites[i].name === gameName) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index === -1) {
+        favorites.push({ name: gameName, url: link });
+        starElement.textContent = "★";
+      } else {
+        favorites.splice(index, 1);
+        starElement.textContent = "☆";
+      }
+
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      updateFavoritesDisplay();
+    }
+
+    function updateFavoritesDisplay() {
+      let display = document.getElementById("favoritesDisplay");
+
+      if (favorites.length === 0) {
+        display.innerHTML = '<p class="no-favorites">No favorites yet. Click the ☆ on any game to add it.</p>';
+        return;
+      }
+
+      let html = "";
+      for (let i = 0; i < favorites.length; i++) {
+        html += '<a href="' + favorites[i].url + '" target="_blank" class="game-link">';
+        html += '<div class="game-card"><h3>' + favorites[i].name + '</h3></div></a>';
+      }
+      display.innerHTML = html;
+    }
+
+    function loadFavoriteStars() {
+      let allCards = document.querySelectorAll(".game-card[data-game]");
+      for (let i = 0; i < allCards.length; i++) {
+        let gameName = allCards[i].getAttribute("data-game");
+        let star = allCards[i].querySelector(".fav-star");
+        if (star) {
+          for (let j = 0; j < favorites.length; j++) {
+            if (favorites[j].name === gameName) {
+              star.textContent = "★";
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    function clearFavorites() {
+      favorites = [];
+      localStorage.removeItem("favorites");
+      updateFavoritesDisplay();
+      let allStars = document.querySelectorAll(".fav-star");
+      for (let i = 0; i < allStars.length; i++) {
+        allStars[i].textContent = "☆";
+      }
+    }
+
+    // ===== RESET ACCOUNT =====
+    async function resetAccount() {
+      if (!confirm("Are you sure? This will delete your profile and you'll have to make a new one.")) {
+        return;
+      }
+      
+      if (!confirm("LAST CHANCE! All your friends, messages, and data will be gone forever!")) {
+        return;
+      }
+
+      try {
+        await db.collection("users").doc(userId).delete();
+        localStorage.clear();
+        location.reload();
+      } catch (error) {
+        alert("Error resetting account. Try again: " + error.message);
+        console.log(error);
+      }
+    }
+
+    // ===== ALL GAMES =====
+    function buildAllGames() {
+      let allLinks = document.querySelectorAll(".game-link");
+      let allGamesList = document.getElementById("allGamesList");
+      let seen = [];
+      let html = "";
+
+      for (let i = 0; i < allLinks.length; i++) {
+        let card = allLinks[i].querySelector(".game-card");
+        if (card) {
+          let name = card.getAttribute("data-game");
+          if (name && seen.indexOf(name) === -1) {
+            seen.push(name);
+            html += '<a href="' + allLinks[i].href + '" target="_blank" class="game-link">';
+            html += '<div class="game-card"><h3>' + name + '</h3></div></a>';
+          }
+        }
+      }
+      allGamesList.innerHTML = html;
+    }
+
+    // ===== PANIC BUTTON =====
+    let panicUrl = localStorage.getItem("panicUrl") || "https://classroom.google.com";
+
+    function savePanicUrl() {
+      panicUrl = document.getElementById("panicUrl").value;
+      localStorage.setItem("panicUrl", panicUrl);
+      alert("Panic URL saved!");
+    }
+
+    window.addEventListener("keydown", function(event) {
+      if (event.key === "`") {
+        event.preventDefault();
+        try {
+          window.top.location.href = panicUrl;
+        } catch (e) {
+          window.location.href = panicUrl;
+        }
+      }
+    });
+
+    // ===== PAGE NAVIGATION =====
+    function showPage(pageId) {
+      let allPages = document.querySelectorAll(".page");
+      for (let i = 0; i < allPages.length; i++) {
+        allPages[i].style.display = "none";
+      }
+      document.getElementById(pageId).style.display = "block";
+    }
+
+    // ===== THEME =====
+    function applyTheme() {
+      let baseColor = document.getElementById("baseColor").value;
+      let accentColor = document.getElementById("accentColor").value;
+
+      document.querySelector(".main-content").style.backgroundColor = baseColor;
+
+      let allCardTitles = document.querySelectorAll(".game-card h3");
+      for (let i = 0; i < allCardTitles.length; i++) {
+        allCardTitles[i].style.color = accentColor;
+      }
+
+      localStorage.setItem("baseColor", baseColor);
+      localStorage.setItem("accentColor", accentColor);
+    }
+
+    function resetTheme() {
+      localStorage.removeItem("baseColor");
+      localStorage.removeItem("accentColor");
+      location.reload();
+    }
+
+    // ===== INITIALIZE =====
+    function init() {
+      let savedBase = localStorage.getItem("baseColor");
+      let savedAccent = localStorage.getItem("accentColor");
+      if (savedBase && savedAccent) {
+        document.getElementById("baseColor").value = savedBase;
+        document.getElementById("accentColor").value = savedAccent;
+        applyTheme();
+      }
+
+      let savedPanic = localStorage.getItem("panicUrl");
+      if (savedPanic) {
+        document.getElementById("panicUrl").value = savedPanic;
+      }
+
+      loadFavoriteStars();
+      updateFavoritesDisplay();
+      buildAllGames();
+      checkFirstVisit();
+      loadChat();
+      loadAnnouncement();
+      loadOnlineUsers();
+    }
+
+   init();
+</script>
+</body>
+</html>
