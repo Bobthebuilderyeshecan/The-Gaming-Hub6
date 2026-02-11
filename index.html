@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Riley Games</title>
   <link id="favicon" rel="icon" href="" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -14,27 +14,113 @@
     html, body {
       margin: 0 !important;
       padding: 0 !important;
-      background-color: black !important;
+      background-color: #0a0a0a !important;
       font-family: 'Poppins', sans-serif;
       width: 100% !important;
       height: 100% !important;
       overflow-x: hidden;
     }
 
+    /* ===== LOADING SCREEN ===== */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 4px solid #333;
+      border-top: 4px solid orange;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      color: orange;
+      margin-top: 20px;
+      font-size: 18px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ===== CUSTOM BACKGROUND ===== */
+    .custom-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    /* ===== ANIMATED TRANSITIONS ===== */
+    .page {
+      padding: 20px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
     .main-content {
       width: 100%;
       margin: 0;
       padding: 0;
-      background-color: black;
+      background-color: transparent;
       min-height: 100vh;
+      position: relative;
     }
 
     .navbar {
-      background-color: #232323;
+      background-color: rgba(35, 35, 35, 0.95);
       padding: 15px;
       text-align: center;
       width: 100%;
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #333;
     }
 
     .navbar a {
@@ -42,28 +128,28 @@
       text-decoration: none;
       margin: 0 10px;
       font-size: 18px;
-      transition: 0.3s;
+      transition: all 0.3s;
       cursor: pointer;
+      position: relative;
     }
 
     .navbar a:hover {
       color: orange;
     }
 
-    #searchBar {
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      margin-left: 10px;
-      background-color: #333;
-      color: white;
-      outline: none;
-      font-family: 'Poppins', sans-serif;
+    .navbar a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: orange;
+      transition: width 0.3s;
     }
 
-    #searchBar::placeholder {
-      color: gray;
+    .navbar a:hover::after {
+      width: 100%;
     }
 
     #usernameDisplay {
@@ -72,10 +158,35 @@
       margin-left: 10px;
     }
 
-    /* Sidebar toggle arrow */
+    /* ===== SITE STATS BANNER ===== */
+    .stats-banner {
+      background: linear-gradient(90deg, #1a1a2e, #16213e);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      border-bottom: 1px solid #333;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      color: orange;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .stat-label {
+      color: #888;
+      font-size: 11px;
+    }
+
+    /* ===== SIDEBAR ===== */
     .sidebar-toggle {
       position: fixed;
-      top: 60px;
+      top: 80px;
       right: 0;
       background-color: #00ff00;
       color: black;
@@ -90,17 +201,17 @@
 
     .sidebar-toggle:hover {
       background-color: #00cc00;
+      transform: translateX(-3px);
     }
 
-    /* Sidebar */
     .sidebar {
       position: fixed;
       top: 0;
-      right: -350px;
-      width: 350px;
+      right: -380px;
+      width: 380px;
       height: 100vh;
       background-color: #1a1a1a;
-      transition: 0.3s;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 999;
       overflow-y: auto;
       padding: 20px;
@@ -132,15 +243,21 @@
 
     .sidebar-input {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       border: none;
-      border-radius: 5px;
-      background-color: #333;
+      border-radius: 8px;
+      background-color: #2a2a2a;
       color: white;
       font-size: 14px;
       font-family: 'Poppins', sans-serif;
       outline: none;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      transition: 0.3s;
+    }
+
+    .sidebar-input:focus {
+      background-color: #333;
+      box-shadow: 0 0 0 2px orange;
     }
 
     .sidebar-input::placeholder {
@@ -148,15 +265,19 @@
     }
 
     .sidebar-btn {
-      padding: 8px 15px;
+      padding: 10px 18px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       font-size: 14px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.3s;
       font-family: 'Poppins', sans-serif;
       margin-right: 5px;
       margin-bottom: 5px;
+    }
+
+    .sidebar-btn:hover {
+      transform: translateY(-2px);
     }
 
     .sidebar-btn-green {
@@ -166,6 +287,7 @@
 
     .sidebar-btn-green:hover {
       background-color: #00cc00;
+      box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
     }
 
     .sidebar-btn-orange {
@@ -175,6 +297,7 @@
 
     .sidebar-btn-orange:hover {
       background-color: darkorange;
+      box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
     }
 
     .sidebar-btn-gray {
@@ -193,6 +316,17 @@
 
     .sidebar-btn-red:hover {
       background-color: #990000;
+      box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
+    }
+
+    .sidebar-btn-blue {
+      background-color: #0066cc;
+      color: white;
+    }
+
+    .sidebar-btn-blue:hover {
+      background-color: #0055aa;
+      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
     }
 
     .sidebar-divider {
@@ -210,9 +344,15 @@
       cursor: pointer;
       background: none;
       border: none;
+      transition: 0.3s;
     }
 
-    /* Sidebar tabs */
+    .sidebar-close:hover {
+      color: orange;
+      transform: rotate(90deg);
+    }
+
+    /* ===== SIDEBAR TABS ===== */
     .sidebar-tabs {
       display: flex;
       gap: 5px;
@@ -222,16 +362,16 @@
 
     .sidebar-tab {
       flex: 1;
-      padding: 8px;
+      padding: 10px;
       border: none;
-      border-radius: 5px;
-      background-color: #333;
+      border-radius: 8px;
+      background-color: #2a2a2a;
       color: white;
-      font-size: 12px;
+      font-size: 14px;
       cursor: pointer;
       font-family: 'Poppins', sans-serif;
       transition: 0.3s;
-      min-width: 60px;
+      min-width: 50px;
     }
 
     .sidebar-tab.active {
@@ -251,27 +391,26 @@
 
     .sidebar-panel {
       display: none;
+      animation: fadeIn 0.3s;
     }
 
     .sidebar-panel.active {
       display: block;
     }
 
-    /* Profile styles */
+    /* ===== PROFILE STYLES ===== */
     .profile-card {
-      background-color: #2a2a2a;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 10px;
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a2e 100%);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 15px;
       text-align: center;
+      border: 1px solid #333;
+      transition: 0.3s;
     }
 
-    .profile-pic {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid orange;
+    .profile-card:hover {
+      border-color: orange;
     }
 
     .profile-pic-large {
@@ -282,22 +421,63 @@
       border: 3px solid orange;
       display: block;
       margin: 0 auto 10px auto;
+      transition: 0.3s;
+    }
+
+    .profile-pic-large:hover {
+      transform: scale(1.1);
     }
 
     .profile-name {
       color: white;
-      font-size: 16px;
+      font-size: 18px;
       margin: 5px 0;
+      font-weight: 600;
     }
 
     .profile-role {
       color: orange;
-      font-size: 12px;
+      font-size: 13px;
     }
 
     .profile-bio {
       color: gray;
       font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .profile-status {
+      color: #00ff00;
+      font-size: 12px;
+      margin-top: 8px;
+      padding: 5px 10px;
+      background-color: rgba(0, 255, 0, 0.1);
+      border-radius: 15px;
+      display: inline-block;
+    }
+
+    .profile-stats {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #333;
+    }
+
+    .profile-stat {
+      text-align: center;
+    }
+
+    .profile-stat-num {
+      color: orange;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .profile-stat-label {
+      color: #666;
+      font-size: 11px;
     }
 
     .owner-badge {
@@ -312,39 +492,87 @@
       font-weight: bold;
     }
 
-    .friend-card {
-      background-color: #2a2a2a;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 8px;
+    /* ===== STATUS EDITOR ===== */
+    .status-editor {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      gap: 8px;
+      margin-top: 10px;
     }
 
-    .friend-card img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .friend-card span {
-      color: white;
-      font-size: 14px;
-    }
-
-    .friend-btn {
-      margin-left: auto;
-      padding: 5px 10px;
+    .status-editor input {
+      flex: 1;
+      padding: 8px 12px;
       border: none;
-      border-radius: 5px;
+      border-radius: 20px;
+      background-color: #2a2a2a;
+      color: white;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .status-editor button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      background-color: orange;
+      color: black;
       font-size: 12px;
       cursor: pointer;
       font-family: 'Poppins', sans-serif;
     }
 
-    .search-result {
+    /* ===== FRIEND CARDS ===== */
+    .friend-card {
+      background-color: #2a2a2a;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: 0.3s;
+      animation: slideIn 0.3s;
+    }
+
+    .friend-card:hover {
+      background-color: #333;
+      transform: translateX(5px);
+    }
+
+    .friend-card img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .friend-card-info {
+      flex: 1;
+    }
+
+    .friend-card-name {
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .friend-card-status {
+      color: #888;
+      font-size: 11px;
+    }
+
+    .friend-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: 0.3s;
+    }
+
+    /* ===== ACTIVITY FEED ===== */
+    .activity-item {
       background-color: #2a2a2a;
       border-radius: 8px;
       padding: 10px;
@@ -352,33 +580,37 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      animation: slideIn 0.3s;
     }
 
-    .search-result img {
-      width: 35px;
-      height: 35px;
+    .activity-item img {
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      object-fit: cover;
-      cursor: pointer;
     }
 
-    .search-result span {
+    .activity-text {
+      flex: 1;
+      color: #ccc;
+      font-size: 12px;
+    }
+
+    .activity-text strong {
       color: white;
-      font-size: 14px;
-      cursor: pointer;
     }
 
-    .search-result span:hover {
-      color: orange;
+    .activity-time {
+      color: #666;
+      font-size: 10px;
     }
 
-    /* Online Status */
+    /* ===== ONLINE STATUS ===== */
     .status-dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       display: inline-block;
-      margin-right: 5px;
+      margin-right: 6px;
     }
 
     .status-online {
@@ -397,55 +629,58 @@
       margin-bottom: 10px;
     }
 
-    /* Chat styles */
+    /* ===== CHAT STYLES ===== */
     .chat-toggle {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background-color: orange;
+      background: linear-gradient(135deg, orange, #ff6600);
       color: black;
       border: none;
-      padding: 15px 20px;
-      font-size: 18px;
+      padding: 15px 25px;
+      font-size: 16px;
       cursor: pointer;
       border-radius: 50px;
       z-index: 1000;
-      transition: 0.3s;
+      transition: all 0.3s;
       font-family: 'Poppins', sans-serif;
-      box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(255, 165, 0, 0.4);
     }
 
     .chat-toggle:hover {
-      background-color: darkorange;
-      transform: scale(1.05);
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 165, 0, 0.5);
     }
 
     .chat-badge {
       position: absolute;
-      top: -5px;
-      right: -5px;
+      top: -8px;
+      right: -8px;
       background-color: #cc0000;
       color: white;
       font-size: 12px;
-      padding: 2px 6px;
+      padding: 4px 8px;
       border-radius: 50%;
       display: none;
+      animation: pulse 1s infinite;
     }
 
     .chat-panel {
       position: fixed;
-      bottom: 80px;
+      bottom: 90px;
       left: 20px;
-      width: 350px;
-      height: 450px;
+      width: 380px;
+      height: 500px;
       background-color: #1a1a1a;
-      border-radius: 15px;
+      border-radius: 20px;
       border: 2px solid orange;
       z-index: 999;
       display: none;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      animation: scaleIn 0.3s;
     }
 
     .chat-panel.open {
@@ -453,18 +688,36 @@
     }
 
     .chat-header {
-      background-color: #232323;
-      padding: 15px;
+      background: linear-gradient(135deg, #232323, #1a1a2e);
+      padding: 15px 20px;
       color: white;
       font-size: 16px;
       font-weight: bold;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid #333;
     }
 
-    .chat-header span {
-      color: orange;
+    .chat-header-tabs {
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-header-tab {
+      padding: 5px 12px;
+      border: none;
+      border-radius: 15px;
+      background-color: #333;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .chat-header-tab.active {
+      background-color: orange;
+      color: black;
     }
 
     .chat-close {
@@ -473,27 +726,35 @@
       color: white;
       font-size: 20px;
       cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .chat-close:hover {
+      color: orange;
+      transform: rotate(90deg);
     }
 
     .chat-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 10px;
+      padding: 15px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .chat-message {
       background-color: #2a2a2a;
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 15px;
+      padding: 12px;
       max-width: 85%;
+      position: relative;
+      animation: slideIn 0.2s;
     }
 
     .chat-message.mine {
       align-self: flex-end;
-      background-color: #3a3a00;
+      background: linear-gradient(135deg, #3a3a00, #2a2a00);
       border: 1px solid orange;
     }
 
@@ -501,15 +762,20 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
 
     .chat-message-pic {
-      width: 25px;
-      height: 25px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       object-fit: cover;
       cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .chat-message-pic:hover {
+      transform: scale(1.1);
     }
 
     .chat-message-name {
@@ -533,34 +799,177 @@
       color: white;
       font-size: 14px;
       word-wrap: break-word;
+      line-height: 1.4;
+    }
+
+    .chat-message-actions {
+      display: flex;
+      gap: 5px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #333;
     }
 
     .chat-message-delete {
       background: none;
       border: none;
       color: #cc0000;
-      font-size: 12px;
+      font-size: 14px;
       cursor: pointer;
-      margin-left: 5px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .chat-message-delete:hover {
+      background-color: rgba(204, 0, 0, 0.2);
+    }
+
+    /* ===== EMOJI REACTIONS ===== */
+    .emoji-reactions {
+      display: flex;
+      gap: 5px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .emoji-btn {
+      background-color: #333;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .emoji-btn:hover {
+      background-color: #444;
+      transform: scale(1.1);
+    }
+
+    .emoji-btn.active {
+      background-color: orange;
+    }
+
+    .reaction-count {
+      font-size: 11px;
+      color: white;
+      margin-left: 3px;
+    }
+
+    .add-reaction-btn {
+      background-color: #333;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 12px;
+      color: #888;
+      transition: 0.3s;
+    }
+
+    .add-reaction-btn:hover {
+      background-color: #444;
+      color: white;
+    }
+
+    .emoji-picker {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      background-color: #2a2a2a;
+      border-radius: 10px;
+      padding: 10px;
+      display: none;
+      gap: 5px;
+      flex-wrap: wrap;
+      width: 200px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      z-index: 10;
+    }
+
+    .emoji-picker.show {
+      display: flex;
+    }
+
+    .emoji-picker button {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      transition: 0.2s;
+    }
+
+    .emoji-picker button:hover {
+      background-color: #444;
+      transform: scale(1.2);
+    }
+
+    /* ===== TYPING INDICATOR ===== */
+    .typing-indicator {
+      padding: 10px 15px;
+      color: #888;
+      font-size: 12px;
+      font-style: italic;
+      display: none;
+    }
+
+    .typing-indicator.show {
+      display: block;
+    }
+
+    .typing-dots {
+      display: inline-flex;
+      gap: 3px;
+    }
+
+    .typing-dots span {
+      width: 6px;
+      height: 6px;
+      background-color: #888;
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite;
+    }
+
+    .typing-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
     }
 
     .chat-input-area {
-      padding: 10px;
+      padding: 15px;
       background-color: #232323;
       display: flex;
       gap: 10px;
+      align-items: center;
     }
 
     .chat-input {
       flex: 1;
-      padding: 10px;
+      padding: 12px 18px;
       border: none;
-      border-radius: 20px;
-      background-color: #333;
+      border-radius: 25px;
+      background-color: #2a2a2a;
       color: white;
       font-size: 14px;
       font-family: 'Poppins', sans-serif;
       outline: none;
+      transition: 0.3s;
+    }
+
+    .chat-input:focus {
+      box-shadow: 0 0 0 2px orange;
     }
 
     .chat-input::placeholder {
@@ -568,32 +977,77 @@
     }
 
     .chat-send {
-      background-color: orange;
+      background: linear-gradient(135deg, orange, #ff6600);
       color: black;
       border: none;
-      padding: 10px 15px;
-      border-radius: 20px;
+      padding: 12px 20px;
+      border-radius: 25px;
       cursor: pointer;
       font-family: 'Poppins', sans-serif;
       font-weight: bold;
+      transition: 0.3s;
     }
 
     .chat-send:hover {
-      background-color: darkorange;
+      transform: scale(1.05);
     }
 
-    /* Profile Modal */
+    /* ===== DM PANEL ===== */
+    .dm-panel {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .dm-panel.active {
+      display: flex;
+    }
+
+    .dm-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    .dm-conversation {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .dm-conversation.active {
+      display: flex;
+    }
+
+    .dm-back {
+      background-color: #333;
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .dm-back:hover {
+      background-color: #444;
+    }
+
+    /* ===== PROFILE MODAL ===== */
     .profile-modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.85);
       z-index: 2000;
       display: none;
       justify-content: center;
       align-items: center;
+      backdrop-filter: blur(5px);
     }
 
     .profile-modal-overlay.open {
@@ -601,25 +1055,32 @@
     }
 
     .profile-modal {
-      background-color: #1a1a1a;
-      border-radius: 15px;
+      background: linear-gradient(135deg, #1a1a1a, #1a1a2e);
+      border-radius: 20px;
       padding: 30px;
-      max-width: 400px;
+      max-width: 420px;
       width: 90%;
       text-align: center;
       border: 2px solid orange;
       position: relative;
+      animation: scaleIn 0.3s;
     }
 
     .profile-modal-close {
       position: absolute;
-      top: 10px;
-      right: 15px;
+      top: 15px;
+      right: 20px;
       background: none;
       border: none;
       color: white;
       font-size: 24px;
       cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .profile-modal-close:hover {
+      color: orange;
+      transform: rotate(90deg);
     }
 
     .profile-modal-pic {
@@ -627,7 +1088,7 @@
       height: 100px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid orange;
+      border: 4px solid orange;
       margin-bottom: 15px;
     }
 
@@ -635,6 +1096,7 @@
       color: white;
       font-size: 24px;
       margin: 0 0 5px 0;
+      font-weight: 600;
     }
 
     .profile-modal-role {
@@ -643,10 +1105,46 @@
       margin-bottom: 10px;
     }
 
+    .profile-modal-status-text {
+      color: #00ff00;
+      font-size: 13px;
+      padding: 5px 15px;
+      background-color: rgba(0, 255, 0, 0.1);
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+
     .profile-modal-bio {
-      color: gray;
+      color: #aaa;
       font-size: 14px;
       margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .profile-modal-stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+      padding: 15px 0;
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+    }
+
+    .profile-modal-stat {
+      text-align: center;
+    }
+
+    .profile-modal-stat-num {
+      color: orange;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .profile-modal-stat-label {
+      color: #666;
+      font-size: 11px;
     }
 
     .profile-modal-status {
@@ -656,7 +1154,7 @@
     .profile-modal-joined {
       color: #666;
       font-size: 12px;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     .profile-modal-actions {
@@ -666,34 +1164,220 @@
       flex-wrap: wrap;
     }
 
-    /* Admin Panel */
-    .admin-section {
-      background-color: #2a1a1a;
-      border: 1px solid #660000;
-      border-radius: 8px;
-      padding: 10px;
+    /* ===== GAME CARDS ===== */
+    .games-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .game-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .game-card {
+      background: linear-gradient(135deg, #1a1a1a, #1a1a2e);
+      border-radius: 15px;
+      padding: 0;
+      width: 220px;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .game-card:hover {
+      transform: translateY(-8px);
+      border-color: orange;
+      box-shadow: 0 10px 30px rgba(255, 165, 0, 0.2);
+    }
+
+    .game-thumbnail {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #333, #222);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    .game-info {
+      padding: 15px;
+    }
+
+    .game-card h3 {
+      color: orange;
+      margin: 0 0 8px 0;
+      font-size: 15px;
+    }
+
+    .game-rating {
+      display: flex;
+      justify-content: center;
+      gap: 3px;
+      margin-bottom: 8px;
+    }
+
+    .game-rating .star {
+      color: #444;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .game-rating .star.filled {
+      color: gold;
+    }
+
+    .game-rating .star:hover {
+      transform: scale(1.2);
+    }
+
+    .game-rating-count {
+      color: #666;
+      font-size: 11px;
+    }
+
+    .fav-star {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10;
+      transition: 0.3s;
+      color: white;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .fav-star:hover {
+      transform: scale(1.3);
+      color: orange;
+    }
+
+    .fav-star.favorited {
+      color: orange;
+    }
+
+    /* ===== RANDOM GAME BUTTON ===== */
+    .random-game-btn {
+      background: linear-gradient(135deg, #9b59b6, #8e44ad);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      margin: 20px auto;
+      display: block;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+    }
+
+    .random-game-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(155, 89, 182, 0.5);
+    }
+
+    .random-game-btn:active {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px) rotate(-5deg); }
+      75% { transform: translateX(10px) rotate(5deg); }
+    }
+
+    /* ===== SECTIONS ===== */
+    .page h1 {
+      color: white;
+      text-align: center;
+      font-size: 32px;
       margin-bottom: 10px;
+    }
+
+    .page h2 {
+      color: white;
+      text-align: center;
+    }
+
+    .page p {
+      color: gray;
+      text-align: center;
+    }
+
+    .favorites-section {
+      margin-top: 30px;
+    }
+
+    .favorites-section h2 {
+      color: orange;
+      text-align: center;
+      font-size: 22px;
+    }
+
+    .no-favorites {
+      color: gray;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .owners-section {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .owners-section h2 {
+      color: white;
+      font-size: 22px;
+    }
+
+    .owners-list {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    /* ===== ADMIN PANEL ===== */
+    .admin-section {
+      background: linear-gradient(135deg, #2a1a1a, #1a1020);
+      border: 1px solid #660000;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
     }
 
     .admin-section h4 {
       color: #ff6666;
-      margin: 0 0 10px 0;
+      margin: 0 0 12px 0;
       font-size: 14px;
     }
 
     .admin-user-card {
       background-color: #1a1a1a;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 8px;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .admin-user-card img {
-      width: 35px;
-      height: 35px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
     }
@@ -716,20 +1400,20 @@
     .admin-stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
       margin-bottom: 15px;
     }
 
     .admin-stat {
       background-color: #2a2a2a;
-      border-radius: 8px;
-      padding: 15px;
+      border-radius: 10px;
+      padding: 18px;
       text-align: center;
     }
 
     .admin-stat-number {
       color: orange;
-      font-size: 24px;
+      font-size: 28px;
       font-weight: bold;
     }
 
@@ -738,142 +1422,44 @@
       font-size: 12px;
     }
 
-    /* Bookmarklet styles */
-    .bookmarklet-link {
-      display: inline-block;
-      background-color: #333;
-      color: orange;
-      padding: 6px 12px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 12px;
-      margin: 3px;
-      cursor: grab;
-      transition: 0.3s;
+    /* ===== ACTIVITY LOG ===== */
+    .activity-log {
+      max-height: 250px;
+      overflow-y: auto;
     }
 
-    .bookmarklet-link:hover {
-      background-color: #444;
-    }
-
-    .preset-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 8px;
-    }
-
-    .panic-info {
-      color: #00ff00;
-      font-size: 13px;
-      margin-top: 8px;
-    }
-
-    /* Page styles */
-    .page {
-      padding: 20px;
-    }
-
-    .page h1 {
-      color: white;
-      text-align: center;
-    }
-
-    .page h2 {
-      color: white;
-      text-align: center;
-    }
-
-    .page p {
-      color: gray;
-      text-align: center;
-    }
-
-    .games-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .game-link {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .game-card {
+    .log-item {
       background-color: #1a1a1a;
-      border-radius: 10px;
-      padding: 20px;
-      width: 200px;
-      text-align: center;
-      transition: 0.3s;
-      cursor: pointer;
-      position: relative;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-left: 3px solid orange;
     }
 
-    .game-card:hover {
-      background-color: #2a2a2a;
-      transform: translateY(-5px);
+    .log-item.ban {
+      border-left-color: #cc0000;
     }
 
-    .game-card h3 {
-      color: orange;
-      margin: 0;
+    .log-item.join {
+      border-left-color: #00ff00;
     }
 
-    .fav-star {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 10;
-      transition: 0.3s;
-      color: orange;
+    .log-item.mute {
+      border-left-color: #ffcc00;
     }
 
-    .fav-star:hover {
-      transform: scale(1.3);
+    .log-text {
+      color: #ccc;
+      font-size: 12px;
     }
 
-    .favorites-section {
-      margin-top: 20px;
+    .log-time {
+      color: #666;
+      font-size: 10px;
+      margin-top: 5px;
     }
 
-    .favorites-section h2 {
-      color: orange;
-      text-align: center;
-      font-size: 22px;
-    }
-
-    .no-favorites {
-      color: gray;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    /* Owners section */
-    .owners-section {
-      margin-top: 30px;
-      text-align: center;
-    }
-
-    .owners-section h2 {
-      color: white;
-      font-size: 20px;
-    }
-
-    .owners-list {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
-
-    /* First time popup */
+    /* ===== POPUP ===== */
     .popup-overlay {
       position: fixed;
       top: 0;
@@ -885,21 +1471,24 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      backdrop-filter: blur(5px);
     }
 
     .popup-box {
-      background-color: #1a1a1a;
-      border-radius: 15px;
-      padding: 30px;
-      max-width: 400px;
+      background: linear-gradient(135deg, #1a1a1a, #1a1a2e);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 420px;
       width: 90%;
       text-align: center;
       border: 2px solid orange;
+      animation: scaleIn 0.3s;
     }
 
     .popup-box h2 {
       color: orange;
       margin: 0 0 15px 0;
+      font-size: 26px;
     }
 
     .popup-box p {
@@ -909,45 +1498,141 @@
 
     .popup-box input {
       width: 100%;
-      padding: 10px;
+      padding: 14px;
       border: none;
-      border-radius: 5px;
-      background-color: #333;
+      border-radius: 10px;
+      background-color: #2a2a2a;
       color: white;
       font-size: 16px;
       font-family: 'Poppins', sans-serif;
       outline: none;
       margin-bottom: 15px;
       text-align: center;
+      transition: 0.3s;
     }
 
-    /* Announcement banner */
+    .popup-box input:focus {
+      box-shadow: 0 0 0 2px orange;
+    }
+
+    /* ===== ANNOUNCEMENT BANNER ===== */
     .announcement-banner {
       background: linear-gradient(90deg, #ff6600, #ff9900);
       color: black;
       text-align: center;
-      padding: 10px;
+      padding: 12px;
       font-weight: bold;
       display: none;
+      animation: slideDown 0.5s;
     }
 
     .announcement-banner.show {
       display: block;
     }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* ===== SOUND TOGGLE ===== */
+    .sound-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 80px;
+      background-color: #333;
+      color: white;
+      border: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      z-index: 1000;
+      transition: 0.3s;
+    }
+
+    .sound-toggle:hover {
+      background-color: #444;
+      transform: scale(1.1);
+    }
+
+    .sound-toggle.muted {
+      color: #666;
+    }
+
+    /* ===== BOOKMARKLET STYLES ===== */
+    .bookmarklet-link {
+      display: inline-block;
+      background-color: #333;
+      color: orange;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 12px;
+      margin: 4px;
+      cursor: grab;
+      transition: 0.3s;
+    }
+
+    .bookmarklet-link:hover {
+      background-color: #444;
+      transform: translateY(-2px);
+    }
+
+    .preset-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .panic-info {
+      color: #00ff00;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: orange;
+    }
   </style>
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loader"></div>
+    <div class="loading-text">Loading Riley Games...</div>
+  </div>
+
+  <!-- Custom Background -->
+  <div id="customBg" class="custom-bg"></div>
+
   <!-- Announcement Banner -->
   <div id="announcementBanner" class="announcement-banner"></div>
 
   <!-- First time popup -->
   <div id="welcomePopup" class="popup-overlay" style="display: none;">
     <div class="popup-box">
-      <h2>Welcome to Riley Games!</h2>
+      <h2>🎮 Welcome to Riley Games!</h2>
       <p>Choose a username to get started</p>
       <input type="text" id="newUsername" placeholder="Enter username...">
       <br>
-      <button class="sidebar-btn sidebar-btn-orange" onclick="createProfile()" style="font-size: 18px; padding: 12px 30px;">Join</button>
+      <button class="sidebar-btn sidebar-btn-orange" onclick="createProfile()" style="font-size: 18px; padding: 14px 35px;">Join</button>
     </div>
   </div>
 
@@ -959,11 +1644,29 @@
       <div id="modalProfileStatus" class="profile-modal-status"></div>
       <h2 id="modalProfileName" class="profile-modal-name">Username</h2>
       <p id="modalProfileRole" class="profile-modal-role">Member</p>
+      <p id="modalProfileStatusText" class="profile-modal-status-text" style="display: none;"></p>
       <p id="modalProfileBio" class="profile-modal-bio">No bio</p>
+      <div id="modalProfileStats" class="profile-modal-stats">
+        <div class="profile-modal-stat">
+          <div id="modalStatGames" class="profile-modal-stat-num">0</div>
+          <div class="profile-modal-stat-label">Games Played</div>
+        </div>
+        <div class="profile-modal-stat">
+          <div id="modalStatFriends" class="profile-modal-stat-num">0</div>
+          <div class="profile-modal-stat-label">Friends</div>
+        </div>
+        <div class="profile-modal-stat">
+          <div id="modalStatMessages" class="profile-modal-stat-num">0</div>
+          <div class="profile-modal-stat-label">Messages</div>
+        </div>
+      </div>
       <p id="modalProfileJoined" class="profile-modal-joined">Joined: Unknown</p>
       <div id="modalProfileActions" class="profile-modal-actions"></div>
     </div>
   </div>
+
+  <!-- Sound Toggle -->
+  <button id="soundToggle" class="sound-toggle" onclick="toggleSound()">🔊</button>
 
   <!-- Chat Toggle Button -->
   <button class="chat-toggle" onclick="toggleChat()">
@@ -974,16 +1677,44 @@
   <!-- Chat Panel -->
   <div id="chatPanel" class="chat-panel">
     <div class="chat-header">
-      <span>💬 Global Chat</span>
+      <div class="chat-header-tabs">
+        <button class="chat-header-tab active" onclick="showChatTab('global', this)">🌍 Global</button>
+        <button class="chat-header-tab" onclick="showChatTab('dms', this)">📩 DMs</button>
+      </div>
       <span id="onlineCount" style="font-size: 12px; color: #00ff00;">0 online</span>
       <button class="chat-close" onclick="toggleChat()">✕</button>
     </div>
-    <div id="chatMessages" class="chat-messages">
-      <p style="color: gray; text-align: center; font-size: 13px;">Loading messages...</p>
+    
+    <!-- Global Chat -->
+    <div id="globalChatPanel" class="dm-panel active">
+      <div id="chatMessages" class="chat-messages">
+        <p style="color: gray; text-align: center; font-size: 13px;">Loading messages...</p>
+      </div>
+      <div id="typingIndicator" class="typing-indicator">
+        <span id="typingUser"></span> is typing
+        <span class="typing-dots"><span></span><span></span><span></span></span>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Type a message..." onkeypress="handleChatKeypress(event)" oninput="handleTyping()">
+        <button class="chat-send" onclick="sendMessage()">Send</button>
+      </div>
     </div>
-    <div class="chat-input-area">
-      <input type="text" id="chatInput" class="chat-input" placeholder="Type a message..." onkeypress="handleChatKeypress(event)">
-      <button class="chat-send" onclick="sendMessage()">Send</button>
+
+    <!-- DMs Panel -->
+    <div id="dmsPanel" class="dm-panel">
+      <div id="dmList" class="dm-list">
+        <p style="color: gray; text-align: center; font-size: 13px;">No conversations yet</p>
+      </div>
+    </div>
+
+    <!-- DM Conversation -->
+    <div id="dmConversation" class="dm-conversation">
+      <button class="dm-back" onclick="closeDmConversation()">← Back</button>
+      <div id="dmMessages" class="chat-messages"></div>
+      <div class="chat-input-area">
+        <input type="text" id="dmInput" class="chat-input" placeholder="Type a message..." onkeypress="handleDmKeypress(event)">
+        <button class="chat-send" onclick="sendDm()">Send</button>
+      </div>
     </div>
   </div>
 
@@ -993,11 +1724,12 @@
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
-    <h2>Menu</h2>
+    <h2>⚡ Menu</h2>
 
     <div class="sidebar-tabs" id="sidebarTabs">
       <button class="sidebar-tab active" onclick="showSidebarTab('profileTab', this)">👤</button>
       <button class="sidebar-tab" onclick="showSidebarTab('friendsTab', this)">👥</button>
+      <button class="sidebar-tab" onclick="showSidebarTab('activityTab', this)">📰</button>
       <button class="sidebar-tab" onclick="showSidebarTab('onlineTab', this)">🟢</button>
       <button class="sidebar-tab" onclick="showSidebarTab('settingsTab', this)">⚙️</button>
       <button id="adminTabBtn" class="sidebar-tab admin-tab" onclick="showSidebarTab('adminTab', this)" style="display: none;">👑</button>
@@ -1010,19 +1742,37 @@
         <p class="profile-name" id="myProfileName">Loading...</p>
         <p class="profile-role" id="myProfileRole"></p>
         <p class="profile-bio" id="myProfileBio"></p>
+        <p class="profile-status" id="myProfileStatus" style="display: none;"></p>
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <div class="profile-stat-num" id="myStatGames">0</div>
+            <div class="profile-stat-label">Games</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat-num" id="myStatFriends">0</div>
+            <div class="profile-stat-label">Friends</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat-num" id="myStatMessages">0</div>
+            <div class="profile-stat-label">Messages</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-editor">
+        <input type="text" id="statusInput" placeholder="Set your status..." maxlength="50">
+        <button onclick="updateStatus()">Set</button>
       </div>
 
       <hr class="sidebar-divider">
 
-      <h3>Edit Profile</h3>
+      <h3>✏️ Edit Profile</h3>
       <label>Username:</label>
       <input type="text" id="editUsername" class="sidebar-input" placeholder="Your username">
       <label>Bio:</label>
       <input type="text" id="editBio" class="sidebar-input" placeholder="Something about you">
       <label>Profile pic (image URL):</label>
       <input type="text" id="editPic" class="sidebar-input" placeholder="https://example.com/pic.png">
-      <label>Favorite color:</label>
-      <input type="color" id="editColor" class="sidebar-input" value="#ff8800" style="height: 35px; padding: 3px;">
       <button class="sidebar-btn sidebar-btn-orange" onclick="saveProfile()">Save Changes</button>
 
       <hr class="sidebar-divider">
@@ -1034,16 +1784,24 @@
 
     <!-- Friends Tab -->
     <div id="friendsTab" class="sidebar-panel">
-      <h3>Your Friends</h3>
+      <h3>👫 Your Friends</h3>
       <div id="friendsList">
         <p style="color: gray; font-size: 13px;">No friends yet. Search for users and add them!</p>
       </div>
 
       <hr class="sidebar-divider">
 
-      <h3>Friend Requests</h3>
+      <h3>📬 Friend Requests</h3>
       <div id="friendRequests">
         <p style="color: gray; font-size: 13px;">No pending requests.</p>
+      </div>
+    </div>
+
+    <!-- Activity Tab -->
+    <div id="activityTab" class="sidebar-panel">
+      <h3>📰 Friend Activity</h3>
+      <div id="activityFeed">
+        <p style="color: gray; font-size: 13px;">No recent activity from friends.</p>
       </div>
     </div>
 
@@ -1055,12 +1813,36 @@
 
       <hr class="sidebar-divider">
 
-      <h3>Recently Active</h3>
+      <h3>⏰ Recently Active</h3>
       <div id="recentUsersList"></div>
     </div>
 
     <!-- Settings Tab -->
     <div id="settingsTab" class="sidebar-panel">
+      <h3>🎨 Appearance</h3>
+      <label>Custom Background (image URL):</label>
+      <input type="text" id="bgUrl" class="sidebar-input" placeholder="https://example.com/bg.jpg">
+      <button class="sidebar-btn sidebar-btn-orange" onclick="setCustomBg()">Set Background</button>
+      <button class="sidebar-btn sidebar-btn-gray" onclick="clearCustomBg()">Clear</button>
+
+      <hr class="sidebar-divider">
+
+      <h3>🔊 Sound Settings</h3>
+      <label style="display: flex; align-items: center; gap: 10px; color: white;">
+        <input type="checkbox" id="soundEnabled" checked onchange="toggleSoundSetting()">
+        Enable sound effects
+      </label>
+      <label style="display: flex; align-items: center; gap: 10px; color: white; margin-top: 8px;">
+        <input type="checkbox" id="notifSound" checked onchange="saveSettings()">
+        Notification sounds
+      </label>
+      <label style="display: flex; align-items: center; gap: 10px; color: white; margin-top: 8px;">
+        <input type="checkbox" id="clickSound" checked onchange="saveSettings()">
+        Click sounds
+      </label>
+
+      <hr class="sidebar-divider">
+
       <h3>🚨 Panic Button</h3>
       <p style="color: gray; font-size: 13px;">Press <strong style="color: white;">` (backtick)</strong> to instantly redirect.</p>
       <label>Panic URL:</label>
@@ -1080,27 +1862,15 @@
 
       <hr class="sidebar-divider">
 
-      <h3>🎨 Theme</h3>
-      <label>Base color:</label>
-      <input type="color" id="baseColor" class="sidebar-input" value="#000000" style="height: 35px; padding: 3px;">
-      <label>Accent color:</label>
-      <input type="color" id="accentColor" class="sidebar-input" value="#ffa500" style="height: 35px; padding: 3px;">
-      <button class="sidebar-btn sidebar-btn-orange" onclick="applyTheme()">Apply</button>
-      <button class="sidebar-btn sidebar-btn-gray" onclick="resetTheme()">Reset</button>
-
-      <hr class="sidebar-divider">
-
-            <h3>⭐ Favorites</h3>
+      <h3>⭐ Favorites</h3>
       <button class="sidebar-btn sidebar-btn-red" onclick="clearFavorites()">Clear All Favorites</button>
-      
-      <!-- ADD THIS -->
+
       <hr class="sidebar-divider">
+
       <h3>🗑️ Reset Account</h3>
       <p style="color: gray; font-size: 13px;">Made a mistake? Start fresh with a new username.</p>
       <button class="sidebar-btn sidebar-btn-red" onclick="resetAccount()">Reset My Account</button>
-      
-    </div>  <!-- This closes the settingsTab -->
-    
+    </div>
 
     <!-- Admin Tab -->
     <div id="adminTab" class="sidebar-panel">
@@ -1138,13 +1908,40 @@
       </div>
 
       <div class="admin-section">
-        <h4>👥 All Users</h4>
+        <h4>📋 Activity Log</h4>
+        <div id="activityLog" class="activity-log">
+          <p style="color: gray; font-size: 12px;">No recent activity.</p>
+        </div>
+      </div>
+
+      <div class="admin-section">
+        <h4>👥 User Management</h4>
         <div id="adminUsersList" style="max-height: 200px; overflow-y: auto;"></div>
       </div>
     </div>
   </div>
 
   <div class="main-content">
+    <!-- Stats Banner -->
+    <div class="stats-banner">
+      <div class="stat-item">
+        <div class="stat-number" id="statTotalUsers">0</div>
+        <div class="stat-label">USERS</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="statTotalGames">0</div>
+        <div class="stat-label">GAMES</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="statTotalMessages">0</div>
+        <div class="stat-label">MESSAGES</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="statOnlineNow">0</div>
+        <div class="stat-label">ONLINE</div>
+      </div>
+    </div>
+
     <div class="navbar">
       <a onclick="showPage('home')">Home</a>
       <a onclick="showPage('allgames')">All Games</a>
@@ -1157,23 +1954,25 @@
     </div>
 
     <div id="home" class="page">
-      <h1>Welcome to Riley Games</h1>
+      <h1>🎮 Welcome to Riley Games</h1>
       <p>The Perfect Gaming Website</p>
+
+      <button class="random-game-btn" onclick="playRandomGame()">🎲 Play Random Game</button>
 
       <div class="owners-section">
         <h2>👑 Team</h2>
         <div class="owners-list">
-          <div class="profile-card" style="width: 150px; cursor: pointer;" onclick="viewTeamProfile('riley')">
+          <div class="profile-card" style="width: 160px; cursor: pointer;" onclick="viewTeamProfile('riley')">
             <img class="profile-pic-large" src="https://api.dicebear.com/7.x/initials/svg?seed=R" alt="Riley">
             <p class="profile-name">Riley</p>
             <p class="owner-badge">👑 OWNER</p>
           </div>
-          <div class="profile-card" style="width: 150px; cursor: pointer;" onclick="viewTeamProfile('garrett')">
+          <div class="profile-card" style="width: 160px; cursor: pointer;" onclick="viewTeamProfile('garrett')">
             <img class="profile-pic-large" src="https://api.dicebear.com/7.x/initials/svg?seed=G" alt="Garrett">
             <p class="profile-name">Garrett</p>
             <p class="coowner-badge">⭐ CO-OWNER</p>
           </div>
-          <div class="profile-card" style="width: 150px; cursor: pointer;" onclick="viewTeamProfile('john')">
+          <div class="profile-card" style="width: 160px; cursor: pointer;" onclick="viewTeamProfile('john')">
             <img class="profile-pic-large" src="https://api.dicebear.com/7.x/initials/svg?seed=J" alt="John">
             <p class="profile-name">John</p>
             <p class="coowner-badge">⭐ CO-OWNER</p>
@@ -1190,133 +1989,43 @@
     </div>
 
     <div id="allgames" class="page" style="display: none;">
-      <h2>All Games</h2>
+      <h2>🎮 All Games</h2>
+      <button class="random-game-btn" onclick="playRandomGame()">🎲 Play Random Game</button>
       <div id="allGamesList" class="games-list"></div>
     </div>
 
     <div id="page1" class="page" style="display: none;">
-      <h2>Games</h2>
-      <div class="games-list">
-        <a href="https://sites.google.com/view/drive-u-7-home/home?authuser=0" target="_blank" class="game-link">
-          <div class="game-card" data-game="Classroom Resources">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Classroom Resources</h3>
-          </div>
-        </a>
-        <a href="https://sites.google.com/site/thegamecompilation/home" target="_blank" class="game-link">
-          <div class="game-card" data-game="Game Compilation">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Game Compilation</h3>
-          </div>
-        </a>
-        <a href="https://sites.google.com/site/unblockedgamestop" target="_blank" class="game-link">
-          <div class="game-card" data-game="Unblocked Games Top">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Unblocked Games Top</h3>
-          </div>
-        </a>
-        <a href="https://sites.google.com/classroom.center/view-1/" target="_blank" class="game-link">
-          <div class="game-card" data-game="Classroom Center">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Classroom Center</h3>
-          </div>
-        </a>
+      <h2>🎮 Games</h2>
+      <div class="games-list" id="gamesPage1">
+        <!-- Games will be added by JavaScript -->
       </div>
     </div>
 
     <div id="page2" class="page" style="display: none;">
-      <h2>More Games</h2>
-      <div class="games-list">
-        <a href="https://sites.google.com/view/drive-u-7-home/survival-race/race-fullscreen" target="_blank" class="game-link">
-          <div class="game-card" data-game="Survival Race">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Survival Race</h3>
-          </div>
-        </a>
-        <a href="https://sites.google.com/view/unblokkedsites64/home" target="_blank" class="game-link">
-          <div class="game-card" data-game="Unblocked Sites 64">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Unblocked Sites 64</h3>
-          </div>
-        </a>
-        <a href="https://sites.google.com/gnspes.ca/prodigyhacks/home" target="_blank" class="game-link">
-          <div class="game-card" data-game="Prodigy Hacks">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Prodigy Hacks</h3>
-          </div>
-        </a>
-        <a href="https://yandex.ru/games/" target="_blank" class="game-link">
-          <div class="game-card" data-game="Yandex Games">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Yandex Games</h3>
-          </div>
-        </a>
-        <a href="https://spaceplace.nasa.gov/menu/play/" target="_blank" class="game-link">
-          <div class="game-card" data-game="NASA Space Games">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>NASA Space Games</h3>
-          </div>
-        </a>
+      <h2>🎮 More Games</h2>
+      <div class="games-list" id="gamesPage2">
+        <!-- Games will be added by JavaScript -->
       </div>
     </div>
 
     <div id="page3" class="page" style="display: none;">
-      <h2>Tools</h2>
-      <div class="games-list">
-        <a href="https://www.startpage.com/" target="_blank" class="game-link">
-          <div class="game-card" data-game="Startpage Search">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Startpage Search</h3>
-          </div>
-        </a>
-        <a href="https://www.google.com/search?q=google+games" target="_blank" class="game-link">
-          <div class="game-card" data-game="Google Games Search">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Google Games Search</h3>
-          </div>
-        </a>
-        <a href="https://morsecode.world/international/translator.html" target="_blank" class="game-link">
-          <div class="game-card" data-game="Morse Code Translator">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Morse Code Translator</h3>
-          </div>
-        </a>
+      <h2>🔧 Tools</h2>
+      <div class="games-list" id="gamesPage3">
+        <!-- Tools will be added by JavaScript -->
       </div>
     </div>
 
     <div id="page4" class="page" style="display: none;">
-      <h2>Videos</h2>
-      <div class="games-list">
-        <a href="https://web.archive.org/web/20260000000000*/Youtube" target="_blank" class="game-link">
-          <div class="game-card" data-game="YouTube Archive">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>YouTube Archive</h3>
-          </div>
-        </a>
-        <a href="https://www.bing.com/videos/onecolumn/landing" target="_blank" class="game-link">
-          <div class="game-card" data-game="Bing Videos">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>Bing Videos</h3>
-          </div>
-        </a>
-        <a href="https://gem.cbc.ca/" target="_blank" class="game-link">
-          <div class="game-card" data-game="CBC Gem">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>CBC Gem</h3>
-          </div>
-        </a>
+      <h2>📺 Videos</h2>
+      <div class="games-list" id="gamesPage4">
+        <!-- Videos will be added by JavaScript -->
       </div>
     </div>
 
     <div id="page5" class="page" style="display: none;">
-      <h2>Other</h2>
-      <div class="games-list">
-        <a href="https://everyone.ednet.ns.ca/landing.php" target="_blank" class="game-link">
-          <div class="game-card" data-game="EdNet Learning">
-            <span class="fav-star" onclick="event.preventDefault(); toggleFavorite(this);">☆</span>
-            <h3>EdNet Learning</h3>
-          </div>
-        </a>
+      <h2>📦 Other</h2>
+      <div class="games-list" id="gamesPage5">
+        <!-- Other will be added by JavaScript -->
       </div>
     </div>
   </div>
@@ -1326,7 +2035,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
   <script>
-       // ===== FIREBASE SETUP =====
+        // ===== FIREBASE SETUP =====
     const firebaseConfig = {
       apiKey: "AIzaSyDv3JRn08FStrEd6cF3x2AFDCgvbJOGtC8",
       authDomain: "riley-games-1544e.firebaseapp.com",
@@ -1350,11 +2059,189 @@
     let isAdmin = false;
     let chatOpen = false;
     let lastMessageCount = 0;
+    let soundEnabled = localStorage.getItem("soundEnabled") !== "false";
+    let notifSound = localStorage.getItem("notifSound") !== "false";
+    let clickSound = localStorage.getItem("clickSound") !== "false";
+    let currentDmUserId = null;
+    let typingTimeout = null;
+    let typingUsers = {};
+
+    // ===== SOUND EFFECTS =====
+    const sounds = {
+      message: 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE',
+      click: 'data:audio/wav;base64,UklGRlwBAABXQVZFZm10IBAAAAABAAEAIlYAAIJYAAACABAAZGF0YTgBAADr/+v/6//r/+v/7v8MAQYBBQEFAQUBBQEFAQUBBQEEAQYBBQEFAQUBBQEEAQUBBQEFAQUBBQEEAQUBBQEFAQUBBQEFAQUBBQEFAQUBBQEFAQUBBQEFAQUBBQEEAQUBBQEEAQYBBQEFAQUBBQEEAQUBBQEFAQUBBQEFAQUBBQEEAQUBBQEEAQUBBQEFAQUBBQE',
+      notification: 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeS',
+      join: 'data:audio/wav;base64,UklGRp4CAABXQVZFZm10IBAAAAABAAEAIlYAAIJYAAACABAAZGF0YXoCAAAgIB8hHiIeIx0jHSMdIx0kHCMdIx0jHSMdJBwjHSMdIx0jHSQcIx0jHSMdIxwkHCMdIxwkHCMcJBwjHCQcIxwjHCQbJBwkGyQcJBskGyQbJBskGyQbJBskGyQbJBskGyQbJBsk'
+    };
+
+    const audioCache = {};
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      
+      if ((type === 'message' || type === 'notification') && !notifSound) return;
+      if (type === 'click' && !clickSound) return;
+
+      if (!audioCache[type]) {
+        audioCache[type] = new Audio(sounds[type]);
+        audioCache[type].volume = 0.3;
+      }
+      
+      audioCache[type].play().catch(e => console.log('Sound play failed:', e));
+    }
+
+    // ===== GAME DATA =====
+    const gameData = {
+      page1: [
+        {
+          name: "Classroom Resources",
+          url: "https://sites.google.com/view/drive-u-7-home/home?authuser=0",
+          icon: "📚"
+        },
+        {
+          name: "Game Compilation",
+          url: "https://sites.google.com/site/thegamecompilation/home",
+          icon: "🎮"
+        },
+        {
+          name: "Unblocked Games Top",
+          url: "https://sites.google.com/site/unblockedgamestop",
+          icon: "🔓"
+        },
+        {
+          name: "Classroom Center",
+          url: "https://sites.google.com/classroom.center/view-1/",
+          icon: "📖"
+        },
+        {
+          name: "Unblocked Games 77",
+          url: "https://sites.google.com/site/unblockedgames77",
+          icon: "7️⃣"
+        },
+        {
+          name: "Drive Resources",
+          url: "https://sites.google.com/view/drive-u-7-home",
+          icon: "💾"
+        },
+        {
+          name: "Unblocked Games 76",
+          url: "https://www.symbaloo.com/mix/agariounblockedschool",
+          icon: "🎯"
+        },
+        {
+          name: "Cool Math Games",
+          url: "https://www.coolmathgames.com",
+          icon: "🔢"
+        }
+      ],
+      page2: [
+        {
+          name: "Survival Race",
+          url: "https://sites.google.com/view/drive-u-7-home/survival-race/race-fullscreen",
+          icon: "🏃"
+        },
+        {
+          name: "Unblocked Sites 64",
+          url: "https://sites.google.com/view/unblokkedsites64/home",
+          icon: "6️⃣"
+        },
+        {
+          name: "Prodigy Hacks",
+          url: "https://sites.google.com/gnspes.ca/prodigyhacks/home",
+          icon: "🧙"
+        },
+        {
+          name: "Yandex Games",
+          url: "https://yandex.ru/games/",
+          icon: "🎲"
+        },
+        {
+          name: "NASA Space Games",
+          url: "https://spaceplace.nasa.gov/menu/play/",
+          icon: "🚀"
+        },
+        {
+          name: "New Games",
+          url: "https://sites.google.com/view/drive-u-7-home/new-games",
+          icon: "🆕"
+        },
+        {
+          name: "MSN Games",
+          url: "https://www.msn.com/en-us/play",
+          icon: "🎰"
+        },
+        {
+          name: "Hooda Math",
+          url: "https://www.hoodamath.com/Games",
+          icon: "➕"
+        }
+      ],
+      page3: [
+        {
+          name: "Startpage Search",
+          url: "https://www.startpage.com/",
+          icon: "🔍"
+        },
+        {
+          name: "Google Games Search",
+          url: "https://www.google.com/search?q=google+games",
+          icon: "🔎"
+        },
+        {
+          name: "Morse Code Translator",
+          url: "https://morsecode.world/international/translator.html",
+          icon: "📡"
+        },
+        {
+          name: "Watch Documentaries",
+          url: "https://watchdocumentaries.com/games",
+          icon: "🎬"
+        },
+        {
+          name: "New Unblocked Mix",
+          url: "https://www.symbaloo.com/mix/newunblockedgames",
+          icon: "🎨"
+        }
+      ],
+      page4: [
+        {
+          name: "YouTube Archive",
+          url: "https://web.archive.org/web/20260000000000*/Youtube",
+          icon: "📼"
+        },
+        {
+          name: "Bing Videos",
+          url: "https://www.bing.com/videos/onecolumn/landing",
+          icon: "🎥"
+        },
+        {
+          name: "CBC Gem",
+          url: "https://gem.cbc.ca/",
+          icon: "💎"
+        }
+      ],
+      page5: [
+        {
+          name: "EdNet Learning",
+          url: "https://everyone.ednet.ns.ca/landing.php",
+          icon: "📚"
+        },
+        {
+          name: "Friv Games",
+          url: "https://www.friv.com",
+          icon: "🎈"
+        },
+        {
+          name: "Unblocked Premium",
+          url: "https://sites.google.com/site/unblockedgamespremium77",
+          icon: "💎"
+        }
+      ]
+    };
 
     // ===== SECRET ADMIN TAGS =====
     const SECRET_TAG = "_2024xAuth";
     
-    // These are the ACTUAL admin usernames (with the hidden tag) - all lowercase
     const ADMIN_USERNAMES = {
       "riley": "riley_2024xauth",
       "garrett": "garrett_2024xauth",
@@ -1362,7 +2249,6 @@
     };
 
     function getDisplayName(fullUsername) {
-      // Remove the secret tag when displaying
       if (fullUsername && fullUsername.includes(SECRET_TAG)) {
         return fullUsername.replace(SECRET_TAG, "");
       }
@@ -1391,12 +2277,18 @@
       if (!username) return "🎮 Member";
       let lower = username.toLowerCase();
       
-      // Check with secret tag
       if (lower === ADMIN_USERNAMES.riley) return "👑 Owner";
       if (lower === ADMIN_USERNAMES.garrett || lower === ADMIN_USERNAMES.john) return "⭐ Co-Owner";
       
       return "🎮 Member";
     }
+
+    // ===== LOADING & INITIALIZATION =====
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('loadingScreen').classList.add('hidden');
+      }, 1500);
+    });
 
     // ===== CHECK FIRST VISIT =====
     async function checkFirstVisit() {
@@ -1409,6 +2301,8 @@
         updateOnlineStatus();
         checkAdmin();
         loadAdminData();
+        loadActivity();
+        loadUserStats();
       }
     }
 
@@ -1420,7 +2314,6 @@
         return;
       }
 
-      // Check if username is trying to impersonate admin without the tag
       let lowerUsername = username.toLowerCase();
       if ((lowerUsername === "riley" || lowerUsername === "garrett" || lowerUsername === "john") && 
           !username.toLowerCase().includes(SECRET_TAG.toLowerCase())) {
@@ -1435,6 +2328,11 @@
         color: "#ff8800",
         friends: [],
         friendRequests: [],
+        status: "",
+        gamesPlayed: 0,
+        messagesSent: 0,
+        banned: false,
+        muted: false,
         lastSeen: Date.now(),
         createdAt: Date.now()
       };
@@ -1444,6 +2342,26 @@
       updateProfileDisplay();
       updateOnlineStatus();
       checkAdmin();
+      
+      // Log join activity
+      logActivity('join', myProfile.username + ' joined Riley Games');
+      playSound('join');
+    }
+
+    // ===== UPDATE STATUS =====
+    async function updateStatus() {
+      let status = document.getElementById("statusInput").value.trim();
+      
+      myProfile.status = status;
+      await db.collection("users").doc(userId).update({ status: status });
+      
+      updateProfileDisplay();
+      document.getElementById("statusInput").value = "";
+      
+      // Add to activity feed
+      if (status) {
+        addToActivityFeed(userId, 'updated their status: "' + status + '"');
+      }
     }
 
     // ===== SAVE PROFILE =====
@@ -1451,14 +2369,12 @@
       let username = document.getElementById("editUsername").value.trim();
       let bio = document.getElementById("editBio").value.trim();
       let pic = document.getElementById("editPic").value.trim();
-      let color = document.getElementById("editColor").value;
 
       if (username === "") {
         alert("Username can't be empty");
         return;
       }
 
-      // Prevent changing TO an admin name without tag
       let lowerUsername = username.toLowerCase();
       if (!myProfile.username.toLowerCase().includes(SECRET_TAG.toLowerCase()) && 
           (lowerUsername === "riley" || lowerUsername === "garrett" || lowerUsername === "john") && 
@@ -1474,11 +2390,16 @@
       myProfile.username = username;
       myProfile.bio = bio;
       myProfile.pic = pic;
-      myProfile.color = color;
 
-      await db.collection("users").doc(userId).update(myProfile);
+      await db.collection("users").doc(userId).update({
+        username: username,
+        bio: bio,
+        pic: pic
+      });
+      
       updateProfileDisplay();
       checkAdmin();
+      playSound('click');
       alert("Profile saved!");
     }
 
@@ -1492,16 +2413,112 @@
       document.getElementById("myProfileBio").textContent = myProfile.bio || "No bio yet";
       document.getElementById("myProfilePic").src = myProfile.pic;
       document.getElementById("myProfileRole").textContent = getRole(myProfile.username);
+      
+      // Show status
+      if (myProfile.status) {
+        document.getElementById("myProfileStatus").textContent = '"' + myProfile.status + '"';
+        document.getElementById("myProfileStatus").style.display = "block";
+      } else {
+        document.getElementById("myProfileStatus").style.display = "none";
+      }
+      
+      // Stats
+      document.getElementById("myStatGames").textContent = myProfile.gamesPlayed || 0;
+      document.getElementById("myStatFriends").textContent = (myProfile.friends || []).length;
+      document.getElementById("myStatMessages").textContent = myProfile.messagesSent || 0;
 
       document.getElementById("editUsername").value = myProfile.username;
       document.getElementById("editBio").value = myProfile.bio || "";
       document.getElementById("editPic").value = myProfile.pic.includes("dicebear") ? "" : myProfile.pic;
-      document.getElementById("editColor").value = myProfile.color || "#ff8800";
 
       document.getElementById("usernameDisplay").textContent = "👤 " + displayName;
 
       loadFriends();
       loadFriendRequests();
+    }
+
+    // ===== USER STATS =====
+    async function loadUserStats() {
+      // Load overall stats for the banner
+      let usersSnapshot = await db.collection("users").get();
+      let totalUsers = usersSnapshot.size;
+      
+      let messagesSnapshot = await db.collection("chat").get();
+      let totalMessages = messagesSnapshot.size;
+      
+      let onlineCount = 0;
+      let now = Date.now();
+      usersSnapshot.forEach(doc => {
+        if (isUserOnline(doc.data().lastSeen)) {
+          onlineCount++;
+        }
+      });
+      
+      let totalGames = 0;
+      Object.keys(gameData).forEach(key => {
+        totalGames += gameData[key].length;
+      });
+      
+      document.getElementById("statTotalUsers").textContent = totalUsers;
+      document.getElementById("statTotalGames").textContent = totalGames;
+      document.getElementById("statTotalMessages").textContent = totalMessages;
+      document.getElementById("statOnlineNow").textContent = onlineCount;
+    }
+
+    // ===== ACTIVITY FEED =====
+    async function addToActivityFeed(userId, action) {
+      await db.collection("activity").add({
+        userId: userId,
+        action: action,
+        timestamp: Date.now()
+      });
+    }
+
+    async function loadActivity() {
+      if (!myProfile || !myProfile.friends || myProfile.friends.length === 0) {
+        document.getElementById("activityFeed").innerHTML = '<p style="color:gray;font-size:13px;">No recent activity from friends.</p>';
+        return;
+      }
+
+      let activities = await db.collection("activity")
+        .where("userId", "in", myProfile.friends)
+        .orderBy("timestamp", "desc")
+        .limit(10)
+        .get();
+
+      if (activities.empty) {
+        document.getElementById("activityFeed").innerHTML = '<p style="color:gray;font-size:13px;">No recent activity from friends.</p>';
+        return;
+      }
+
+      let html = "";
+      for (let doc of activities.docs) {
+        let activity = doc.data();
+        let userDoc = await db.collection("users").doc(activity.userId).get();
+        if (userDoc.exists) {
+          let user = userDoc.data();
+          let timeAgo = getTimeAgo(activity.timestamp);
+          
+          html += '<div class="activity-item">';
+          html += '<img src="' + user.pic + '" alt="pic">';
+          html += '<div class="activity-text"><strong>' + getDisplayName(user.username) + '</strong> ' + activity.action + '</div>';
+          html += '<div class="activity-time">' + timeAgo + '</div>';
+          html += '</div>';
+        }
+      }
+
+      document.getElementById("activityFeed").innerHTML = html;
+    }
+
+    function getTimeAgo(timestamp) {
+      let diff = Date.now() - timestamp;
+      let mins = Math.floor(diff / 60000);
+      if (mins < 1) return "just now";
+      if (mins < 60) return mins + " min ago";
+      let hours = Math.floor(mins / 60);
+      if (hours < 24) return hours + " hour" + (hours > 1 ? "s" : "") + " ago";
+      let days = Math.floor(hours / 24);
+      return days + " day" + (days > 1 ? "s" : "") + " ago";
     }
 
     // ===== ONLINE STATUS =====
@@ -1554,7 +2571,12 @@
         
         let card = '<div class="friend-card" style="cursor: pointer;" onclick="viewProfile(\'' + docId + '\')">';
         card += '<img src="' + user.pic + '" alt="pic">';
-        card += '<span>' + statusDot + displayName + '</span>';
+        card += '<div class="friend-card-info">';
+        card += '<div class="friend-card-name">' + statusDot + displayName + '</div>';
+        if (user.status) {
+          card += '<div class="friend-card-status">' + user.status + '</div>';
+        }
+        card += '</div>';
         card += '</div>';
 
         if (online) {
@@ -1572,8 +2594,7 @@
     }
 
     setInterval(loadOnlineUsers, 30000);
-
-    // ===== PROFILE MODAL =====
+        // ===== PROFILE MODAL =====
     async function viewProfile(profileUserId) {
       let doc = await db.collection("users").doc(profileUserId).get();
       if (!doc.exists) {
@@ -1590,6 +2611,19 @@
       document.getElementById("modalProfileRole").textContent = getRole(user.username);
       document.getElementById("modalProfileBio").textContent = user.bio || "No bio yet";
 
+      // Status text
+      if (user.status) {
+        document.getElementById("modalProfileStatusText").textContent = '"' + user.status + '"';
+        document.getElementById("modalProfileStatusText").style.display = "inline-block";
+      } else {
+        document.getElementById("modalProfileStatusText").style.display = "none";
+      }
+
+      // Stats
+      document.getElementById("modalStatGames").textContent = user.gamesPlayed || 0;
+      document.getElementById("modalStatFriends").textContent = (user.friends || []).length;
+      document.getElementById("modalStatMessages").textContent = user.messagesSent || 0;
+
       let statusHtml = online ?
         '<span class="status-dot status-online"></span> Online' :
         '<span class="status-dot status-offline"></span> Offline';
@@ -1598,16 +2632,35 @@
       let joinedDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "Unknown";
       document.getElementById("modalProfileJoined").textContent = "Joined: " + joinedDate;
 
+      // Actions
       let actionsHtml = "";
       if (profileUserId !== userId) {
         let isFriend = myProfile.friends && myProfile.friends.indexOf(profileUserId) !== -1;
+        
+        // DM Button
+        actionsHtml += '<button class="sidebar-btn sidebar-btn-blue" onclick="openDmWith(\'' + profileUserId + '\'); closeProfileModal();">💬 Message</button>';
+        
         if (isFriend) {
           actionsHtml += '<button class="sidebar-btn sidebar-btn-red" onclick="removeFriend(\'' + profileUserId + '\'); closeProfileModal();">Remove Friend</button>';
         } else {
           actionsHtml += '<button class="sidebar-btn sidebar-btn-green" onclick="sendFriendRequest(\'' + profileUserId + '\'); closeProfileModal();">Add Friend</button>';
         }
 
+        // Admin actions
         if (isAdmin && !isAdminUsername(user.username)) {
+          actionsHtml += '<br><br>';
+          if (user.banned) {
+            actionsHtml += '<button class="sidebar-btn sidebar-btn-green" onclick="unbanUser(\'' + profileUserId + '\'); closeProfileModal();">Unban User</button>';
+          } else {
+            actionsHtml += '<button class="sidebar-btn sidebar-btn-red" onclick="banUser(\'' + profileUserId + '\'); closeProfileModal();">Ban User</button>';
+          }
+          
+          if (user.muted) {
+            actionsHtml += '<button class="sidebar-btn sidebar-btn-green" onclick="unmuteUser(\'' + profileUserId + '\'); closeProfileModal();">Unmute User</button>';
+          } else {
+            actionsHtml += '<button class="sidebar-btn sidebar-btn-orange" onclick="muteUser(\'' + profileUserId + '\'); closeProfileModal();">Mute User</button>';
+          }
+          
           actionsHtml += '<button class="sidebar-btn sidebar-btn-red" onclick="deleteUser(\'' + profileUserId + '\'); closeProfileModal();">Delete User</button>';
         }
       } else {
@@ -1616,6 +2669,7 @@
       document.getElementById("modalProfileActions").innerHTML = actionsHtml;
 
       document.getElementById("profileModal").classList.add("open");
+      playSound('click');
     }
 
     function closeProfileModal() {
@@ -1643,6 +2697,24 @@
         document.getElementById("chatBadge").style.display = "none";
         document.getElementById("chatInput").focus();
       }
+      playSound('click');
+    }
+
+    function showChatTab(tab, btn) {
+      document.querySelectorAll('.chat-header-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      
+      document.getElementById('globalChatPanel').classList.remove('active');
+      document.getElementById('dmsPanel').classList.remove('active');
+      document.getElementById('dmConversation').classList.remove('active');
+      
+      if (tab === 'global') {
+        document.getElementById('globalChatPanel').classList.add('active');
+      } else {
+        document.getElementById('dmsPanel').classList.add('active');
+        loadDmList();
+      }
+      playSound('click');
     }
 
     function handleChatKeypress(event) {
@@ -1651,21 +2723,79 @@
       }
     }
 
+    // ===== TYPING INDICATOR =====
+    function handleTyping() {
+      if (!myProfile) return;
+      
+      db.collection("typing").doc(userId).set({
+        username: getDisplayName(myProfile.username),
+        timestamp: Date.now()
+      });
+      
+      if (typingTimeout) clearTimeout(typingTimeout);
+      typingTimeout = setTimeout(() => {
+        db.collection("typing").doc(userId).delete();
+      }, 2000);
+    }
+
+    function loadTypingIndicators() {
+      db.collection("typing").onSnapshot(snapshot => {
+        let typingNames = [];
+        let now = Date.now();
+        
+        snapshot.forEach(doc => {
+          if (doc.id !== userId) {
+            let data = doc.data();
+            if (now - data.timestamp < 3000) {
+              typingNames.push(data.username);
+            }
+          }
+        });
+        
+        let indicator = document.getElementById("typingIndicator");
+        if (typingNames.length > 0) {
+          let text = typingNames.length === 1 ? 
+            typingNames[0] + " is typing" : 
+            typingNames.slice(0, 2).join(", ") + " are typing";
+          document.getElementById("typingUser").textContent = text.split(" is")[0].split(" are")[0];
+          indicator.classList.add("show");
+        } else {
+          indicator.classList.remove("show");
+        }
+      });
+    }
+
     async function sendMessage() {
       let input = document.getElementById("chatInput");
       let text = input.value.trim();
 
       if (text === "" || !myProfile) return;
+      
+      // Check if muted
+      if (myProfile.muted) {
+        alert("You are muted and cannot send messages.");
+        return;
+      }
 
       await db.collection("chat").add({
         userId: userId,
         username: myProfile.username,
         pic: myProfile.pic,
         text: text,
+        reactions: {},
         timestamp: Date.now()
       });
 
+      // Update message count
+      myProfile.messagesSent = (myProfile.messagesSent || 0) + 1;
+      await db.collection("users").doc(userId).update({
+        messagesSent: myProfile.messagesSent
+      });
+      document.getElementById("myStatMessages").textContent = myProfile.messagesSent;
+
       input.value = "";
+      db.collection("typing").doc(userId).delete();
+      playSound('message');
     }
 
     function loadChat() {
@@ -1693,13 +2823,27 @@
             html += '<img class="chat-message-pic" src="' + msg.pic + '" onclick="viewProfile(\'' + msg.userId + '\')">';
             html += '<span class="chat-message-name" onclick="viewProfile(\'' + msg.userId + '\')">' + displayName + '</span>';
             html += '<span class="chat-message-time">' + time + '</span>';
-
-            if (isAdmin || isMine) {
-              html += '<button class="chat-message-delete" onclick="deleteMessage(\'' + msgId + '\')">🗑️</button>';
-            }
-
             html += '</div>';
             html += '<div class="chat-message-text">' + escapeHtml(msg.text) + '</div>';
+            
+            // Emoji reactions
+            html += '<div class="emoji-reactions">';
+            let reactions = msg.reactions || {};
+            for (let emoji in reactions) {
+              let users = reactions[emoji] || [];
+              let isActive = users.includes(userId);
+              html += '<button class="emoji-btn' + (isActive ? ' active' : '') + '" onclick="toggleReaction(\'' + msgId + '\', \'' + emoji + '\')">' + emoji + '<span class="reaction-count">' + users.length + '</span></button>';
+            }
+            html += '<button class="add-reaction-btn" onclick="showEmojiPicker(\'' + msgId + '\', this)">+</button>';
+            html += '</div>';
+            
+            // Actions
+            if (isAdmin || isMine) {
+              html += '<div class="chat-message-actions">';
+              html += '<button class="chat-message-delete" onclick="deleteMessage(\'' + msgId + '\')">🗑️ Delete</button>';
+              html += '</div>';
+            }
+            
             html += '</div>';
           }
 
@@ -1712,11 +2856,67 @@
             let badge = document.getElementById("chatBadge");
             badge.textContent = messages.length - lastMessageCount;
             badge.style.display = "block";
+            playSound('notification');
           }
           lastMessageCount = messages.length;
 
           document.getElementById("adminMessageCount").textContent = messages.length;
         });
+    }
+
+    // ===== EMOJI REACTIONS =====
+    const emojiList = ['👍', '❤️', '😂', '😮', '😢', '😡', '🔥', '🎮', '⭐', '💯'];
+
+    function showEmojiPicker(msgId, btn) {
+      // Remove any existing picker
+      document.querySelectorAll('.emoji-picker').forEach(p => p.remove());
+      
+      let picker = document.createElement('div');
+      picker.className = 'emoji-picker show';
+      
+      emojiList.forEach(emoji => {
+        let emojiBtn = document.createElement('button');
+        emojiBtn.textContent = emoji;
+        emojiBtn.onclick = () => {
+          toggleReaction(msgId, emoji);
+          picker.remove();
+        };
+        picker.appendChild(emojiBtn);
+      });
+      
+      btn.parentElement.appendChild(picker);
+      
+      // Close when clicking outside
+      setTimeout(() => {
+        document.addEventListener('click', function closePicker(e) {
+          if (!picker.contains(e.target) && e.target !== btn) {
+            picker.remove();
+            document.removeEventListener('click', closePicker);
+          }
+        });
+      }, 100);
+    }
+
+    async function toggleReaction(msgId, emoji) {
+      let msgRef = db.collection("chat").doc(msgId);
+      let doc = await msgRef.get();
+      if (!doc.exists) return;
+      
+      let reactions = doc.data().reactions || {};
+      if (!reactions[emoji]) reactions[emoji] = [];
+      
+      let idx = reactions[emoji].indexOf(userId);
+      if (idx === -1) {
+        reactions[emoji].push(userId);
+      } else {
+        reactions[emoji].splice(idx, 1);
+        if (reactions[emoji].length === 0) {
+          delete reactions[emoji];
+        }
+      }
+      
+      await msgRef.update({ reactions: reactions });
+      playSound('click');
     }
 
     function escapeHtml(text) {
@@ -1728,10 +2928,239 @@
     async function deleteMessage(messageId) {
       if (confirm("Delete this message?")) {
         await db.collection("chat").doc(messageId).delete();
+        playSound('click');
       }
     }
 
+    // ===== DIRECT MESSAGES =====
+    async function loadDmList() {
+      let dmsSnapshot = await db.collection("dms")
+        .where("participants", "array-contains", userId)
+        .orderBy("lastMessage", "desc")
+        .get();
+      
+      if (dmsSnapshot.empty) {
+        document.getElementById("dmList").innerHTML = '<p style="color:gray;text-align:center;font-size:13px;">No conversations yet. Click Message on someones profile!</p>';
+        return;
+      }
+      
+      let html = "";
+      for (let doc of dmsSnapshot.docs) {
+        let dm = doc.data();
+        let otherUserId = dm.participants.find(p => p !== userId);
+        let userDoc = await db.collection("users").doc(otherUserId).get();
+        
+        if (userDoc.exists) {
+          let user = userDoc.data();
+          let online = isUserOnline(user.lastSeen);
+          let statusDot = online ? '<span class="status-dot status-online"></span>' : '<span class="status-dot status-offline"></span>';
+          
+          html += '<div class="friend-card" onclick="openDmConversation(\'' + doc.id + '\', \'' + otherUserId + '\')">';
+          html += '<img src="' + user.pic + '" alt="pic">';
+          html += '<div class="friend-card-info">';
+          html += '<div class="friend-card-name">' + statusDot + getDisplayName(user.username) + '</div>';
+          html += '<div class="friend-card-status">' + (dm.lastMessageText || 'No messages yet').substring(0, 30) + '</div>';
+          html += '</div>';
+          html += '</div>';
+        }
+      }
+      
+      document.getElementById("dmList").innerHTML = html;
+    }
+
+    async function openDmWith(otherUserId) {
+      // Check if conversation exists
+      let existing = await db.collection("dms")
+        .where("participants", "array-contains", userId)
+        .get();
+      
+      let dmId = null;
+      existing.forEach(doc => {
+        if (doc.data().participants.includes(otherUserId)) {
+          dmId = doc.id;
+        }
+      });
+      
+      if (!dmId) {
+        // Create new conversation
+        let newDm = await db.collection("dms").add({
+          participants: [userId, otherUserId],
+          lastMessage: Date.now(),
+          lastMessageText: ""
+        });
+        dmId = newDm.id;
+      }
+      
+      openDmConversation(dmId, otherUserId);
+      
+      // Switch to DMs tab
+      document.querySelectorAll('.chat-header-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.chat-header-tab')[1].classList.add('active');
+      
+      if (!chatOpen) toggleChat();
+    }
+
+    async function openDmConversation(dmId, otherUserId) {
+      currentDmUserId = otherUserId;
+      
+      document.getElementById('globalChatPanel').classList.remove('active');
+      document.getElementById('dmsPanel').classList.remove('active');
+      document.getElementById('dmConversation').classList.add('active');
+      
+      // Load messages
+      db.collection("dms").doc(dmId).collection("messages")
+        .orderBy("timestamp", "asc")
+        .onSnapshot(async snapshot => {
+          let html = "";
+          
+          for (let doc of snapshot.docs) {
+            let msg = doc.data();
+            let isMine = msg.senderId === userId;
+            let time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            let senderDoc = await db.collection("users").doc(msg.senderId).get();
+            let senderPic = senderDoc.exists ? senderDoc.data().pic : '';
+            let senderName = senderDoc.exists ? getDisplayName(senderDoc.data().username) : 'Unknown';
+            
+            html += '<div class="chat-message' + (isMine ? ' mine' : '') + '">';
+            html += '<div class="chat-message-header">';
+            html += '<img class="chat-message-pic" src="' + senderPic + '">';
+            html += '<span class="chat-message-name">' + senderName + '</span>';
+            html += '<span class="chat-message-time">' + time + '</span>';
+            html += '</div>';
+            html += '<div class="chat-message-text">' + escapeHtml(msg.text) + '</div>';
+            html += '</div>';
+          }
+          
+          document.getElementById("dmMessages").innerHTML = html || '<p style="color:gray;text-align:center;">Start your conversation!</p>';
+          document.getElementById("dmMessages").scrollTop = document.getElementById("dmMessages").scrollHeight;
+        });
+      
+      // Store current DM ID
+      document.getElementById("dmInput").dataset.dmId = dmId;
+    }
+
+    function closeDmConversation() {
+      document.getElementById('dmConversation').classList.remove('active');
+      document.getElementById('dmsPanel').classList.add('active');
+      loadDmList();
+    }
+
+    function handleDmKeypress(event) {
+      if (event.key === "Enter") {
+        sendDm();
+      }
+    }
+
+    async function sendDm() {
+      let input = document.getElementById("dmInput");
+      let text = input.value.trim();
+      let dmId = input.dataset.dmId;
+      
+      if (text === "" || !dmId || !myProfile) return;
+      
+      if (myProfile.muted) {
+        alert("You are muted and cannot send messages.");
+        return;
+      }
+      
+      await db.collection("dms").doc(dmId).collection("messages").add({
+        senderId: userId,
+        text: text,
+        timestamp: Date.now()
+      });
+      
+      await db.collection("dms").doc(dmId).update({
+        lastMessage: Date.now(),
+        lastMessageText: text
+      });
+      
+      input.value = "";
+      playSound('message');
+    }
+
     // ===== ADMIN FUNCTIONS =====
+    async function banUser(targetUserId) {
+      if (!isAdmin) return;
+      if (!confirm("Ban this user? They won't be able to access the site.")) return;
+      
+      await db.collection("users").doc(targetUserId).update({ banned: true });
+      logActivity('ban', 'Banned a user');
+      alert("User banned!");
+      loadAdminData();
+    }
+
+    async function unbanUser(targetUserId) {
+      if (!isAdmin) return;
+      await db.collection("users").doc(targetUserId).update({ banned: false });
+      logActivity('ban', 'Unbanned a user');
+      alert("User unbanned!");
+      loadAdminData();
+    }
+
+    async function muteUser(targetUserId) {
+      if (!isAdmin) return;
+      if (!confirm("Mute this user? They won't be able to chat.")) return;
+      
+      await db.collection("users").doc(targetUserId).update({ muted: true });
+      logActivity('mute', 'Muted a user');
+      alert("User muted!");
+      loadAdminData();
+    }
+
+    async function unmuteUser(targetUserId) {
+      if (!isAdmin) return;
+      await db.collection("users").doc(targetUserId).update({ muted: false });
+      logActivity('mute', 'Unmuted a user');
+      alert("User unmuted!");
+      loadAdminData();
+    }
+
+    async function deleteUser(targetUserId) {
+      if (!isAdmin) return;
+      if (!confirm("Are you sure you want to delete this user?")) return;
+
+      await db.collection("users").doc(targetUserId).delete();
+      logActivity('ban', 'Deleted a user');
+      alert("User deleted");
+      loadAdminData();
+      loadOnlineUsers();
+    }
+
+    async function logActivity(type, text) {
+      await db.collection("logs").add({
+        type: type,
+        text: text,
+        adminId: userId,
+        timestamp: Date.now()
+      });
+    }
+
+    async function loadActivityLog() {
+      let logs = await db.collection("logs")
+        .orderBy("timestamp", "desc")
+        .limit(20)
+        .get();
+      
+      if (logs.empty) {
+        document.getElementById("activityLog").innerHTML = '<p style="color:gray;font-size:12px;">No recent activity.</p>';
+        return;
+      }
+      
+      let html = "";
+      logs.forEach(doc => {
+        let log = doc.data();
+        let time = new Date(log.timestamp).toLocaleString();
+        
+        html += '<div class="log-item ' + log.type + '">';
+        html += '<div class="log-text">' + log.text + '</div>';
+        html += '<div class="log-time">' + time + '</div>';
+        html += '</div>';
+      });
+      
+      document.getElementById("activityLog").innerHTML = html;
+    }
+
     async function loadAdminData() {
       if (!isAdmin) return;
 
@@ -1756,16 +3185,19 @@
           '<span class="status-dot status-offline"></span>';
 
         let displayName = getDisplayName(user.username);
+        let badges = "";
+        if (user.banned) badges += ' <span style="color:#ff0000;">[BANNED]</span>';
+        if (user.muted) badges += ' <span style="color:#ffcc00;">[MUTED]</span>';
         
         usersHtml += '<div class="admin-user-card">';
         usersHtml += '<img src="' + user.pic + '" alt="pic">';
         usersHtml += '<div class="admin-user-info">';
-        usersHtml += '<span>' + statusDot + displayName + '</span>';
+        usersHtml += '<span>' + statusDot + displayName + badges + '</span>';
         usersHtml += '<small>' + getRole(user.username) + '</small>';
         usersHtml += '</div>';
         
         if (!isAdminUsername(user.username)) {
-          usersHtml += '<button class="friend-btn sidebar-btn-red" onclick="deleteUser(\'' + doc.id + '\')">Delete</button>';
+          usersHtml += '<button class="friend-btn sidebar-btn-gray" onclick="viewProfile(\'' + doc.id + '\')" style="font-size:10px;">View</button>';
         }
         usersHtml += '</div>';
       });
@@ -1773,16 +3205,8 @@
       document.getElementById("adminUserCount").textContent = totalUsers;
       document.getElementById("adminTodayCount").textContent = todayUsers;
       document.getElementById("adminUsersList").innerHTML = usersHtml;
-    }
-
-    async function deleteUser(targetUserId) {
-      if (!isAdmin) return;
-      if (!confirm("Are you sure you want to delete this user?")) return;
-
-      await db.collection("users").doc(targetUserId).delete();
-      alert("User deleted");
-      loadAdminData();
-      loadOnlineUsers();
+      
+      loadActivityLog();
     }
 
     async function setAnnouncement() {
@@ -1796,6 +3220,7 @@
       });
 
       document.getElementById("announcementInput").value = "";
+      logActivity('announcement', 'Set announcement: ' + text);
       alert("Announcement set!");
     }
 
@@ -1803,6 +3228,7 @@
       if (!isAdmin) return;
       await db.collection("settings").doc("announcement").delete();
       document.getElementById("announcementBanner").classList.remove("show");
+      logActivity('announcement', 'Cleared announcement');
       alert("Announcement cleared!");
     }
 
@@ -1828,6 +3254,7 @@
         batch.delete(doc.ref);
       });
       await batch.commit();
+      logActivity('chat', 'Cleared all chat messages');
       alert("Chat cleared!");
     }
 
@@ -1859,14 +3286,15 @@
             '<span class="status-dot status-online"></span>' : 
             '<span class="status-dot status-offline"></span>';
 
-          html += '<div class="search-result">';
-          html += '<img src="' + user.pic + '" alt="pic" onclick="viewProfile(\'' + docId + '\')">';
-          html += '<span onclick="viewProfile(\'' + docId + '\')">' + statusDot + displayName + '</span>';
+          html += '<div class="friend-card" onclick="viewProfile(\'' + docId + '\')" style="cursor:pointer;">';
+          html += '<img src="' + user.pic + '" alt="pic">';
+          html += '<div class="friend-card-info">';
+          html += '<div class="friend-card-name">' + statusDot + displayName + '</div>';
+          html += '<div class="friend-card-status">' + getRole(user.username) + '</div>';
+          html += '</div>';
 
           if (isFriend) {
-            html += '<button class="friend-btn" style="background:#333;color:#00ff00;" disabled>Friends ✓</button>';
-          } else {
-            html += '<button class="friend-btn sidebar-btn-green" onclick="sendFriendRequest(\'' + docId + '\')">Add +</button>';
+            html += '<span style="color:#00ff00;font-size:12px;">✓ Friends</span>';
           }
 
           html += '</div>';
@@ -1880,7 +3308,7 @@
       results.innerHTML = html;
     }
 
-    // ===== FRIEND REQUESTS =====
+    // ===== FRIEND SYSTEM =====
     async function sendFriendRequest(targetId) {
       let targetDoc = await db.collection("users").doc(targetId).get();
       if (!targetDoc.exists) return;
@@ -1895,6 +3323,7 @@
 
       requests.push(userId);
       await db.collection("users").doc(targetId).update({ friendRequests: requests });
+      playSound('notification');
       alert("Friend request sent!");
     }
 
@@ -1916,7 +3345,9 @@
           
           html += '<div class="friend-card">';
           html += '<img src="' + reqData.pic + '" alt="pic" style="cursor:pointer;" onclick="viewProfile(\'' + reqId + '\')">';
-          html += '<span style="cursor:pointer;" onclick="viewProfile(\'' + reqId + '\')">' + displayName + '</span>';
+          html += '<div class="friend-card-info">';
+          html += '<div class="friend-card-name">' + displayName + '</div>';
+          html += '</div>';
           html += '<button class="friend-btn sidebar-btn-green" onclick="acceptFriend(\'' + reqId + '\')">Accept</button>';
           html += '<button class="friend-btn sidebar-btn-red" onclick="declineFriend(\'' + reqId + '\')" style="margin-left:5px;">✕</button>';
           html += '</div>';
@@ -1949,6 +3380,7 @@
         await db.collection("users").doc(requesterId).update({ friends: requesterFriends });
       }
 
+      playSound('notification');
       updateProfileDisplay();
     }
 
@@ -1962,7 +3394,6 @@
       updateProfileDisplay();
     }
 
-    // ===== LOAD FRIENDS =====
     async function loadFriends() {
       let friendsDiv = document.getElementById("friendsList");
 
@@ -1986,8 +3417,14 @@
 
           html += '<div class="friend-card">';
           html += '<img src="' + friendData.pic + '" alt="pic" style="cursor:pointer;" onclick="viewProfile(\'' + friendId + '\')">';
-          html += '<span style="cursor:pointer;" onclick="viewProfile(\'' + friendId + '\')">' + statusDot + displayName + '</span>';
-          html += '<button class="friend-btn sidebar-btn-red" onclick="removeFriend(\'' + friendId + '\')">Remove</button>';
+          html += '<div class="friend-card-info">';
+          html += '<div class="friend-card-name">' + statusDot + displayName + '</div>';
+          if (friendData.status) {
+            html += '<div class="friend-card-status">' + friendData.status + '</div>';
+          }
+          html += '</div>';
+          html += '<button class="friend-btn sidebar-btn-blue" onclick="openDmWith(\'' + friendId + '\')" style="margin-right:5px;">💬</button>';
+          html += '<button class="friend-btn sidebar-btn-red" onclick="removeFriend(\'' + friendId + '\')">✕</button>';
           html += '</div>';
         }
       }
@@ -1996,6 +3433,8 @@
     }
 
     async function removeFriend(friendId) {
+      if (!confirm("Remove this friend?")) return;
+      
       let myFriends = myProfile.friends || [];
       let index = myFriends.indexOf(friendId);
       if (index !== -1) myFriends.splice(index, 1);
@@ -2020,6 +3459,7 @@
       let toggle = document.querySelector(".sidebar-toggle");
       sidebar.classList.toggle("open");
       toggle.textContent = sidebar.classList.contains("open") ? "▶" : "◀";
+      playSound('click');
     }
 
     function showSidebarTab(tabId, btn) {
@@ -2040,7 +3480,149 @@
         loadOnlineUsers();
       } else if (tabId === "adminTab") {
         loadAdminData();
+      } else if (tabId === "activityTab") {
+        loadActivity();
       }
+      
+      playSound('click');
+    }
+
+        // ===== GAME RATINGS =====
+    async function loadGameRatings() {
+      let ratingsSnapshot = await db.collection("ratings").get();
+      let ratings = {};
+      
+      ratingsSnapshot.forEach(doc => {
+        ratings[doc.id] = doc.data();
+      });
+      
+      return ratings;
+    }
+
+    async function rateGame(gameName, rating) {
+      let ratingDoc = await db.collection("ratings").doc(gameName).get();
+      let ratingData = ratingDoc.exists ? ratingDoc.data() : { total: 0, count: 0, users: {} };
+      
+      // Check if user already rated
+      if (ratingData.users && ratingData.users[userId]) {
+        // Update existing rating
+        let oldRating = ratingData.users[userId];
+        ratingData.total = ratingData.total - oldRating + rating;
+      } else {
+        // New rating
+        ratingData.total += rating;
+        ratingData.count += 1;
+      }
+      
+      ratingData.users = ratingData.users || {};
+      ratingData.users[userId] = rating;
+      
+      await db.collection("ratings").doc(gameName).set(ratingData);
+      
+      // Update games played count
+      if (myProfile) {
+        myProfile.gamesPlayed = (myProfile.gamesPlayed || 0) + 1;
+        await db.collection("users").doc(userId).update({ gamesPlayed: myProfile.gamesPlayed });
+        document.getElementById("myStatGames").textContent = myProfile.gamesPlayed;
+      }
+      
+      playSound('click');
+      renderAllGames();
+    }
+
+    function getAverageRating(ratingData) {
+      if (!ratingData || ratingData.count === 0) return 0;
+      return Math.round(ratingData.total / ratingData.count * 10) / 10;
+    }
+
+    function renderStars(gameName, ratingData, interactive = true) {
+      let avg = getAverageRating(ratingData);
+      let userRating = ratingData && ratingData.users && ratingData.users[userId] ? ratingData.users[userId] : 0;
+      let count = ratingData ? ratingData.count : 0;
+      
+      let html = '<div class="game-rating">';
+      for (let i = 1; i <= 5; i++) {
+        let filled = i <= Math.round(avg) ? 'filled' : '';
+        if (interactive) {
+          html += '<span class="star ' + filled + '" onclick="event.preventDefault(); event.stopPropagation(); rateGame(\'' + gameName.replace(/'/g, "\\'") + '\', ' + i + ')">★</span>';
+        } else {
+          html += '<span class="star ' + filled + '">★</span>';
+        }
+      }
+      html += '</div>';
+      html += '<div class="game-rating-count">' + avg + '/5 (' + count + ' ratings)</div>';
+      
+      return html;
+    }
+
+    // ===== RENDER GAMES =====
+    async function renderAllGames() {
+      let ratings = await loadGameRatings();
+      
+      // Render each page
+      for (let page in gameData) {
+        let container = document.getElementById('games' + page.charAt(0).toUpperCase() + page.slice(1));
+        if (!container) continue;
+        
+        let html = '';
+        gameData[page].forEach(game => {
+          let isFav = favorites.some(f => f.name === game.name);
+          let ratingData = ratings[game.name];
+          
+          html += '<a href="' + game.url + '" target="_blank" class="game-link" onclick="trackGamePlay(\'' + game.name.replace(/'/g, "\\'") + '\')">';
+          html += '<div class="game-card" data-game="' + game.name + '">';
+          html += '<span class="fav-star ' + (isFav ? 'favorited' : '') + '" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this);">' + (isFav ? '★' : '☆') + '</span>';
+          html += '<div class="game-thumbnail">' + game.icon + '</div>';
+          html += '<div class="game-info">';
+          html += '<h3>' + game.name + '</h3>';
+          html += renderStars(game.name, ratingData);
+          html += '</div>';
+          html += '</div>';
+          html += '</a>';
+        });
+        
+        container.innerHTML = html;
+      }
+      
+      // Build all games list
+      buildAllGames();
+    }
+
+    async function trackGamePlay(gameName) {
+      if (!myProfile) return;
+      
+      myProfile.gamesPlayed = (myProfile.gamesPlayed || 0) + 1;
+      await db.collection("users").doc(userId).update({ gamesPlayed: myProfile.gamesPlayed });
+      document.getElementById("myStatGames").textContent = myProfile.gamesPlayed;
+      
+      // Add to activity
+      addToActivityFeed(userId, 'played ' + gameName);
+    }
+
+    // ===== RANDOM GAME =====
+    function playRandomGame() {
+      let allGames = [];
+      for (let page in gameData) {
+        allGames = allGames.concat(gameData[page]);
+      }
+      
+      let randomIndex = Math.floor(Math.random() * allGames.length);
+      let randomGame = allGames[randomIndex];
+      
+      playSound('click');
+      
+      // Animate button
+      let btn = document.querySelector('.random-game-btn');
+      btn.style.animation = 'none';
+      setTimeout(() => {
+        btn.style.animation = 'shake 0.5s';
+      }, 10);
+      
+      // Open game after short delay
+      setTimeout(() => {
+        window.open(randomGame.url, '_blank');
+        trackGamePlay(randomGame.name);
+      }, 500);
     }
 
     // ===== FAVORITES =====
@@ -2048,32 +3630,32 @@
 
     function toggleFavorite(starElement) {
       event.stopPropagation();
-      let card = starElement.parentElement;
+      event.preventDefault();
+      
+      let card = starElement.closest('.game-card');
       let gameName = card.getAttribute("data-game");
-      let link = card.parentElement.href;
+      let link = card.closest('.game-link').href;
 
-      let index = -1;
-      for (let i = 0; i < favorites.length; i++) {
-        if (favorites[i].name === gameName) {
-          index = i;
-          break;
-        }
-      }
+      let index = favorites.findIndex(f => f.name === gameName);
 
       if (index === -1) {
         favorites.push({ name: gameName, url: link });
         starElement.textContent = "★";
+        starElement.classList.add('favorited');
       } else {
         favorites.splice(index, 1);
         starElement.textContent = "☆";
+        starElement.classList.remove('favorited');
       }
 
       localStorage.setItem("favorites", JSON.stringify(favorites));
       updateFavoritesDisplay();
+      playSound('click');
     }
 
-    function updateFavoritesDisplay() {
+    async function updateFavoritesDisplay() {
       let display = document.getElementById("favoritesDisplay");
+      let ratings = await loadGameRatings();
 
       if (favorites.length === 0) {
         display.innerHTML = '<p class="no-favorites">No favorites yet. Click the ☆ on any game to add it.</p>';
@@ -2082,36 +3664,176 @@
 
       let html = "";
       for (let i = 0; i < favorites.length; i++) {
-        html += '<a href="' + favorites[i].url + '" target="_blank" class="game-link">';
-        html += '<div class="game-card"><h3>' + favorites[i].name + '</h3></div></a>';
+        let fav = favorites[i];
+        let game = null;
+        
+        // Find game data
+        for (let page in gameData) {
+          let found = gameData[page].find(g => g.name === fav.name);
+          if (found) {
+            game = found;
+            break;
+          }
+        }
+        
+        let icon = game ? game.icon : '🎮';
+        let ratingData = ratings[fav.name];
+        
+        html += '<a href="' + fav.url + '" target="_blank" class="game-link">';
+        html += '<div class="game-card" data-game="' + fav.name + '">';
+        html += '<span class="fav-star favorited" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this);">★</span>';
+        html += '<div class="game-thumbnail">' + icon + '</div>';
+        html += '<div class="game-info">';
+        html += '<h3>' + fav.name + '</h3>';
+        html += renderStars(fav.name, ratingData, false);
+        html += '</div>';
+        html += '</div>';
+        html += '</a>';
       }
       display.innerHTML = html;
     }
 
-    function loadFavoriteStars() {
-      let allCards = document.querySelectorAll(".game-card[data-game]");
-      for (let i = 0; i < allCards.length; i++) {
-        let gameName = allCards[i].getAttribute("data-game");
-        let star = allCards[i].querySelector(".fav-star");
-        if (star) {
-          for (let j = 0; j < favorites.length; j++) {
-            if (favorites[j].name === gameName) {
-              star.textContent = "★";
-              break;
-            }
-          }
-        }
-      }
-    }
-
     function clearFavorites() {
+      if (!confirm("Clear all favorites?")) return;
+      
       favorites = [];
       localStorage.removeItem("favorites");
       updateFavoritesDisplay();
-      let allStars = document.querySelectorAll(".fav-star");
-      for (let i = 0; i < allStars.length; i++) {
-        allStars[i].textContent = "☆";
+      renderAllGames();
+      playSound('click');
+    }
+
+    // ===== ALL GAMES =====
+    async function buildAllGames() {
+      let allGamesList = document.getElementById("allGamesList");
+      let ratings = await loadGameRatings();
+      let allGames = [];
+      
+      for (let page in gameData) {
+        allGames = allGames.concat(gameData[page]);
       }
+      
+      let html = "";
+      allGames.forEach(game => {
+        let isFav = favorites.some(f => f.name === game.name);
+        let ratingData = ratings[game.name];
+        
+        html += '<a href="' + game.url + '" target="_blank" class="game-link" onclick="trackGamePlay(\'' + game.name.replace(/'/g, "\\'") + '\')">';
+        html += '<div class="game-card" data-game="' + game.name + '">';
+        html += '<span class="fav-star ' + (isFav ? 'favorited' : '') + '" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this);">' + (isFav ? '★' : '☆') + '</span>';
+        html += '<div class="game-thumbnail">' + game.icon + '</div>';
+        html += '<div class="game-info">';
+        html += '<h3>' + game.name + '</h3>';
+        html += renderStars(game.name, ratingData);
+        html += '</div>';
+        html += '</div>';
+        html += '</a>';
+      });
+      
+      allGamesList.innerHTML = html;
+    }
+
+    // ===== SOUND SETTINGS =====
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      localStorage.setItem("soundEnabled", soundEnabled);
+      
+      let btn = document.getElementById("soundToggle");
+      btn.textContent = soundEnabled ? "🔊" : "🔇";
+      btn.classList.toggle("muted", !soundEnabled);
+      
+      document.getElementById("soundEnabled").checked = soundEnabled;
+      
+      if (soundEnabled) playSound('click');
+    }
+
+    function toggleSoundSetting() {
+      soundEnabled = document.getElementById("soundEnabled").checked;
+      localStorage.setItem("soundEnabled", soundEnabled);
+      
+      let btn = document.getElementById("soundToggle");
+      btn.textContent = soundEnabled ? "🔊" : "🔇";
+      btn.classList.toggle("muted", !soundEnabled);
+    }
+
+    function saveSettings() {
+      notifSound = document.getElementById("notifSound").checked;
+      clickSound = document.getElementById("clickSound").checked;
+      
+      localStorage.setItem("notifSound", notifSound);
+      localStorage.setItem("clickSound", clickSound);
+    }
+
+    function loadSoundSettings() {
+      document.getElementById("soundEnabled").checked = soundEnabled;
+      document.getElementById("notifSound").checked = notifSound;
+      document.getElementById("clickSound").checked = clickSound;
+      
+      let btn = document.getElementById("soundToggle");
+      btn.textContent = soundEnabled ? "🔊" : "🔇";
+      btn.classList.toggle("muted", !soundEnabled);
+    }
+
+    // ===== CUSTOM BACKGROUND =====
+    function setCustomBg() {
+      let url = document.getElementById("bgUrl").value.trim();
+      if (url === "") {
+        alert("Please enter a background URL");
+        return;
+      }
+      
+      document.getElementById("customBg").style.backgroundImage = 'url(' + url + ')';
+      localStorage.setItem("customBg", url);
+      playSound('click');
+    }
+
+    function clearCustomBg() {
+      document.getElementById("customBg").style.backgroundImage = '';
+      document.getElementById("bgUrl").value = '';
+      localStorage.removeItem("customBg");
+      playSound('click');
+    }
+
+    function loadCustomBg() {
+      let savedBg = localStorage.getItem("customBg");
+      if (savedBg) {
+        document.getElementById("customBg").style.backgroundImage = 'url(' + savedBg + ')';
+        document.getElementById("bgUrl").value = savedBg;
+      }
+    }
+
+    // ===== PANIC BUTTON =====
+    let panicUrl = localStorage.getItem("panicUrl") || "https://classroom.google.com";
+
+    function savePanicUrl() {
+      panicUrl = document.getElementById("panicUrl").value;
+      localStorage.setItem("panicUrl", panicUrl);
+      playSound('click');
+      alert("Panic URL saved!");
+    }
+
+    window.addEventListener("keydown", function(event) {
+      if (event.key === "`") {
+        event.preventDefault();
+        try {
+          window.top.location.href = panicUrl;
+        } catch (e) {
+          window.location.href = panicUrl;
+        }
+      }
+    });
+
+    // ===== PAGE NAVIGATION =====
+    function showPage(pageId) {
+      let allPages = document.querySelectorAll(".page");
+      for (let i = 0; i < allPages.length; i++) {
+        allPages[i].style.display = "none";
+      }
+      document.getElementById(pageId).style.display = "block";
+      playSound('click');
+      
+      // Scroll to top
+      window.scrollTo(0, 0);
     }
 
     // ===== RESET ACCOUNT =====
@@ -2134,103 +3856,52 @@
       }
     }
 
-    // ===== ALL GAMES =====
-    function buildAllGames() {
-      let allLinks = document.querySelectorAll(".game-link");
-      let allGamesList = document.getElementById("allGamesList");
-      let seen = [];
-      let html = "";
-
-      for (let i = 0; i < allLinks.length; i++) {
-        let card = allLinks[i].querySelector(".game-card");
-        if (card) {
-          let name = card.getAttribute("data-game");
-          if (name && seen.indexOf(name) === -1) {
-            seen.push(name);
-            html += '<a href="' + allLinks[i].href + '" target="_blank" class="game-link">';
-            html += '<div class="game-card"><h3>' + name + '</h3></div></a>';
-          }
-        }
+    // ===== CHECK IF BANNED =====
+    async function checkIfBanned() {
+      if (!myProfile) return false;
+      
+      let doc = await db.collection("users").doc(userId).get();
+      if (doc.exists && doc.data().banned) {
+        document.body.innerHTML = '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:#0a0a0a;color:white;font-family:Poppins,sans-serif;text-align:center;padding:20px;"><h1 style="color:#cc0000;">⛔ You Have Been Banned</h1><p style="color:gray;">You have been banned from Riley Games.<br>If you think this is a mistake, contact an admin.</p></div>';
+        return true;
       }
-      allGamesList.innerHTML = html;
-    }
-
-    // ===== PANIC BUTTON =====
-    let panicUrl = localStorage.getItem("panicUrl") || "https://classroom.google.com";
-
-    function savePanicUrl() {
-      panicUrl = document.getElementById("panicUrl").value;
-      localStorage.setItem("panicUrl", panicUrl);
-      alert("Panic URL saved!");
-    }
-
-    window.addEventListener("keydown", function(event) {
-      if (event.key === "`") {
-        event.preventDefault();
-        try {
-          window.top.location.href = panicUrl;
-        } catch (e) {
-          window.location.href = panicUrl;
-        }
-      }
-    });
-
-    // ===== PAGE NAVIGATION =====
-    function showPage(pageId) {
-      let allPages = document.querySelectorAll(".page");
-      for (let i = 0; i < allPages.length; i++) {
-        allPages[i].style.display = "none";
-      }
-      document.getElementById(pageId).style.display = "block";
-    }
-
-    // ===== THEME =====
-    function applyTheme() {
-      let baseColor = document.getElementById("baseColor").value;
-      let accentColor = document.getElementById("accentColor").value;
-
-      document.querySelector(".main-content").style.backgroundColor = baseColor;
-
-      let allCardTitles = document.querySelectorAll(".game-card h3");
-      for (let i = 0; i < allCardTitles.length; i++) {
-        allCardTitles[i].style.color = accentColor;
-      }
-
-      localStorage.setItem("baseColor", baseColor);
-      localStorage.setItem("accentColor", accentColor);
-    }
-
-    function resetTheme() {
-      localStorage.removeItem("baseColor");
-      localStorage.removeItem("accentColor");
-      location.reload();
+      return false;
     }
 
     // ===== INITIALIZE =====
-    function init() {
-      let savedBase = localStorage.getItem("baseColor");
-      let savedAccent = localStorage.getItem("accentColor");
-      if (savedBase && savedAccent) {
-        document.getElementById("baseColor").value = savedBase;
-        document.getElementById("accentColor").value = savedAccent;
-        applyTheme();
-      }
-
+    async function init() {
+      // Load saved settings
       let savedPanic = localStorage.getItem("panicUrl");
       if (savedPanic) {
         document.getElementById("panicUrl").value = savedPanic;
+        panicUrl = savedPanic;
       }
 
-      loadFavoriteStars();
+      loadCustomBg();
+      loadSoundSettings();
+      
+      // Render games first
+      await renderAllGames();
       updateFavoritesDisplay();
-      buildAllGames();
-      checkFirstVisit();
+      
+      // Check user
+      await checkFirstVisit();
+      
+      // Check if banned
+      if (await checkIfBanned()) return;
+      
+      // Load real-time features
       loadChat();
+      loadTypingIndicators();
       loadAnnouncement();
       loadOnlineUsers();
+      loadUserStats();
+      
+      // Refresh stats periodically
+      setInterval(loadUserStats, 60000);
     }
 
-   init();
-</script>
+    init();
+  </script>
 </body>
 </html>
