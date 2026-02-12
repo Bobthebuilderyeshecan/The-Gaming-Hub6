@@ -2438,30 +2438,7 @@
   <!-- Announcement Banner -->
   <div id="announcementBanner" class="announcement-banner"></div>
 
-  <!-- Tab Cloak Modal -->
-  <div id="cloakModal" class="cloak-modal">
-    <div class="cloak-box">
-      <h2>🔒 Tab Disguise</h2>
-      <p style="color: var(--text-secondary); margin-bottom: 20px;">Choose how to disguise this site:</p>
-      
-      <div class="cloak-options">
-        <div class="cloak-option" onclick="setCloakPreset('classroom')">
-          <img src="https://www.google.com/s2/favicons?domain=classroom.google.com&sz=64" alt="Classroom">
-          <span>Google Classroom</span>
-        </div>
-        <div class="cloak-option" onclick="setCloakPreset('docs')">
-          <img src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=64" alt="Docs">
-          <span>Google Docs</span>
-        </div>
-        <div class="cloak-option" onclick="setCloakPreset('drive')">
-          <img src="https://www.google.com/s2/favicons?domain=drive.google.com&sz=64" alt="Drive">
-          <span>Google Drive</span>
-        </div>
-        <div class="cloak-option" onclick="setCloakPreset('gmail')">
-          <img src="https://www.google.com/s2/favicons?domain=gmail.com&sz=64" alt="Gmail">
-          <span>Gmail</span>
-        </div>
-      </div>
+
 
       <div class="cloak-actions">
         <button class="about-blank-btn" onclick="openInAboutBlank()">🚀 Open in about:blank</button>
@@ -2578,8 +2555,6 @@
   <!-- Sound Toggle -->
   <button id="soundToggle" class="sound-toggle" onclick="toggleSound()">🔊</button>
 
-  <!-- Cloak Toggle -->
-  <button id="cloakToggle" class="cloak-toggle" onclick="openCloakModal()">🔒</button>
 
   <!-- Chat Toggle -->
   <button class="chat-toggle" onclick="toggleChat()">
@@ -2813,6 +2788,49 @@
       </label>
 
       <hr class="sidebar-divider">
+
+
+
+      <h3>🔒 Tab Cloak</h3>
+      <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 10px;">Disguise this tab to look like something else!</p>
+      
+      <label>Quick Presets:</label>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;">
+        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('classroom')" style="font-size: 12px;">📚 Classroom</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('docs')" style="font-size: 12px;">📝 Docs</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('drive')" style="font-size: 12px;">📁 Drive</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('gmail')" style="font-size: 12px;">📧 Gmail</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('canvas')" style="font-size: 12px;">🎨 Canvas</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('khan')" style="font-size: 12px;">📐 Khan Academy</button>
+      </div>
+      
+      <label>Custom Tab Title:</label>
+      <input type="text" id="customCloakTitle" class="sidebar-input" placeholder="Google Classroom">
+      
+      <label>Custom Favicon URL:</label>
+      <input type="text" id="customCloakIcon" class="sidebar-input" placeholder="https://example.com/favicon.ico">
+      
+      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+        <button class="sidebar-btn sidebar-btn-orange" onclick="applyCustomCloak()">Apply Custom</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="resetCloak()">Reset</button>
+      </div>
+      
+      <label style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <input type="checkbox" id="autoCloakEnabled" onchange="saveAutoCloak()">
+        Auto-apply cloak on page load
+      </label>
+      
+      <button class="sidebar-btn sidebar-btn-blue" onclick="openInAboutBlank()" style="width: 100%;">🚀 Open in about:blank (Undetectable)</button>
+      <p style="color: var(--text-muted); font-size: 11px; margin-top: 8px;">about:blank hides the URL completely!</p>
+
+      <hr class="sidebar-divider">
+
+
+
+
+
+
+
 
       <h3>🚨 Panic Settings</h3>
       <label>Panic URL:</label>
@@ -5944,57 +5962,139 @@
       document.getElementById("auditLog").innerHTML = html || '<p style="color:var(--text-muted);">No actions yet.</p>';
     }
 
-    // ===== TAB CLOAK =====
-    function openCloakModal() {
-      document.getElementById("cloakModal").classList.add("open");
-    }
-
-    function closeCloakModal() {
-      document.getElementById("cloakModal").classList.remove("open");
-    }
+       // ===== TAB CLOAK =====
+    const cloakPresets = {
+      classroom: { title: 'Google Classroom', icon: 'https://www.google.com/s2/favicons?domain=classroom.google.com&sz=64' },
+      docs: { title: 'Google Docs', icon: 'https://www.google.com/s2/favicons?domain=docs.google.com&sz=64' },
+      drive: { title: 'Google Drive', icon: 'https://www.google.com/s2/favicons?domain=drive.google.com&sz=64' },
+      gmail: { title: 'Gmail', icon: 'https://www.google.com/s2/favicons?domain=gmail.com&sz=64' },
+      canvas: { title: 'Canvas', icon: 'https://www.google.com/s2/favicons?domain=instructure.com&sz=64' },
+      khan: { title: 'Khan Academy', icon: 'https://www.google.com/s2/favicons?domain=khanacademy.org&sz=64' }
+    };
 
     function setCloakPreset(preset) {
-      let presets = {
-        classroom: { title: 'Google Classroom', icon: 'https://www.google.com/s2/favicons?domain=classroom.google.com&sz=64' },
-        docs: { title: 'Google Docs', icon: 'https://www.google.com/s2/favicons?domain=docs.google.com&sz=64' },
-        drive: { title: 'Google Drive', icon: 'https://www.google.com/s2/favicons?domain=drive.google.com&sz=64' },
-        gmail: { title: 'Gmail', icon: 'https://www.google.com/s2/favicons?domain=gmail.com&sz=64' }
-      };
-      
-      let p = presets[preset];
+      let p = cloakPresets[preset];
       if (p) {
-        document.title = p.title;
-        document.getElementById("favicon").href = p.icon;
+        applyCloak(p.title, p.icon);
         
-        localStorage.setItem("cloakTitle", p.title);
-        localStorage.setItem("cloakIcon", p.icon);
+        // Fill in the custom fields too
+        document.getElementById("customCloakTitle").value = p.title;
+        document.getElementById("customCloakIcon").value = p.icon;
         
         showNotification(`Tab disguised as ${p.title}`, 'success');
-        closeCloakModal();
+        playSound('click');
+      }
+    }
+
+    function applyCustomCloak() {
+      let title = document.getElementById("customCloakTitle").value.trim();
+      let icon = document.getElementById("customCloakIcon").value.trim();
+      
+      if (!title) {
+        showNotification("Enter a title!", 'warning');
+        return;
+      }
+      
+      // Default icon if none provided
+      if (!icon) {
+        icon = 'https://www.google.com/s2/favicons?domain=google.com&sz=64';
+      }
+      
+      applyCloak(title, icon);
+      showNotification(`Tab disguised as "${title}"`, 'success');
+      playSound('click');
+    }
+
+    function applyCloak(title, icon) {
+      document.title = title;
+      document.getElementById("favicon").href = icon;
+      
+      // Save for auto-apply
+      localStorage.setItem("cloakTitle", title);
+      localStorage.setItem("cloakIcon", icon);
+    }
+
+    function resetCloak() {
+      document.title = "The Gaming Hub";
+      document.getElementById("favicon").href = "";
+      
+      document.getElementById("customCloakTitle").value = "";
+      document.getElementById("customCloakIcon").value = "";
+      
+      localStorage.removeItem("cloakTitle");
+      localStorage.removeItem("cloakIcon");
+      
+      showNotification("Tab cloak removed", 'success');
+      playSound('click');
+    }
+
+    function saveAutoCloak() {
+      let enabled = document.getElementById("autoCloakEnabled").checked;
+      localStorage.setItem("autoCloakEnabled", enabled);
+    }
+
+    function loadCloak() {
+      let autoEnabled = localStorage.getItem("autoCloakEnabled") === 'true';
+      
+      if (document.getElementById("autoCloakEnabled")) {
+        document.getElementById("autoCloakEnabled").checked = autoEnabled;
+      }
+      
+      if (autoEnabled) {
+        let savedTitle = localStorage.getItem("cloakTitle");
+        let savedIcon = localStorage.getItem("cloakIcon");
+        
+        if (savedTitle) {
+          document.title = savedTitle;
+          if (document.getElementById("customCloakTitle")) {
+            document.getElementById("customCloakTitle").value = savedTitle;
+          }
+        }
+        if (savedIcon) {
+          document.getElementById("favicon").href = savedIcon;
+          if (document.getElementById("customCloakIcon")) {
+            document.getElementById("customCloakIcon").value = savedIcon;
+          }
+        }
       }
     }
 
     function openInAboutBlank() {
-      let win = window.open();
-      let iframe = win.document.createElement('iframe');
-      iframe.style.cssText = 'width:100%;height:100%;border:none;position:fixed;top:0;left:0;';
-      iframe.src = window.location.href;
-      win.document.body.style.margin = '0';
-      win.document.body.appendChild(iframe);
-      win.document.title = 'Google Classroom';
+      let win = window.open('about:blank', '_blank');
       
-      window.location.href = 'https://classroom.google.com';
+      if (!win) {
+        showNotification("Pop-up blocked! Allow pop-ups for this site.", 'warning');
+        return;
+      }
+      
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${document.getElementById("customCloakTitle").value || 'Google Classroom'}</title>
+          <link rel="icon" href="${document.getElementById("customCloakIcon").value || 'https://www.google.com/s2/favicons?domain=classroom.google.com&sz=64'}">
+          <style>
+            body { margin: 0; overflow: hidden; }
+            iframe { width: 100vw; height: 100vh; border: none; }
+          </style>
+        </head>
+        <body>
+          <iframe src="${window.location.href}"></iframe>
+        </body>
+        </html>
+      `);
+      win.document.close();
+      
+      // Optionally close this tab or redirect
+      showNotification("Opened in about:blank! You can close this tab.", 'success');
     }
 
-    function loadCloak() {
-      let savedTitle = localStorage.getItem("cloakTitle");
-      let savedIcon = localStorage.getItem("cloakIcon");
-      
-      if (savedTitle) document.title = savedTitle;
-      if (savedIcon) document.getElementById("favicon").href = savedIcon;
-    }
-
+    // Remove or comment out these old functions if they exist:
+    // function openCloakModal() { ... }
+    // function closeCloakModal() { ... }
     // ===== PARTICLES =====
+   
+   
     function changeParticles(type) {
       let container = document.getElementById("particles-container");
       container.innerHTML = "";
