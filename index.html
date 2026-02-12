@@ -2438,15 +2438,7 @@
   <!-- Announcement Banner -->
   <div id="announcementBanner" class="announcement-banner"></div>
 
-
-
-      <div class="cloak-actions">
-        <button class="about-blank-btn" onclick="openInAboutBlank()">🚀 Open in about:blank</button>
-        <button class="sidebar-btn sidebar-btn-gray" onclick="closeCloakModal()">Cancel</button>
-      </div>
-    </div>
-  </div>
-
+    
   <!-- Welcome Popup -->
   <div id="welcomePopup" class="popup-overlay" style="display: none;">
     <div class="popup-box">
@@ -2791,20 +2783,21 @@
 
 
 
-      <h3>🔒 Tab Cloak</h3>
-      <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 10px;">Disguise this tab to look like something else!</p>
+            <h3>🔒 Tab Cloak</h3>
+      <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 10px;">Disguise this tab!</p>
       
+      <!-- The button you wanted moved from the top of the site -->
+      <button class="sidebar-btn sidebar-btn-blue" onclick="openInAboutBlank()" style="width: 100%; font-weight: bold; border: 1px solid var(--accent); margin-bottom: 15px;">🚀 Open in about:blank</button>
+
       <label>Quick Presets:</label>
-      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;">
-        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('classroom')" style="font-size: 12px;">📚 Classroom</button>
-        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('docs')" style="font-size: 12px;">📝 Docs</button>
-        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('drive')" style="font-size: 12px;">📁 Drive</button>
-        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('gmail')" style="font-size: 12px;">📧 Gmail</button>
-        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('canvas')" style="font-size: 12px;">🎨 Canvas</button>
-        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('khan')" style="font-size: 12px;">📐 Khan Academy</button>
+      <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px;">
+        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('classroom')" style="font-size: 11px;">📚 Class</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('docs')" style="font-size: 11px;">📝 Docs</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="setCloakPreset('drive')" style="font-size: 11px;">📁 Drive</button>
       </div>
-      
-      <label>Custom Tab Title:</label>
+
+      <!-- These are your custom settings - they stay exactly where they are! -->
+      <label>Custom Title:</label>
       <input type="text" id="customCloakTitle" class="sidebar-input" placeholder="Google Classroom">
       
       <label>Custom Favicon URL:</label>
@@ -2817,16 +2810,8 @@
       
       <label style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
         <input type="checkbox" id="autoCloakEnabled" onchange="saveAutoCloak()">
-        Auto-apply cloak on page load
+        Auto-apply on page load
       </label>
-      
-      <button class="sidebar-btn sidebar-btn-blue" onclick="openInAboutBlank()" style="width: 100%;">🚀 Open in about:blank (Undetectable)</button>
-      <p style="color: var(--text-muted); font-size: 11px; margin-top: 8px;">about:blank hides the URL completely!</p>
-
-      <hr class="sidebar-divider">
-
-
-
 
 
 
@@ -5963,15 +5948,48 @@
     }
 
        // ===== TAB CLOAK =====
+       // ===== TAB CLOAK =====
     const cloakPresets = {
-      classroom: { title: 'Google Classroom', icon: 'https://www.google.com/s2/favicons?domain=classroom.google.com&sz=64' },
-      docs: { title: 'Google Docs', icon: 'https://www.google.com/s2/favicons?domain=docs.google.com&sz=64' },
-      drive: { title: 'Google Drive', icon: 'https://www.google.com/s2/favicons?domain=drive.google.com&sz=64' },
-      gmail: { title: 'Gmail', icon: 'https://www.google.com/s2/favicons?domain=gmail.com&sz=64' },
-      canvas: { title: 'Canvas', icon: 'https://www.google.com/s2/favicons?domain=instructure.com&sz=64' },
-      khan: { title: 'Khan Academy', icon: 'https://www.google.com/s2/favicons?domain=khanacademy.org&sz=64' }
+      classroom: { 
+        title: 'Google Classroom', 
+        icon: 'https://ssl.gstatic.com/classroom/favicon.png' 
+      },
+      docs: { 
+        title: 'Google Docs', 
+        icon: 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico' 
+      },
+      drive: { 
+        title: 'Google Drive', 
+        icon: 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png' 
+      },
+      gmail: { 
+        title: 'Gmail', 
+        icon: 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico' 
+      },
+      canvas: { 
+        title: 'Canvas', 
+        icon: 'https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico' 
+      },
+      khan: { 
+        title: 'Khan Academy', 
+        icon: 'https://www.khanacademy.org/favicon.ico' 
+      }
     };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     function setCloakPreset(preset) {
       let p = cloakPresets[preset];
       if (p) {
@@ -6005,14 +6023,19 @@
       playSound('click');
     }
 
-    function applyCloak(title, icon) {
-      document.title = title;
-      document.getElementById("favicon").href = icon;
+   function applyCloak(title, icon) {
+  document.title = title;
+  // This line finds your favicon link and swaps the URL
+  document.getElementById("favicon").href = icon;
+  
+  localStorage.setItem("cloakTitle", title);
+  localStorage.setItem("cloakIcon", icon);
+}
       
       // Save for auto-apply
       localStorage.setItem("cloakTitle", title);
       localStorage.setItem("cloakIcon", icon);
-    }
+    
 
     function resetCloak() {
       document.title = "The Gaming Hub";
