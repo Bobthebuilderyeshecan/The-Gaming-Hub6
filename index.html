@@ -3010,7 +3010,16 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-  <script>
+  <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+
+
+
+
 
         // ===== FIREBASE SETUP =====
     const firebaseConfig = {
@@ -3022,10 +3031,49 @@
       appId: "1:501107166002:web:b684a91dbc9d6fb9e7a52b"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    // ===== GLOBAL VARIABLES =====
+// THIS STOPS THE INFINITE LOADING
+onAuthStateChanged(auth, (user) => {
+    console.log("Auth state changed! User:", user);
+    
+    // Hide the loading screen
+    const loader = document.getElementById('loading-overlay') || 
+                   document.getElementById('loader') || 
+                   document.querySelector('.loading') ||
+                   document.querySelector('.spinner');
+    
+    if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 300);
+    }
+
+    // Show main content
+    const mainApp = document.getElementById('app') || 
+                    document.getElementById('main-app') ||
+                    document.getElementById('content') ||
+                    document.querySelector('main');
+    
+    if (mainApp) {
+        mainApp.style.display = 'block';
+    }
+
+    if (user) {
+        console.log("✅ User is logged in:", user.email);
+        // User is signed in - add your logged-in UI code here
+    } else {
+        console.log("❌ No user - show login");
+        // No user - show login form
+    }
+});
+  
+
+// ===== GLOBAL VARIABLES =====
     let userId = localStorage.getItem("userId");
     if (!userId) {
       userId = "user_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
