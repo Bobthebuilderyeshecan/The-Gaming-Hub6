@@ -3605,6 +3605,971 @@
 
   <script>
 
+// ============================================
+// ENHANCED FEATURES BY YOUR BOY
+// ============================================
+
+// ============ TOAST NOTIFICATIONS ============
+function showToast(message, type = 'info', duration = 3000) {
+    const toastContainer = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icons = {
+        success: '✅',
+        error: '❌',
+        info: 'ℹ️',
+        warning: '⚠️'
+    };
+    
+    toast.innerHTML = `
+        <span class="toast-icon">${icons[type]}</span>
+        <span>${message}</span>
+        <div class="toast-progress"></div>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    // Auto remove after duration
+    setTimeout(() => {
+        toast.classList.add('toast-exit');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+    
+    // Click to dismiss
+    toast.addEventListener('click', () => {
+        toast.classList.add('toast-exit');
+        setTimeout(() => toast.remove(), 300);
+    });
+}
+
+// Replace all your alert() calls with showToast()
+// Example: alert('Success!') becomes showToast('Success!', 'success')
+
+// ============ SKELETON LOADING ============
+function showSkeletonLoading() {
+    const feed = document.getElementById('feed') || document.querySelector('.feed');
+    if (!feed) return;
+    
+    // Clear existing content
+    feed.innerHTML = '';
+    
+    // Add skeleton posts
+    for (let i = 0; i < 5; i++) {
+        const skeleton = document.createElement('div');
+        skeleton.className = 'skeleton skeleton-post';
+        skeleton.innerHTML = `
+            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                <div class="skeleton skeleton-avatar"></div>
+                <div style="flex: 1;">
+                    <div class="skeleton skeleton-text" style="width: 150px;"></div>
+                    <div class="skeleton skeleton-text" style="width: 100px; height: 0.8rem;"></div>
+                </div>
+            </div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-text"></div>
+        `;
+        feed.appendChild(skeleton);
+    }
+}
+
+// Use this when loading posts
+// showSkeletonLoading();
+// Then load your actual posts
+
+// ============ PAGE TRANSITIONS ============
+function transitionToPage(pageElement) {
+    // Hide all pages
+    document.querySelectorAll('.page, .content, .section').forEach(page => {
+        page.style.display = 'none';
+    });
+    
+    // Show target page with animation
+    if (pageElement) {
+        pageElement.style.display = 'block';
+        pageElement.classList.add('page-transition');
+        
+        // Remove animation class after it completes
+        setTimeout(() => {
+            pageElement.classList.remove('page-transition');
+        }, 300);
+    }
+}
+
+// ============ INFINITE SCROLL ============
+let isLoading = false;
+let hasMorePosts = true;
+let currentPage = 1;
+const postsPerPage = 10;
+
+function setupInfiniteScroll() {
+    window.addEventListener('scroll', () => {
+        if (isLoading || !hasMorePosts) return;
+        
+        const scrollHeight = document.documentElement.scrollHeight;
+        const scrollTop = document.documentElement.scrollTop;
+        const clientHeight = document.documentElement.clientHeight;
+        
+        if (scrollTop + clientHeight >= scrollHeight - 100) {
+            loadMorePosts();
+        }
+    });
+}
+
+async function loadMorePosts() {
+    if (isLoading || !hasMorePosts) return;
+    
+    isLoading = true;
+    document.getElementById('infiniteLoader').classList.add('show');
+    
+    try {
+        // Simulate loading delay (replace with actual Firebase query)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Load posts from Firebase
+        const posts = await getPostsPage(currentPage, postsPerPage);
+        
+        if (posts.length < postsPerPage) {
+            hasMorePosts = false;
+            document.getElementById('infiniteEnd').classList.add('show');
+        }
+        
+        // Append posts to feed
+        posts.forEach(post => {
+            // Add your post rendering logic here
+            appendPostToFeed(post);
+        });
+        
+        currentPage++;
+    } catch (error) {
+        showToast('Failed to load more posts', 'error');
+    } finally {
+        isLoading = false;
+        document.getElementById('infiniteLoader').classList.remove('show');
+    }
+}
+
+// Helper function (implement based on your Firebase structure)
+async function getPostsPage(page, limit) {
+    // Implement Firebase pagination query here
+    // Example:
+    // const snapshot = await db.collection('posts')
+    //     .orderBy('timestamp', 'desc')
+    //     .limit(limit)
+    //     .startAfter(lastDoc)
+    //     .get();
+    return []; // Return array of posts
+}
+
+// ============ ACHIEVEMENT SYSTEM ============
+const achievements = {
+    firstPost: {
+        id: 'firstPost',
+        title: 'First Steps',
+        description: 'Create your first post',
+        icon: '✍️',
+        points: 10,
+        rarity: 'common'
+    },
+    tenPosts: {
+        id: 'tenPosts',
+        title: 'Getting Chatty',
+        description: 'Create 10 posts',
+        icon: '💬',
+        points: 50,
+        rarity: 'rare'
+    },
+    hundredLikes: {
+        id: 'hundredLikes',
+        title: 'Popular',
+        description: 'Receive 100 total likes',
+        icon: '❤️',
+        points: 100,
+        rarity: 'epic'
+    },
+    nightOwl: {
+        id: 'nightOwl',
+        title: 'Night Owl',
+        description: 'Post after midnight',
+        icon: '🦉',
+        points: 25,
+        rarity: 'rare'
+    },
+    earlyBird: {
+        id: 'earlyBird',
+        title: 'Early Bird',
+        description: 'Post before 6 AM',
+        icon: '🐦',
+        points: 25,
+        rarity: 'rare'
+    },
+    socialButterfly: {
+        id: 'socialButterfly',
+        title: 'Social Butterfly',
+        description: 'Follow 50 users',
+        icon: '🦋',
+        points: 75,
+        rarity: 'epic'
+    },
+    verified: {
+        id: 'verified',
+        title: 'Verified',
+        description: 'Get verified badge',
+        icon: '✅',
+        points: 200,
+        rarity: 'legendary'
+    },
+    gamer: {
+        id: 'gamer',
+        title: 'True Gamer',
+        description: 'Play all mini-games',
+        icon: '🎮',
+        points: 150,
+        rarity: 'epic'
+    }
+};
+
+// Load user achievements from localStorage or Firebase
+let userAchievements = JSON.parse(localStorage.getItem('userAchievements')) || [];
+
+function unlockAchievement(achievementId) {
+    if (userAchievements.includes(achievementId)) return;
+    
+    const achievement = achievements[achievementId];
+    if (!achievement) return;
+    
+    userAchievements.push(achievementId);
+    localStorage.setItem('userAchievements', JSON.stringify(userAchievements));
+    
+    // Show achievement popup
+    const popup = document.getElementById('achievementPopup');
+    document.getElementById('achievementTitle').textContent = achievement.title;
+    document.getElementById('achievementDesc').textContent = achievement.description;
+    
+    popup.style.display = 'block';
+    popup.style.animation = 'achievementPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+    
+    // Play sound (optional)
+    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZizcJGmm98OScTgwOUajkwrl2FQUieNX0zoNEChtqu/DrpVYNCU+o5b+1vxwGH2+z/9add0NNTplSShgGD+Lo/+/eReC+kkeVVCx8vv/+jQ4HWbPu6/XkKAkV48D1yyBDTLLmkEUWhqC5/OqxZiQaVMPz9J1lEwUHSqjnr7NwHxZXluf/0nkwGDpw5P7TYRUMEHnn/6fhOg4+Vqbpx8NdJQcDcsH/p7UrBxDzNxsLksnfLiyV7v////7+2N3acS89MdGnjIVaBw==');
+    audio.play().catch(() => {}); // Ignore if audio fails
+    
+    // Hide after 3 seconds
+    setTimeout(() => {
+        popup.style.animation = 'fadeOut 0.3s forwards';
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 300);
+    }, 3000);
+    
+    // Update achievement display
+    updateAchievementDisplay();
+    
+    // Show toast
+    showToast(`🏆 Achievement Unlocked: ${achievement.title}!`, 'success', 5000);
+}
+
+// Check for achievements after actions
+function checkAchievements(action, data = {}) {
+    switch(action) {
+        case 'post_created':
+            const postCount = data.postCount || 1;
+            if (postCount === 1) unlockAchievement('firstPost');
+            if (postCount === 10) unlockAchievement('tenPosts');
+            
+            const hour = new Date().getHours();
+            if (hour >= 0 && hour < 6) unlockAchievement('earlyBird');
+            if (hour >= 0 && hour < 4) unlockAchievement('nightOwl');
+            break;
+            
+        case 'likes_received':
+            if (data.totalLikes >= 100) unlockAchievement('hundredLikes');
+            break;
+            
+        case 'user_followed':
+            if (data.followCount >= 50) unlockAchievement('socialButterfly');
+            break;
+            
+        case 'game_played':
+            if (data.gamesPlayed && data.gamesPlayed.length >= 3) {
+                unlockAchievement('gamer');
+            }
+            break;
+    }
+}
+
+// ============ BATTLE PASS SYSTEM ============
+const battlePassData = {
+    season: 1,
+    tier: 1,
+    xp: 0,
+    xpPerTier: 1000,
+    maxTier: 100,
+    rewards: [
+        { tier: 1, type: 'badge', item: '🌟', name: 'Rising Star' },
+        { tier: 5, type: 'theme', item: 'cyberpunk', name: 'Cyberpunk Theme' },
+        { tier: 10, type: 'title', item: 'Elite', name: 'Elite Title' },
+        { tier: 15, type: 'pet_skin', item: '🐉', name: 'Dragon Pet' },
+        { tier: 20, type: 'animation', item: 'rainbow', name: 'Rainbow Name' },
+        { tier: 25, type: 'badge', item: '⚡', name: 'Lightning Badge' },
+        { tier: 30, type: 'theme', item: 'retrowave', name: 'Retrowave Theme' },
+        { tier: 40, type: 'title', item: 'Legend', name: 'Legend Title' },
+        { tier: 50, type: 'pet_skin', item: '🦄', name: 'Unicorn Pet' },
+        { tier: 100, type: 'badge', item: '👑', name: 'Season Champion' }
+    ],
+    claimedRewards: []
+};
+
+// Load battle pass data
+let userBattlePass = JSON.parse(localStorage.getItem('battlePass')) || battlePassData;
+
+function addBattlePassXP(amount) {
+    userBattlePass.xp += amount;
+    
+    // Check for tier up
+    while (userBattlePass.xp >= userBattlePass.xpPerTier) {
+        userBattlePass.xp -= userBattlePass.xpPerTier;
+        userBattlePass.tier++;
+        
+        if (userBattlePass.tier > userBattlePass.maxTier) {
+            userBattlePass.tier = userBattlePass.maxTier;
+            userBattlePass.xp = userBattlePass.xpPerTier;
+            break;
+        }
+        
+        showToast(`🎉 Battle Pass Tier ${userBattlePass.tier} Reached!`, 'success');
+        checkBattlePassRewards();
+    }
+    
+    localStorage.setItem('battlePass', JSON.stringify(userBattlePass));
+    updateBattlePassDisplay();
+}
+
+function checkBattlePassRewards() {
+    userBattlePass.rewards.forEach(reward => {
+        if (reward.tier <= userBattlePass.tier && !userBattlePass.claimedRewards.includes(reward.tier)) {
+            // Auto-claim rewards
+            userBattlePass.claimedRewards.push(reward.tier);
+            showToast(`🎁 Reward Unlocked: ${reward.name}!`, 'success', 5000);
+            
+            // Apply reward based on type
+            switch(reward.type) {
+                case 'theme':
+                    // Unlock theme
+                    unlockTheme(reward.item);
+                    break;
+                case 'badge':
+                    // Add badge to profile
+                    addProfileBadge(reward.item);
+                    break;
+                case 'pet_skin':
+                    // Unlock pet skin
+                    unlockPetSkin(reward.item);
+                    break;
+            }
+        }
+    });
+}
+
+// XP rewards for actions
+function rewardXP(action) {
+    const xpRewards = {
+        post: 100,
+        comment: 50,
+        like: 10,
+        follow: 25,
+        daily_login: 200,
+        achievement: 150,
+        game_win: 75
+    };
+    
+    const xp = xpRewards[action] || 0;
+    if (xp > 0) {
+        addBattlePassXP(xp);
+        showToast(`+${xp} XP`, 'info', 2000);
+    }
+}
+
+// ============ VIRTUAL PET SYSTEM ============
+const petData = {
+    name: 'Blob',
+    health: 100,
+    happiness: 80,
+    hunger: 60,
+    lastFed: Date.now(),
+    lastPlayed: Date.now(),
+    skin: '🐣',
+    godMode: false,
+    isAdmin: false // Set this based on actual admin status
+};
+
+let userPet = JSON.parse(localStorage.getItem('virtualPet')) || petData;
+
+// Pet degradation over time
+setInterval(() => {
+    if (userPet.godMode) return;
+    
+    const now = Date.now();
+    const hoursSinceLastFed = (now - userPet.lastFed) / (1000 * 60 * 60);
+    const hoursSinceLastPlayed = (now - userPet.lastPlayed) / (1000 * 60 * 60);
+    
+    // Decrease stats over time
+    userPet.hunger = Math.max(0, userPet.hunger - (hoursSinceLastFed * 5));
+    userPet.happiness = Math.max(0, userPet.happiness - (hoursSinceLastPlayed * 3));
+    userPet.health = Math.max(0, Math.min(100, 
+        userPet.health - (100 - userPet.hunger) * 0.1 - (100 - userPet.happiness) * 0.1
+    ));
+    
+    updatePetDisplay();
+    localStorage.setItem('virtualPet', JSON.stringify(userPet));
+}, 10000); // Check every 10 seconds
+
+function feedPet() {
+    userPet.hunger = Math.min(100, userPet.hunger + 20);
+    userPet.health = Math.min(100, userPet.health + 10);
+    userPet.lastFed = Date.now();
+    
+    updatePetDisplay();
+    localStorage.setItem('virtualPet', JSON.stringify(userPet));
+    
+    showToast('🍖 Fed your pet!', 'success');
+    
+    // Pet animation
+    const petElement = document.getElementById('virtualPet');
+    petElement.style.transform = 'scale(1.2) rotate(360deg)';
+    setTimeout(() => {
+        petElement.style.transform = 'scale(1)';
+    }, 500);
+}
+
+function playWithPet() {
+    userPet.happiness = Math.min(100, userPet.happiness + 20);
+    userPet.health = Math.min(100, userPet.health + 5);
+    userPet.lastPlayed = Date.now();
+    
+    updatePetDisplay();
+    localStorage.setItem('virtualPet', JSON.stringify(userPet));
+    
+    showToast('🎾 Played with your pet!', 'success');
+    
+    // Pet animation
+    const petElement = document.getElementById('virtualPet');
+    petElement.style.animation = 'bounce 0.5s';
+    setTimeout(() => {
+        petElement.style.animation = 'petBounce 2s ease-in-out infinite';
+    }, 500);
+}
+
+function toggleGodMode() {
+    if (!userPet.isAdmin) return;
+    
+    userPet.godMode = !userPet.godMode;
+    
+    if (userPet.godMode) {
+        userPet.health = 999;
+        userPet.happiness = 999;
+        userPet.hunger = 999;
+        showToast('👑 God Mode Activated!', 'success');
+        document.getElementById('virtualPet').style.filter = 'drop-shadow(0 0 10px gold)';
+    } else {
+        userPet.health = 100;
+        userPet.happiness = 100;
+        userPet.hunger = 100;
+        showToast('God Mode Deactivated', 'info');
+        document.getElementById('virtualPet').style.filter = 'none';
+    }
+    
+    updatePetDisplay();
+    localStorage.setItem('virtualPet', JSON.stringify(userPet));
+}
+
+function updatePetDisplay() {
+    document.getElementById('petName').textContent = userPet.name;
+    document.getElementById('petHealth').style.width = `${Math.min(100, userPet.health)}%`;
+    document.getElementById('petHappiness').style.width = `${Math.min(100, userPet.happiness)}%`;
+    document.getElementById('petHunger').style.width = `${Math.min(100, userPet.hunger)}%`;
+    
+    // Show god mode button for admins
+    if (userPet.isAdmin) {
+        document.getElementById('godModeBtn').style.display = 'inline-block';
+    }
+    
+    // Change pet appearance based on stats
+    const petElement = document.getElementById('virtualPet');
+    if (userPet.health < 30) {
+        petElement.style.filter = 'grayscale(0.7)';
+    } else if (userPet.happiness < 30) {
+        petElement.style.filter = 'hue-rotate(240deg)';
+    } else if (userPet.godMode) {
+        petElement.style.filter = 'drop-shadow(0 0 10px gold)';
+    } else {
+        petElement.style.filter = 'none';
+    }
+}
+
+// Pet interaction
+document.getElementById('virtualPet').addEventListener('click', () => {
+    document.getElementById('petStats').classList.toggle('show');
+});
+
+// ============ KONAMI CODE EASTER EGG ============
+const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+let konamiIndex = 0;
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        
+        if (konamiIndex === konamiCode.length) {
+            activateKonamiCode();
+            konamiIndex = 0;
+        }
+    } else {
+        konamiIndex = 0;
+    }
+});
+
+function activateKonamiCode() {
+    showToast('🎮 KONAMI CODE ACTIVATED! 🎮', 'success', 5000);
+    
+    // Add rainbow effect to everything
+    document.body.classList.add('konami-activated');
+    
+    // Unlock secret achievement
+    unlockAchievement('konami');
+    
+    // Show matrix rain
+    startMatrixRain();
+    
+    // Play retro sound
+    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZizcJGmm98OScTgwOUajkwrl2FQUieNX0zoNEChtqu/DrpVYNCU+o5b+1vxwGH2+z/9add0NNTplSShgGD+Lo/+/eReC+kkeVVCx8vv/+jQ4HWbPu6/XkKAkV48D1yyBDTLLmkEUWhqC5/OqxZiQaVMPz9J1lEwUHSqjnr7NwHxZXluf/0nkwGDpw5P7TYRUMEHnn/6fhOg4+Vqbpx8NdJQcDcsH/p7UrBxDzNxsLksnfLiyV7v////7+2N3acS89MdGnjIVaBw==');
+    audio.play().catch(() => {});
+    
+    // Unlock hidden features
+    document.querySelectorAll('.hidden-feature').forEach(el => {
+        el.style.display = 'block';
+    });
+    
+    // After 10 seconds, remove effects
+    setTimeout(() => {
+        document.body.classList.remove('konami-activated');
+        stopMatrixRain();
+    }, 10000);
+}
+
+// ============ MATRIX RAIN EFFECT ============
+let matrixRainInterval;
+
+function startMatrixRain() {
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    const matrixContainer = document.getElementById('matrixRain');
+    
+    matrixContainer.style.display = 'block';
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+    const matrixArray = matrix.split("");
+    
+    const fontSize = 10;
+    const columns = canvas.width / fontSize;
+    
+    const drops = [];
+    for (let x = 0; x < columns; x++) {
+        drops[x] = 1;
+    }
+    
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#0F0';
+        ctx.font = fontSize + 'px monospace';
+        
+        for (let i = 0; i < drops.length; i++) {
+            const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+    
+    matrixRainInterval = setInterval(drawMatrix, 35);
+}
+
+function stopMatrixRain() {
+    clearInterval(matrixRainInterval);
+    document.getElementById('matrixRain').style.display = 'none';
+}
+
+// ============ ENHANCED THEME SYSTEM ============
+const themes = {
+    default: {
+        name: 'Default',
+        bg: '#1a1a2e',
+        text: '#eee',
+        card: '#16213e',
+        accent: '#e94560'
+    },
+    cyberpunk: {
+        name: 'Cyberpunk',
+        bg: '#0a0e27',
+        text: '#00ff9f',
+        card: '#1e1e3f',
+        accent: '#ff00ff'
+    },
+    retrowave: {
+        name: 'Retrowave',
+        bg: '#1a0033',
+        text: '#ff71ce',
+        card: '#2e0057',
+        accent: '#01cdfe'
+    },
+    forest: {
+        name: 'Forest',
+        bg: '#0d1f0d',
+        text: '#8bc34a',
+        card: '#1b3a1b',
+        accent: '#4caf50'
+    },
+    ocean: {
+        name: 'Ocean',
+        bg: '#001f3f',
+        text: '#7fdbff',
+        card: '#003366',
+        accent: '#39cccc'
+    },
+    sunset: {
+        name: 'Sunset',
+        bg: '#2c1810',
+        text: '#ffd700',
+        card: '#4a2c2a',
+        accent: '#ff6b6b'
+    }
+};
+
+function applyTheme(themeName) {
+    const theme = themes[themeName];
+    if (!theme) return;
+    
+    document.body.className = `theme-${themeName}`;
+    localStorage.setItem('selectedTheme', themeName);
+    
+    showToast(`🎨 ${theme.name} theme applied!`, 'success');
+}
+
+function openThemeBuilder() {
+    document.getElementById('themeBuilder').classList.add('show');
+}
+
+function closeThemeBuilder() {
+    document.getElementById('themeBuilder').classList.remove('show');
+}
+
+function applyCustomTheme() {
+    const bg = document.getElementById('customBgColor').value;
+    const text = document.getElementById('customTextColor').value;
+    const accent = document.getElementById('customAccentColor').value;
+    const card = document.getElementById('customCardBg').value;
+    
+    document.documentElement.style.setProperty('--bg-color', bg);
+    document.documentElement.style.setProperty('--text-color', text);
+    document.documentElement.style.setProperty('--accent', accent);
+    document.documentElement.style.setProperty('--card-bg', card);
+    
+    showToast('Custom theme applied!', 'success');
+}
+
+function saveCustomTheme() {
+    const customTheme = {
+        bg: document.getElementById('customBgColor').value,
+        text: document.getElementById('customTextColor').value,
+        accent: document.getElementById('customAccentColor').value,
+        card: document.getElementById('customCardBg').value
+    };
+    
+    localStorage.setItem('customTheme', JSON.stringify(customTheme));
+    showToast('Custom theme saved!', 'success');
+}
+
+// ============ ENHANCED BAN SYSTEM ============
+function openBanModal(userId) {
+    document.getElementById('banModal').classList.add('show');
+    document.getElementById('banModal').dataset.userId = userId;
+}
+
+function closeBanModal() {
+    document.getElementById('banModal').classList.remove('show');
+}
+
+async function confirmBan() {
+    const userId = document.getElementById('banModal').dataset.userId;
+    const duration = document.getElementById('banDuration').value;
+    const reason = document.getElementById('banReason').value;
+    const deleteContent = document.getElementById('deleteContent').checked;
+    
+    if (!reason) {
+        showToast('Please provide a ban reason', 'error');
+        return;
+    }
+    
+    try {
+        // Calculate ban end time
+        let banEndTime;
+        const now = new Date();
+        
+        switch(duration) {
+            case '1h':
+                banEndTime = new Date(now.getTime() + 60 * 60 * 1000);
+                break;
+            case '24h':
+                banEndTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+                break;
+            case '7d':
+                banEndTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+                break;
+            case '30d':
+                banEndTime = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+                break;
+            case 'permanent':
+                banEndTime = new Date('2099-12-31');
+                break;
+        }
+        
+        // Save ban to Firebase
+        await db.collection('bans').add({
+            userId: userId,
+            reason: reason,
+            duration: duration,
+            banEndTime: banEndTime,
+            bannedBy: auth.currentUser.uid,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            deleteContent: deleteContent
+        });
+        
+        // Delete user's content if requested
+        if (deleteContent) {
+            const batch = db.batch();
+            
+            // Delete posts
+            const postsSnapshot = await db.collection('posts').where('userId', '==', userId).get();
+            postsSnapshot.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+            
+            // Delete comments
+            const commentsSnapshot = await db.collection('comments').where('userId', '==', userId).get();
+            commentsSnapshot.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+            
+            await batch.commit();
+        }
+        
+        showToast(`User banned for ${duration}`, 'success');
+        closeBanModal();
+        
+    } catch (error) {
+        console.error('Ban error:', error);
+        showToast('Failed to ban user', 'error');
+    }
+}
+
+// ============ MARK ALL NOTIFICATIONS AS READ ============
+function markAllNotificationsAsRead() {
+    const notifications = document.querySelectorAll('.notification.unread');
+    
+    notifications.forEach(notification => {
+        notification.classList.remove('unread');
+        notification.classList.add('read');
+    });
+    
+    // Update in Firebase
+    if (auth.currentUser) {
+        db.collection('notifications')
+            .where('userId', '==', auth.currentUser.uid)
+            .where('read', '==', false)
+            .get()
+            .then(snapshot => {
+                const batch = db.batch();
+                snapshot.forEach(doc => {
+                    batch.update(doc.ref, { read: true });
+                });
+                return batch.commit();
+            })
+            .then(() => {
+                showToast('All notifications marked as read', 'success');
+            })
+            .catch(error => {
+                console.error('Error marking notifications as read:', error);
+            });
+    }
+}
+
+// ============ INITIALIZE EVERYTHING ============
+document.addEventListener('DOMContentLoaded', () => {
+    // Setup infinite scroll
+    setupInfiniteScroll();
+    
+    // Update displays
+    updatePetDisplay();
+    
+    // Load saved theme
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    }
+    
+    // Check if user is admin (you need to implement this check based on your auth system)
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            // Check if user is admin (modify this based on your admin system)
+            db.collection('users').doc(user.uid).get().then(doc => {
+                if (doc.exists && doc.data().role === 'admin') {
+                    userPet.isAdmin = true;
+                    document.getElementById('godModeBtn').style.display = 'inline-block';
+                }
+            });
+        }
+    });
+    
+    // Add XP for daily login
+    const lastLogin = localStorage.getItem('lastLogin');
+    const today = new Date().toDateString();
+    if (lastLogin !== today) {
+        localStorage.setItem('lastLogin', today);
+        rewardXP('daily_login');
+        showToast('🎁 Daily login bonus: +200 XP!', 'success');
+    }
+});
+
+// ============ EASTER EGGS ============
+// Type "gaming" anywhere to unlock a secret
+let secretBuffer = '';
+document.addEventListener('keypress', (e) => {
+    secretBuffer += e.key.toLowerCase();
+    
+    if (secretBuffer.includes('gaming')) {
+        showToast('🎮 Secret Gaming Mode Unlocked!', 'success');
+        document.body.style.background = 'linear-gradient(45deg, #FF006E, #8338EC, #3A86FF)';
+        secretBuffer = '';
+    }
+    
+    if (secretBuffer.includes('matrix')) {
+        startMatrixRain();
+        setTimeout(stopMatrixRain, 5000);
+        secretBuffer = '';
+    }
+    
+    if (secretBuffer.includes('party')) {
+        // Party mode!
+        document.body.style.animation = 'rainbow 2s linear infinite';
+        showToast('🎉 PARTY MODE! 🎉', 'success');
+        setTimeout(() => {
+            document.body.style.animation = '';
+        }, 10000);
+        secretBuffer = '';
+    }
+    
+    // Clear buffer if it gets too long
+    if (secretBuffer.length > 20) {
+        secretBuffer = '';
+    }
+});
+
+// Click the logo 10 times for a surprise
+let logoClickCount = 0;
+const logo = document.querySelector('.logo, .site-title, h1');
+if (logo) {
+    logo.addEventListener('click', () => {
+        logoClickCount++;
+        if (logoClickCount === 10) {
+            showToast('🎯 You found the secret!', 'success');
+            unlockAchievement('curious');
+            logoClickCount = 0;
+        }
+    });
+}
+
+// ============ HELPER FUNCTIONS ============
+function appendPostToFeed(post) {
+    // Implement based on your existing post structure
+    const feed = document.getElementById('feed');
+    const postElement = document.createElement('div');
+    postElement.className = 'post page-transition';
+    // Add your post HTML here
+    feed.appendChild(postElement);
+}
+
+function unlockTheme(themeName) {
+    const unlockedThemes = JSON.parse(localStorage.getItem('unlockedThemes')) || ['default'];
+    if (!unlockedThemes.includes(themeName)) {
+        unlockedThemes.push(themeName);
+        localStorage.setItem('unlockedThemes', JSON.stringify(unlockedThemes));
+    }
+}
+
+function addProfileBadge(badge) {
+    const badges = JSON.parse(localStorage.getItem('profileBadges')) || [];
+    if (!badges.includes(badge)) {
+        badges.push(badge);
+        localStorage.setItem('profileBadges', JSON.stringify(badges));
+    }
+}
+
+function unlockPetSkin(skin) {
+    const petSkins = JSON.parse(localStorage.getItem('petSkins')) || ['🐣'];
+    if (!petSkins.includes(skin)) {
+        petSkins.push(skin);
+        localStorage.setItem('petSkins', JSON.stringify(petSkins));
+        showToast(`New pet skin unlocked: ${skin}`, 'success');
+    }
+}
+
+function updateAchievementDisplay() {
+    // Update achievement count in profile or wherever you display it
+    const achievementCount = userAchievements.length;
+    const totalAchievements = Object.keys(achievements).length;
+    
+    const achievementDisplay = document.getElementById('achievementCount');
+    if (achievementDisplay) {
+        achievementDisplay.textContent = `${achievementCount}/${totalAchievements}`;
+    }
+}
+
+function updateBattlePassDisplay() {
+    // Update battle pass UI
+    const progressFill = document.querySelector('.battle-pass-progress-fill');
+    if (progressFill) {
+        const progressPercent = (userBattlePass.xp / userBattlePass.xpPerTier) * 100;
+        progressFill.style.width = `${progressPercent}%`;
+        progressFill.textContent = `${userBattlePass.xp}/${userBattlePass.xpPerTier} XP`;
+    }
+    
+    const tierDisplay = document.querySelector('.battle-pass-tier');
+    if (tierDisplay) {
+        tierDisplay.textContent = `Tier ${userBattlePass.tier}`;
+    }
+}
+
+// ============ AUTO-SAVE ============
+// Save all data every 30 seconds
+setInterval(() => {
+    localStorage.setItem('virtualPet', JSON.stringify(userPet));
+    localStorage.setItem('battlePass', JSON.stringify(userBattlePass));
+    localStorage.setItem('userAchievements', JSON.stringify(userAchievements));
+}, 30000);
+
+console.log('🎮 Enhanced features loaded! Try the Konami code: ↑↑↓↓←→←→BA');
+console.log('🎯 Type "gaming", "matrix", or "party" for surprises!');
+
+
+
+    
         // ===== FIREBASE SETUP =====
     const firebaseConfig = {
       apiKey: "AIzaSyDv3JRn08FStrEd6cF3x2AFDCgvbJOGtC8",
