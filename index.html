@@ -3138,10 +3138,21 @@
     }
 
     // ===== COINS SYSTEM =====
-    async function addCoins(amount, reason) {
+       async function addCoins(amount, reason) {
       if (!myProfile) return;
       
-      myProfile.coins = (myProfile.coins || 0) + amount;
+      let newTotal = (myProfile.coins || 0) + amount;
+      
+      // Cap at 10,000 for regular earning (not admin commands)
+      if (newTotal > 10000) {
+        newTotal = 10000;
+        if (myProfile.coins >= 10000) {
+          showNotification("You've hit the 10k coin cap! Spend some in the shop.", 'warning');
+          return;
+        }
+      }
+      
+      myProfile.coins = newTotal;
       await db.collection("users").doc(userId).update({ coins: myProfile.coins });
       
       document.getElementById("coinsDisplay").textContent = myProfile.coins;
@@ -3151,7 +3162,11 @@
         showNotification(`+${amount} 🪙: ${reason}`, 'success');
       }
     }
-
+  
+  
+  
+  
+  
     async function checkGameCooldown(gameName) {
       let now = Date.now();
       let lastPlayed = lastGamePlayTime[gameName] || 0;
@@ -5650,7 +5665,7 @@
             }
             break;
             
-          case '/givexp':
+                      case '/givexp':
             if (args.length < 2) {
               result = "Usage: /givexp [username] [amount]";
             } else {
@@ -5659,10 +5674,26 @@
               let targetUser = await findUserByName(targetName);
               
               if (targetUser) {
-                await db.collection("users").doc(targetUser.id).update({
-                  xp: (targetUser.data.xp || 0) + amount
-                });
-                result = `<span style="color:var(--success)">Gave ${amount} XP to ${targetName}</span>`;
+                let newXp = (targetUser.data.xp || 0) + amount;
+                await db.collection("users").doc(targetUser.id).update({ xp: newXp });
+                
+                // If giving to yourself, update local profile and XP bar
+                if (targetUser.id === userId) {
+                  myProfile.xp = newXp;
+                  updateXPBar();
+                  updateProfileDisplay();
+                  
+                  // Check for level ups
+                  let oldLevel = calculateLevel(targetUser.data.xp || 0).level;
+                  let newLevel = calculateLevel(newXp).level;
+                  
+                  if (newLevel > oldLevel) {
+                    showNotification(`🎉 LEVEL UP! You're now level ${newLevel}!`, 'success');
+                    createConfetti();
+                  }
+                }
+                
+                result = `<span style="color:var(--success)">Gave ${amount} XP to ${targetName} (Now Level ${calculateLevel(newXp).level})</span>`;
                 logAdminAction(`Gave ${amount} XP to ${targetName}`);
               } else {
                 result = `<span style="color:var(--danger)">User not found</span>`;
@@ -5670,24 +5701,27 @@
             }
             break;
             
-          case '/givecoins':
+                       case '/givecoins':
             if (args.length < 2) {
               result = "Usage: /givecoins [username] [amount]";
             } else {
               let targetName = args[0];
               let amount = parseInt(args[1]);
               
-              if (amount > 10000) {
-                result = `<span style="color:var(--danger)">Max 10,000 coins per command</span>`;
-                break;
-              }
-              
+              // No limit for admin commands!
               let targetUser = await findUserByName(targetName);
               
               if (targetUser) {
-                await db.collection("users").doc(targetUser.id).update({
-                  coins: (targetUser.data.coins || 0) + amount
-                });
+                let newCoins = (targetUser.data.coins || 0) + amount;
+                await db.collection("users").doc(targetUser.id).update({ coins: newCoins });
+                
+                // If giving to yourself, update local profile too
+                if (targetUser.id === userId) {
+                  myProfile.coins = newCoins;
+                  document.getElementById("coinsDisplay").textContent = newCoins;
+                  document.getElementById("shopCoinsDisplay").textContent = newCoins;
+                }
+                
                 result = `<span style="color:var(--success)">Gave ${amount} coins to ${targetName}</span>`;
                 logAdminAction(`Gave ${amount} coins to ${targetName}`);
               } else {
@@ -5695,8 +5729,9 @@
               }
             }
             break;
-            
-          case '/giveitem':
+         
+         
+            case '/giveitem':
             if (args.length < 2) {
               result = "Usage: /giveitem [username] [itemid]<br>Use /items to see item IDs";
             } else {
