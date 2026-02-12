@@ -5990,44 +5990,38 @@
 
 
     
+   
     function setCloakPreset(preset) {
-      let p = cloakPresets[preset];
+      const presets = {
+        classroom: { title: 'Google Classroom', icon: 'https://ssl.gstatic.com/classroom/favicon.png' },
+        docs: { title: 'Google Docs', icon: 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico' },
+        drive: { title: 'Google Drive', icon: 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png' },
+        gmail: { title: 'Gmail', icon: 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico' },
+        canvas: { title: 'Canvas', icon: 'https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico' },
+        khan: { title: 'Khan Academy', icon: 'https://www.khanacademy.org/favicon.ico' }
+      };
+      let p = presets[preset];
       if (p) {
         applyCloak(p.title, p.icon);
-        
-        // Fill in the custom fields too
-        document.getElementById("customCloakTitle").value = p.title;
-        document.getElementById("customCloakIcon").value = p.icon;
-        
+        if (document.getElementById("customCloakTitle")) document.getElementById("customCloakTitle").value = p.title;
+        if (document.getElementById("customCloakIcon")) document.getElementById("customCloakIcon").value = p.icon;
         showNotification(`Tab disguised as ${p.title}`, 'success');
-        playSound('click');
       }
     }
-
-       function applyCustomCloak() {
-      let customTitleInput = document.getElementById("customCloakTitle");
-      let customIconInput = document.getElementById("customCloakIcon");
-      
-      let titleValue = customTitleInput ? customTitleInput.value.trim() : "Google Classroom";
-      let iconValue = customIconInput ? customIconInput.value.trim() : "https://ssl.gstatic.com/classroom/favicon.png";
-      
-      if (!titleValue) {
-        showNotification("Enter a title!", 'warning');
-        return;
-      }
-      
-      // Use the helper function to apply it
-      applyCloak(titleValue, iconValue);
-      
-      showNotification(`Tab disguised as "${titleValue}"`, 'success');
-      if (typeof playSound === "function") playSound('click');
+function applyCustomCloak() {
+      let t = document.getElementById("customCloakTitle")?.value.trim();
+      let i = document.getElementById("customCloakIcon")?.value.trim();
+      if (!t) return showNotification("Enter a title!", 'warning');
+      applyCloak(t, i || 'https://www.google.com/favicon.ico');
+      showNotification(`Tab disguised as "${t}"`, 'success');
     }
-         function applyCloak(titleName, iconUrl) {
+        function applyCloak(titleName, iconUrl) {
       document.title = titleName;
-      let faviconElement = document.getElementById("favicon");
-      if (faviconElement) {
-        faviconElement.href = iconUrl;
-      }
+      let fav = document.getElementById("favicon");
+      if (fav) fav.href = iconUrl;
+      localStorage.setItem("cloakTitle", titleName);
+      localStorage.setItem("cloakIcon", iconUrl);
+    }
       
       localStorage.setItem("cloakTitle", titleName);
       localStorage.setItem("cloakIcon", iconUrl);
@@ -6043,19 +6037,10 @@
     
 
     function resetCloak() {
-      document.title = "The Gaming Hub";
-      document.getElementById("favicon").href = "";
-      
-      document.getElementById("customCloakTitle").value = "";
-      document.getElementById("customCloakIcon").value = "";
-      
       localStorage.removeItem("cloakTitle");
       localStorage.removeItem("cloakIcon");
-      
-      showNotification("Tab cloak removed", 'success');
-      playSound('click');
+      location.reload();
     }
-
     function saveAutoCloak() {
       let enabled = document.getElementById("autoCloakEnabled").checked;
       localStorage.setItem("autoCloakEnabled", enabled);
@@ -6089,26 +6074,8 @@
 
         function openInAboutBlank() {
       let win = window.open('about:blank', '_blank');
-      if (!win) {
-        alert("Allow pop-ups for this site!");
-        return;
-      }
-      win.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>${document.title}</title>
-          <link rel="icon" href="${document.getElementById("favicon").href}">
-          <style>
-            body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-            iframe { width: 100vw; height: 100vh; border: none; position: fixed; top: 0; left: 0; }
-          </style>
-        </head>
-        <body>
-          <iframe src="${window.location.href}"></iframe>
-        </body>
-        </html>
-      `);
+      if (!win) return alert("Allow popups!");
+      win.document.write(`<html><head><title>${document.title}</title><link rel="icon" href="${document.getElementById("favicon").href}"><style>body,html{margin:0;padding:0;height:100%;overflow:hidden;}iframe{width:100%;height:100%;border:none;}</style></head><body><iframe src="${window.location.href}"></iframe></body></html>`);
       win.document.close();
       window.location.replace('https://classroom.google.com');
     }
