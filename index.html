@@ -6658,6 +6658,122 @@
         </head>
         <body>
           <iframe src="${window.location.href}"></iframe>
+       
+        
+        
+        <!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Achievement Popup -->
+<div class="achievement-popup" id="achievementPopup">
+    <div class="achievement-icon">🏆</div>
+    <h2 id="achievementTitle">Achievement Unlocked!</h2>
+    <p id="achievementDesc">You're awesome!</p>
+</div>
+
+<!-- Virtual Pet -->
+<div class="virtual-pet-container" id="virtualPetContainer">
+    <div class="virtual-pet" id="virtualPet"></div>
+    <div class="pet-stats" id="petStats">
+        <h4>Your Pet: <span id="petName">Blob</span></h4>
+        <div class="pet-stat">
+            <span>Health:</span>
+            <div class="pet-stat-bar">
+                <div class="pet-stat-fill health" id="petHealth" style="width: 100%"></div>
+            </div>
+        </div>
+        <div class="pet-stat">
+            <span>Happiness:</span>
+            <div class="pet-stat-bar">
+                <div class="pet-stat-fill happiness" id="petHappiness" style="width: 80%"></div>
+            </div>
+        </div>
+        <div class="pet-stat">
+            <span>Hunger:</span>
+            <div class="pet-stat-bar">
+                <div class="pet-stat-fill hunger" id="petHunger" style="width: 60%"></div>
+            </div>
+        </div>
+        <button onclick="feedPet()">🍖 Feed</button>
+        <button onclick="playWithPet()">🎾 Play</button>
+        <button id="godModeBtn" style="display:none" onclick="toggleGodMode()">👑 God Mode</button>
+    </div>
+</div>
+
+<!-- Theme Builder Modal -->
+<div class="theme-builder" id="themeBuilder">
+    <h2>Custom Theme Builder</h2>
+    <div class="color-picker-group">
+        <label>Background Color:</label>
+        <input type="color" id="customBgColor" value="#1a1a2e">
+    </div>
+    <div class="color-picker-group">
+        <label>Text Color:</label>
+        <input type="color" id="customTextColor" value="#ffffff">
+    </div>
+    <div class="color-picker-group">
+        <label>Accent Color:</label>
+        <input type="color" id="customAccentColor" value="#667eea">
+    </div>
+    <div class="color-picker-group">
+        <label>Card Background:</label>
+        <input type="color" id="customCardBg" value="#2a2a3e">
+    </div>
+    <button onclick="applyCustomTheme()">Apply Theme</button>
+    <button onclick="saveCustomTheme()">Save Theme</button>
+    <button onclick="closeThemeBuilder()">Close</button>
+</div>
+
+<!-- Enhanced Ban Modal -->
+<div class="ban-modal" id="banModal">
+    <h2>Ban User</h2>
+    <div class="ban-form-group">
+        <label>Ban Duration:</label>
+        <select id="banDuration">
+            <option value="1h">1 Hour</option>
+            <option value="24h">24 Hours</option>
+            <option value="7d">7 Days</option>
+            <option value="30d">30 Days</option>
+            <option value="permanent">Permanent</option>
+        </select>
+    </div>
+    <div class="ban-form-group">
+        <label>Reason:</label>
+        <textarea id="banReason" rows="3" placeholder="Enter ban reason..."></textarea>
+    </div>
+    <div class="ban-form-group">
+        <label>
+            <input type="checkbox" id="deleteContent"> Delete all user's content
+        </label>
+    </div>
+    <button onclick="confirmBan()">Confirm Ban</button>
+    <button onclick="closeBanModal()">Cancel</button>
+</div>
+
+<!-- Matrix Rain Canvas (Hidden by default) -->
+<div class="matrix-rain" id="matrixRain" style="display:none;">
+    <canvas id="matrixCanvas"></canvas>
+</div>
+
+<!-- Infinite Scroll Loader -->
+<div class="infinite-scroll-loader" id="infiniteLoader">
+    <div class="skeleton skeleton-post">
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text"></div>
+    </div>
+</div>
+<div class="infinite-scroll-end" id="infiniteEnd">
+    <p>🎉 You've reached the end! 🎉</p>
+</div>
+        
+        
+        
+        
+        
+        
+        
+        
         </body>
         </html>
       `);
