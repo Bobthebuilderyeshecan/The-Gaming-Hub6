@@ -274,6 +274,584 @@
       opacity: 0.3;
     }
 
+/* ============ SKELETON LOADING ============ */
+.skeleton {
+    animation: skeleton-loading 1s linear infinite alternate;
+    border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+    0% { background-color: hsl(200, 20%, 80%); }
+    100% { background-color: hsl(200, 20%, 95%); }
+}
+
+.skeleton-text {
+    width: 100%;
+    height: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.skeleton-text:last-child {
+    width: 80%;
+}
+
+.skeleton-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.skeleton-post {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background: var(--card-bg);
+}
+
+/* Dark mode skeleton */
+.dark-mode .skeleton {
+    animation: skeleton-loading-dark 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading-dark {
+    0% { background-color: hsl(200, 20%, 20%); }
+    100% { background-color: hsl(200, 20%, 30%); }
+}
+
+/* ============ PAGE TRANSITIONS ============ */
+.page-transition {
+    animation: pageSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pageSlide {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ============ TOAST NOTIFICATIONS ============ */
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 300px;
+    max-width: 500px;
+    position: relative;
+    overflow: hidden;
+    pointer-events: all;
+    cursor: pointer;
+    animation: slideInRight 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast.success {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+}
+
+.toast.error {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.toast.info {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.toast.warning {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast-exit {
+    animation: slideOutRight 0.3s forwards;
+}
+
+@keyframes slideOutRight {
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.toast-icon {
+    font-size: 24px;
+}
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: rgba(255,255,255,0.3);
+    animation: progress 3s linear;
+}
+
+@keyframes progress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* ============ ACHIEVEMENT BADGES ============ */
+.achievement-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    z-index: 10001;
+    animation: achievementPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+@keyframes achievementPop {
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.achievement-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.achievement-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.achievement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.achievement-card.locked {
+    opacity: 0.5;
+    filter: grayscale(1);
+}
+
+.achievement-card.legendary {
+    background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+    color: white;
+}
+
+.achievement-card.epic {
+    background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+    color: white;
+}
+
+.achievement-card.rare {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+}
+
+/* ============ BATTLE PASS ============ */
+.battle-pass-container {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    padding: 30px;
+    border-radius: 20px;
+    margin: 20px;
+    color: white;
+}
+
+.battle-pass-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.battle-pass-tier {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.tier-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.battle-pass-progress {
+    background: rgba(255,255,255,0.2);
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.battle-pass-progress-fill {
+    background: linear-gradient(90deg, #56ab2f 0%, #a8e063 100%);
+    height: 100%;
+    border-radius: 15px;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    font-weight: bold;
+}
+
+.battle-pass-rewards {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.reward-item {
+    min-width: 100px;
+    text-align: center;
+    padding: 15px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.reward-item:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+}
+
+.reward-item.claimed {
+    background: rgba(86, 171, 47, 0.3);
+    border: 2px solid #56ab2f;
+}
+
+.reward-item.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ============ VIRTUAL PET ============ */
+.virtual-pet-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.virtual-pet {
+    width: 80px;
+    height: 80px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ffeb3b"/><circle cx="35" cy="40" r="5" fill="%23000"/><circle cx="65" cy="40" r="5" fill="%23000"/><path d="M 30 60 Q 50 70 70 60" stroke="%23000" stroke-width="3" fill="none"/></svg>') no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    animation: petBounce 2s ease-in-out infinite;
+    transition: all 0.3s;
+}
+
+@keyframes petBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.virtual-pet:hover {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.pet-stats {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    position: absolute;
+    bottom: 100px;
+    right: 0;
+    width: 200px;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.pet-stats.show {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+.pet-stat {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.pet-stat-bar {
+    width: 100px;
+    height: 10px;
+    background: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.pet-stat-fill {
+    height: 100%;
+    transition: width 0.3s;
+}
+
+.pet-stat-fill.health {
+    background: linear-gradient(90deg, #e74c3c, #c0392b);
+}
+
+.pet-stat-fill.happiness {
+    background: linear-gradient(90deg, #f39c12, #e67e22);
+}
+
+.pet-stat-fill.hunger {
+    background: linear-gradient(90deg, #27ae60, #2ecc71);
+}
+
+/* ============ KONAMI CODE EASTER EGG ============ */
+.konami-activated {
+    animation: rainbow 2s linear infinite;
+}
+
+@keyframes rainbow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+.matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.1;
+}
+
+.matrix-rain canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* ============ ENHANCED THEMES ============ */
+.theme-cyberpunk {
+    --bg-color: #0a0e27;
+    --text-color: #00ff9f;
+    --card-bg: linear-gradient(135deg, #1e1e3f 0%, #2a2a5e 100%);
+    --accent: #ff00ff;
+    --border: #00ffff;
+}
+
+.theme-retrowave {
+    --bg-color: #1a0033;
+    --text-color: #ff71ce;
+    --card-bg: linear-gradient(135deg, #2e0057 0%, #4a0080 100%);
+    --accent: #01cdfe;
+    --border: #ffb700;
+}
+
+.theme-forest {
+    --bg-color: #0d1f0d;
+    --text-color: #8bc34a;
+    --card-bg: linear-gradient(135deg, #1b3a1b 0%, #2e5a2e 100%);
+    --accent: #4caf50;
+    --border: #689f38;
+}
+
+.theme-ocean {
+    --bg-color: #001f3f;
+    --text-color: #7fdbff;
+    --card-bg: linear-gradient(135deg, #003366 0%, #004d99 100%);
+    --accent: #39cccc;
+    --border: #0074d9;
+}
+
+.theme-sunset {
+    --bg-color: #2c1810;
+    --text-color: #ffd700;
+    --card-bg: linear-gradient(135deg, #4a2c2a 0%, #6e4c41 100%);
+    --accent: #ff6b6b;
+    --border: #ffa500;
+}
+
+/* Custom Theme Builder */
+.theme-builder {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    z-index: 10000;
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    display: none;
+}
+
+.theme-builder.show {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+.color-picker-group {
+    margin: 15px 0;
+}
+
+.color-picker-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.color-picker-group input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* ============ ADMIN FEATURES ============ */
+.admin-badge {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.ban-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    z-index: 10000;
+    width: 400px;
+    display: none;
+}
+
+.ban-modal.show {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+.ban-form-group {
+    margin: 15px 0;
+}
+
+.ban-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.ban-form-group input,
+.ban-form-group select,
+.ban-form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* ============ INFINITE SCROLL ============ */
+.infinite-scroll-loader {
+    text-align: center;
+    padding: 20px;
+    display: none;
+}
+
+.infinite-scroll-loader.show {
+    display: block;
+}
+
+.infinite-scroll-end {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-color);
+    opacity: 0.6;
+    display: none;
+}
+
+.infinite-scroll-end.show {
+    display: block;
+}
+
+
+
+
+    
     /* ===== TAB CLOAK MODAL ===== */
     .cloak-modal {
       position: fixed;
