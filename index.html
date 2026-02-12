@@ -4415,7 +4415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup infinite scroll
     setupInfiniteScroll();
     
-    // Update displays
+    // Update displays (with safety checks)
     updatePetDisplay();
     
     // Load saved theme
@@ -4424,18 +4424,39 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTheme(savedTheme);
     }
     
-    // Check if user is admin (you need to implement this check based on your auth system)
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            // Check if user is admin (modify this based on your admin system)
-            db.collection('users').doc(user.uid).get().then(doc => {
-                if (doc.exists && doc.data().role === 'admin') {
-                    userPet.isAdmin = true;
-                    document.getElementById('godModeBtn').style.display = 'inline-block';
-                }
-            });
-        }
-    });
+    // Pet interaction
+    const virtualPet = document.getElementById('virtualPet');
+    if (virtualPet) {
+        virtualPet.addEventListener('click', () => {
+            const petStats = document.getElementById('petStats');
+            if (petStats) petStats.classList.toggle('show');
+        });
+    }
+    
+    // Logo click easter egg
+    let logoClickCount = 0;
+    const logo = document.querySelector('.logo, .site-title, h1');
+    if (logo) {
+        logo.addEventListener('click', () => {
+            logoClickCount++;
+            if (logoClickCount === 10) {
+                showToast('🎯 You found the secret!', 'success');
+                unlockAchievement('curious');
+                logoClickCount = 0;
+            }
+        });
+    }
+    
+    // Check if user is admin
+    if (typeof auth !== 'undefined' && auth.currentUser) {
+        db.collection('users').doc(auth.currentUser.uid).get().then(doc => {
+            if (doc.exists && doc.data().role === 'admin') {
+                userPet.isAdmin = true;
+                const godModeBtn = document.getElementById('godModeBtn');
+                if (godModeBtn) godModeBtn.style.display = 'inline-block';
+            }
+        }).catch(err => console.log('Admin check skipped'));
+    }
     
     // Add XP for daily login
     const lastLogin = localStorage.getItem('lastLogin');
@@ -4480,19 +4501,6 @@ document.addEventListener('keypress', (e) => {
         secretBuffer = '';
     }
 });
-
-// Click the logo 10 times for a surprise
-let logoClickCount = 0;
-const logo = document.querySelector('.logo, .site-title, h1');
-if (logo) {
-    logo.addEventListener('click', () => {
-        logoClickCount++;
-        if (logoClickCount === 10) {
-            showToast('🎯 You found the secret!', 'success');
-            unlockAchievement('curious');
-            logoClickCount = 0;
-        }
-    });
 }
 
 // ============ HELPER FUNCTIONS ============
