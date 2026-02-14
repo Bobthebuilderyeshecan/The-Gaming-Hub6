@@ -1422,23 +1422,22 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  align-items: flex-start;
 }
-
-    .chat-message {
+ .chat-message {
   background-color: var(--bg-tertiary);
   border-radius: 15px;
   padding: 12px;
   max-width: 85%;
-  min-width: 100px;
+  min-width: 150px;
   position: relative;
-  width: fit-content;
+  word-wrap: break-word;
 }
     .chat-message.mine {
-      align-self: flex-end;
-      background: linear-gradient(135deg, #3a3a00, #2a2a00);
-      border: 1px solid var(--accent);
-    }
-
+  align-self: flex-end;
+  background: linear-gradient(135deg, #3a3a00, #2a2a00);
+  border: 1px solid var(--accent);
+}
     .chat-message-header {
       display: flex;
       align-items: center;
