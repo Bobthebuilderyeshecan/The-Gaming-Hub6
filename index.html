@@ -3935,7 +3935,11 @@
         checkAdmin();
         updateXPBar();
         updateInventory();
-        loadAchievements();
+        try {
+  loadAchievements();
+} catch(e) {
+  console.error("Achievements error:", e);
+}
       }
     }
 
@@ -8376,16 +8380,20 @@ function startFlappy() {
       playSound('click');
     }
 
- function showSidebarTab(tabId, btn) {
+function showSidebarTab(tabId, btn) {
   document.querySelectorAll(".sidebar-panel").forEach(p => p.classList.remove("active"));
   document.querySelectorAll(".sidebar-tab").forEach(t => t.classList.remove("active"));
   document.getElementById(tabId).classList.add("active");
   btn.classList.add("active");
   
-  if (tabId === "adminTab") loadAuditLog();
-  if (tabId === "onlineTab") loadOnlineUsers();
-  if (tabId === "achievementsTab") renderAchievements('all');  // ADD THIS LINE
-  if (tabId === "musicTab") renderMusicPlaylist();  // ADD THIS LINE
+  try {
+    if (tabId === "adminTab") loadAuditLog();
+    if (tabId === "onlineTab") loadOnlineUsers();
+    if (tabId === "achievementsTab") renderAchievements('all');
+    if (tabId === "musicTab") renderMusicPlaylist();
+  } catch(e) {
+    console.error("Tab error:", e);
+  }
   
   playSound('click');
 }
@@ -8986,7 +8994,7 @@ function renderMusicPlaylist() {
   });
 
   container.innerHTML = html;
-}
+
 
 // Load saved volume
 let savedVolume = localStorage.getItem("musicVolume");
