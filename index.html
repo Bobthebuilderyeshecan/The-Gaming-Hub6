@@ -2734,7 +2734,356 @@
   font-size: 12px;
   padding: 20px;
 }
-  
+
+/* ===== ACHIEVEMENTS SYSTEM ===== */
+.achievements-toggle {
+  position: fixed;
+  bottom: 185px;
+  right: 20px;
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: white;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 1000;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+}
+
+.achievements-toggle:hover {
+  transform: scale(1.1);
+}
+
+.achievements-toggle .achievement-ping {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 18px;
+  height: 18px;
+  background: #e74c3c;
+  border-radius: 50%;
+  font-size: 11px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 1s infinite;
+}
+
+.achievements-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 2000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+}
+
+.achievements-modal.open {
+  display: flex;
+}
+
+.achievements-container {
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 85vh;
+  overflow: hidden;
+  border: 2px solid #f39c12;
+  display: flex;
+  flex-direction: column;
+}
+
+.achievements-header {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.achievements-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.achievements-header-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.achievements-header-stat {
+  text-align: center;
+}
+
+.achievements-header-stat-num {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.achievements-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.achievements-close:hover {
+  transform: rotate(90deg);
+}
+
+.achievements-tabs {
+  display: flex;
+  background: var(--bg-tertiary);
+  padding: 10px;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.achievements-tab {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: 0.3s;
+}
+
+.achievements-tab.active {
+  background: #f39c12;
+  color: black;
+}
+
+.achievements-tab:hover:not(.active) {
+  background: var(--bg-primary);
+}
+
+.achievements-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.achievement-card {
+  background: var(--bg-tertiary);
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--bg-primary);
+}
+
+.achievement-card.unlocked {
+  border-color: #f39c12;
+  background: linear-gradient(135deg, var(--bg-tertiary), rgba(243, 156, 18, 0.1));
+}
+
+.achievement-card.locked {
+  opacity: 0.6;
+}
+
+.achievement-card.locked .achievement-icon {
+  filter: grayscale(100%);
+}
+
+.achievement-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+
+.achievement-card.unlocked .achievement-icon {
+  animation: achievementBounce 0.5s ease;
+}
+
+@keyframes achievementBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.achievement-name {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.achievement-desc {
+  color: var(--text-muted);
+  font-size: 11px;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.achievement-progress {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.achievement-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f39c12, #e67e22);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.achievement-progress-text {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.achievement-reward {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #f39c12;
+}
+
+.achievement-rarity {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.rarity-bronze {
+  background: linear-gradient(135deg, #cd7f32, #8b4513);
+  color: white;
+}
+
+.rarity-silver {
+  background: linear-gradient(135deg, #c0c0c0, #808080);
+  color: black;
+}
+
+.rarity-gold {
+  background: linear-gradient(135deg, #ffd700, #ffaa00);
+  color: black;
+}
+
+.rarity-platinum {
+  background: linear-gradient(135deg, #e5e4e2, #a0b2c6);
+  color: black;
+}
+
+.rarity-diamond {
+  background: linear-gradient(135deg, #b9f2ff, #4fc3f7);
+  color: black;
+}
+
+.achievement-unlocked-date {
+  color: var(--text-muted);
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+/* Achievement unlock notification */
+.achievement-notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+  border: 2px solid #f39c12;
+  border-radius: 15px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  z-index: 10001;
+  animation: achievementSlideIn 0.5s ease, achievementSlideOut 0.5s ease 4.5s forwards;
+  box-shadow: 0 10px 40px rgba(243, 156, 18, 0.3);
+  max-width: 350px;
+}
+
+@keyframes achievementSlideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes achievementSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+.achievement-notification-icon {
+  font-size: 45px;
+  animation: achievementBounce 0.5s ease 0.3s;
+}
+
+.achievement-notification-content {
+  flex: 1;
+}
+
+.achievement-notification-title {
+  color: #f39c12;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.achievement-notification-name {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 3px 0;
+}
+
+.achievement-notification-reward {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+    
   
   </style>
 </head>
@@ -2914,6 +3263,46 @@
   </div>
 </div>
 
+<!-- Achievements Toggle -->
+<button class="achievements-toggle" onclick="toggleAchievements()" title="Achievements">
+  🏆
+  <span class="achievement-ping" id="achievementPing">!</span>
+</button>
+
+<!-- Achievements Modal -->
+<div id="achievementsModal" class="achievements-modal">
+  <div class="achievements-container">
+    <div class="achievements-header">
+      <h2>🏆 Achievements</h2>
+      <div class="achievements-header-stats">
+        <div class="achievements-header-stat">
+          <div class="achievements-header-stat-num" id="achievementsUnlocked">0</div>
+          <div>Unlocked</div>
+        </div>
+        <div class="achievements-header-stat">
+          <div class="achievements-header-stat-num" id="achievementsTotal">0</div>
+          <div>Total</div>
+        </div>
+        <div class="achievements-header-stat">
+          <div class="achievements-header-stat-num" id="achievementsPercent">0%</div>
+          <div>Complete</div>
+        </div>
+      </div>
+      <button class="achievements-close" onclick="toggleAchievements()">✕</button>
+    </div>
+    
+    <div class="achievements-tabs">
+      <button class="achievements-tab active" onclick="showAchievementCategory('all', this)">🏆 All</button>
+      <button class="achievements-tab" onclick="showAchievementCategory('gaming', this)">🎮 Gaming</button>
+      <button class="achievements-tab" onclick="showAchievementCategory('social', this)">💬 Social</button>
+      <button class="achievements-tab" onclick="showAchievementCategory('wealth', this)">💰 Wealth</button>
+      <button class="achievements-tab" onclick="showAchievementCategory('dedication', this)">⭐ Dedication</button>
+    </div>
+    
+    <div class="achievements-list" id="achievementsList"></div>
+  </div>
+</div>
+  
   
   <!-- Sound Toggle -->
   <button id="soundToggle" class="sound-toggle" onclick="toggleSound()">🔊</button>
@@ -3491,6 +3880,8 @@
       
       if (reason) {
         showNotification(`+${amount} XP: ${reason}`);
+   
+     trackXpEarned(amount); 
       }
     }
 
@@ -3504,6 +3895,8 @@
       
       // Confetti animation
       createConfetti();
+  
+    trackLevelUp(newLevel);
     }
 
     function updateXPBar() {
@@ -3541,6 +3934,8 @@
       
       if (reason && amount > 0) {
         showNotification(`+${amount} 🪙: ${reason}`, 'success');
+   
+      trackCoinsEarned(amount);
       }
     }
   
@@ -3588,6 +3983,8 @@
       });
       
       document.getElementById("myStatGames").textContent = myProfile.gamesPlayed;
+
+    trackGamePlayed(gameName);
     }
 
     // ===== SOUNDS =====
@@ -3729,6 +4126,7 @@
         checkAdmin();
         updateXPBar();
         updateInventory();
+        loadAchievements();
       }
     }
 
@@ -3814,6 +4212,9 @@
       checkAdmin();
       playSound('click');
       showNotification("Profile saved!", 'success');
+  
+    if (bio) trackProfileUpdated('bio');
+if (pic && !pic.includes('dicebear')) trackProfileUpdated('pic');
     }
 
     // ===== UPDATE PROFILE DISPLAY =====
@@ -3866,6 +4267,8 @@
       updateProfileDisplay();
       document.getElementById("statusInput").value = "";
       showNotification("Status updated!", 'success');
+  
+    trackProfileUpdated('status');
     }
 
     // ===== ONLINE STATUS =====
@@ -4071,6 +4474,8 @@
       // XP for chatting
       if (Math.random() < 0.3) {
         addXP(2, "Chatting");
+  
+      trackMessageSent();
       }
     }
 
@@ -7106,6 +7511,8 @@ function startFlappy() {
       createConfetti();
       renderShopItems();
       updateInventory();
+   
+    trackPurchase();
     }
 
     function updateInventory() {
@@ -8290,6 +8697,9 @@ function startFlappy() {
       
       showNotification("Friend added!", 'success');
       updateProfileDisplay();
+   
+    trackFriendAdded();
+    
     }
 
     async function declineFriend(reqId) {
@@ -8411,6 +8821,8 @@ function startFlappy() {
       
       localStorage.setItem("favorites", JSON.stringify(favorites));
       playSound('click');
+    
+    trackFavorites();
     }
 
     function clearFavorites() {
@@ -8768,6 +9180,457 @@ if (savedVolume) {
 document.addEventListener('DOMContentLoaded', () => {
   renderMusicPlaylist();
 });
+
+// ===== ACHIEVEMENTS SYSTEM =====
+const ACHIEVEMENTS = [
+  // Gaming achievements
+  { id: 'first_game', name: 'First Steps', desc: 'Play your first game', icon: '🎮', category: 'gaming', rarity: 'bronze', goal: 1, reward: { coins: 25, xp: 10 } },
+  { id: 'games_10', name: 'Getting Started', desc: 'Play 10 games', icon: '🕹️', category: 'gaming', rarity: 'bronze', goal: 10, reward: { coins: 50, xp: 25 } },
+  { id: 'games_50', name: 'Gamer', desc: 'Play 50 games', icon: '🎯', category: 'gaming', rarity: 'silver', goal: 50, reward: { coins: 150, xp: 75 } },
+  { id: 'games_100', name: 'Dedicated Gamer', desc: 'Play 100 games', icon: '🏆', category: 'gaming', rarity: 'gold', goal: 100, reward: { coins: 300, xp: 150 } },
+  { id: 'games_500', name: 'Gaming Legend', desc: 'Play 500 games', icon: '👑', category: 'gaming', rarity: 'platinum', goal: 500, reward: { coins: 1000, xp: 500 } },
+  
+  { id: 'flappy_10', name: 'Baby Bird', desc: 'Score 10 in Flappy Bird', icon: '🐣', category: 'gaming', rarity: 'bronze', goal: 10, reward: { coins: 30, xp: 15 } },
+  { id: 'flappy_25', name: 'Flying High', desc: 'Score 25 in Flappy Bird', icon: '🐦', category: 'gaming', rarity: 'silver', goal: 25, reward: { coins: 75, xp: 40 } },
+  { id: 'flappy_50', name: 'Sky Master', desc: 'Score 50 in Flappy Bird', icon: '🦅', category: 'gaming', rarity: 'gold', goal: 50, reward: { coins: 200, xp: 100 } },
+  
+  { id: 'tetris_1000', name: 'Block Builder', desc: 'Score 1000 in Tetris', icon: '🧱', category: 'gaming', rarity: 'bronze', goal: 1000, reward: { coins: 40, xp: 20 } },
+  { id: 'tetris_5000', name: 'Tetris Pro', desc: 'Score 5000 in Tetris', icon: '🏗️', category: 'gaming', rarity: 'silver', goal: 5000, reward: { coins: 100, xp: 50 } },
+  { id: 'tetris_10000', name: 'Tetris Master', desc: 'Score 10000 in Tetris', icon: '🌆', category: 'gaming', rarity: 'gold', goal: 10000, reward: { coins: 250, xp: 125 } },
+  
+  { id: 'pong_win', name: 'Pong Champion', desc: 'Win a game of Pong', icon: '🏓', category: 'gaming', rarity: 'bronze', goal: 1, reward: { coins: 50, xp: 25 } },
+  { id: 'pong_wins_10', name: 'Pong Master', desc: 'Win 10 games of Pong', icon: '🎾', category: 'gaming', rarity: 'silver', goal: 10, reward: { coins: 150, xp: 75 } },
+  { id: 'pong_flawless', name: 'Flawless Victory', desc: 'Win Pong 7-0', icon: '💯', category: 'gaming', rarity: 'gold', goal: 1, reward: { coins: 200, xp: 100 } },
+  
+  { id: 'breakout_level_5', name: 'Brick Breaker', desc: 'Reach level 5 in Breakout', icon: '🧱', category: 'gaming', rarity: 'silver', goal: 5, reward: { coins: 100, xp: 50 } },
+  { id: 'breakout_level_10', name: 'Demolition Expert', desc: 'Reach level 10 in Breakout', icon: '💥', category: 'gaming', rarity: 'gold', goal: 10, reward: { coins: 250, xp: 125 } },
+  
+  { id: 'snake_50', name: 'Sneaky Snake', desc: 'Score 50 in Snake', icon: '🐍', category: 'gaming', rarity: 'bronze', goal: 50, reward: { coins: 30, xp: 15 } },
+  { id: 'snake_100', name: 'Slithering Pro', desc: 'Score 100 in Snake', icon: '🐉', category: 'gaming', rarity: 'silver', goal: 100, reward: { coins: 80, xp: 40 } },
+  
+  { id: 'memory_20', name: 'Good Memory', desc: 'Complete Memory Match in under 20 moves', icon: '🧠', category: 'gaming', rarity: 'silver', goal: 1, reward: { coins: 75, xp: 40 } },
+  { id: 'memory_15', name: 'Perfect Memory', desc: 'Complete Memory Match in under 15 moves', icon: '🎓', category: 'gaming', rarity: 'gold', goal: 1, reward: { coins: 150, xp: 75 } },
+  
+  { id: 'reach_2048', name: '2048!', desc: 'Reach 2048 tile in 2048', icon: '🔢', category: 'gaming', rarity: 'gold', goal: 1, reward: { coins: 200, xp: 100 } },
+  
+  { id: 'casino_win', name: 'Lucky', desc: 'Win in the casino', icon: '🎰', category: 'gaming', rarity: 'bronze', goal: 1, reward: { coins: 25, xp: 10 } },
+  { id: 'casino_jackpot', name: 'JACKPOT!', desc: 'Hit a jackpot in slots', icon: '💎', category: 'gaming', rarity: 'platinum', goal: 1, reward: { coins: 500, xp: 250 } },
+  
+  // Social achievements
+  { id: 'first_message', name: 'Hello World', desc: 'Send your first chat message', icon: '💬', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 15, xp: 5 } },
+  { id: 'messages_50', name: 'Chatty', desc: 'Send 50 messages', icon: '🗣️', category: 'social', rarity: 'bronze', goal: 50, reward: { coins: 50, xp: 25 } },
+  { id: 'messages_200', name: 'Social Butterfly', desc: 'Send 200 messages', icon: '🦋', category: 'social', rarity: 'silver', goal: 200, reward: { coins: 100, xp: 50 } },
+  { id: 'messages_500', name: 'Chatterbox', desc: 'Send 500 messages', icon: '📢', category: 'social', rarity: 'gold', goal: 500, reward: { coins: 200, xp: 100 } },
+  { id: 'messages_1000', name: 'Legendary Talker', desc: 'Send 1000 messages', icon: '🎙️', category: 'social', rarity: 'platinum', goal: 1000, reward: { coins: 500, xp: 250 } },
+  
+  { id: 'first_friend', name: 'Friendly', desc: 'Add your first friend', icon: '🤝', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 25, xp: 10 } },
+  { id: 'friends_5', name: 'Popular', desc: 'Have 5 friends', icon: '👥', category: 'social', rarity: 'silver', goal: 5, reward: { coins: 75, xp: 40 } },
+  { id: 'friends_10', name: 'Social Star', desc: 'Have 10 friends', icon: '⭐', category: 'social', rarity: 'gold', goal: 10, reward: { coins: 150, xp: 75 } },
+  { id: 'friends_25', name: 'Influencer', desc: 'Have 25 friends', icon: '🌟', category: 'social', rarity: 'platinum', goal: 25, reward: { coins: 400, xp: 200 } },
+  
+  { id: 'set_bio', name: 'About Me', desc: 'Set your bio', icon: '📝', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 15, xp: 5 } },
+  { id: 'set_pic', name: 'Picture Perfect', desc: 'Set a custom profile picture', icon: '🖼️', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 20, xp: 10 } },
+  { id: 'set_status', name: 'Status Update', desc: 'Set your status', icon: '💭', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 15, xp: 5 } },
+  
+  // Wealth achievements
+  { id: 'coins_100', name: 'Pocket Change', desc: 'Earn 100 coins total', icon: '🪙', category: 'wealth', rarity: 'bronze', goal: 100, reward: { coins: 25, xp: 10 } },
+  { id: 'coins_500', name: 'Saving Up', desc: 'Earn 500 coins total', icon: '💵', category: 'wealth', rarity: 'bronze', goal: 500, reward: { coins: 50, xp: 25 } },
+  { id: 'coins_1000', name: 'Making Bank', desc: 'Earn 1000 coins total', icon: '💰', category: 'wealth', rarity: 'silver', goal: 1000, reward: { coins: 100, xp: 50 } },
+  { id: 'coins_5000', name: 'Rich', desc: 'Earn 5000 coins total', icon: '🤑', category: 'wealth', rarity: 'gold', goal: 5000, reward: { coins: 250, xp: 125 } },
+  { id: 'coins_10000', name: 'Wealthy', desc: 'Earn 10000 coins total', icon: '💎', category: 'wealth', rarity: 'platinum', goal: 10000, reward: { coins: 500, xp: 250 } },
+  
+  { id: 'first_purchase', name: 'Shopper', desc: 'Buy your first item', icon: '🛒', category: 'wealth', rarity: 'bronze', goal: 1, reward: { coins: 25, xp: 10 } },
+  { id: 'purchases_5', name: 'Collector', desc: 'Buy 5 items', icon: '🛍️', category: 'wealth', rarity: 'silver', goal: 5, reward: { coins: 75, xp: 40 } },
+  { id: 'purchases_15', name: 'Hoarder', desc: 'Buy 15 items', icon: '📦', category: 'wealth', rarity: 'gold', goal: 15, reward: { coins: 200, xp: 100 } },
+  { id: 'purchases_all', name: 'Own Everything', desc: 'Buy all shop items', icon: '👑', category: 'wealth', rarity: 'diamond', goal: 1, reward: { coins: 1000, xp: 500 } },
+  
+  // Dedication achievements
+  { id: 'level_5', name: 'Rising Star', desc: 'Reach level 5', icon: '⬆️', category: 'dedication', rarity: 'bronze', goal: 5, reward: { coins: 50, xp: 0 } },
+  { id: 'level_10', name: 'Experienced', desc: 'Reach level 10', icon: '📈', category: 'dedication', rarity: 'silver', goal: 10, reward: { coins: 100, xp: 0 } },
+  { id: 'level_25', name: 'Veteran', desc: 'Reach level 25', icon: '🎖️', category: 'dedication', rarity: 'gold', goal: 25, reward: { coins: 250, xp: 0 } },
+  { id: 'level_50', name: 'Elite', desc: 'Reach level 50', icon: '🏅', category: 'dedication', rarity: 'platinum', goal: 50, reward: { coins: 500, xp: 0 } },
+  { id: 'level_100', name: 'Legendary', desc: 'Reach level 100', icon: '🌟', category: 'dedication', rarity: 'diamond', goal: 100, reward: { coins: 2000, xp: 0 } },
+  
+  { id: 'streak_3', name: 'Consistent', desc: 'Visit 3 days in a row', icon: '📅', category: 'dedication', rarity: 'bronze', goal: 3, reward: { coins: 50, xp: 25 } },
+  { id: 'streak_7', name: 'Dedicated', desc: 'Visit 7 days in a row', icon: '🔥', category: 'dedication', rarity: 'silver', goal: 7, reward: { coins: 150, xp: 75 } },
+  { id: 'streak_30', name: 'Committed', desc: 'Visit 30 days in a row', icon: '💪', category: 'dedication', rarity: 'gold', goal: 30, reward: { coins: 500, xp: 250 } },
+  
+  { id: 'xp_1000', name: 'XP Hunter', desc: 'Earn 1000 XP total', icon: '✨', category: 'dedication', rarity: 'bronze', goal: 1000, reward: { coins: 50, xp: 0 } },
+  { id: 'xp_10000', name: 'XP Master', desc: 'Earn 10000 XP total', icon: '💫', category: 'dedication', rarity: 'silver', goal: 10000, reward: { coins: 150, xp: 0 } },
+  { id: 'xp_50000', name: 'XP Legend', desc: 'Earn 50000 XP total', icon: '🌠', category: 'dedication', rarity: 'gold', goal: 50000, reward: { coins: 400, xp: 0 } },
+  
+  { id: 'music_playlist', name: 'DJ', desc: 'Add 5 songs to your playlist', icon: '🎵', category: 'dedication', rarity: 'bronze', goal: 5, reward: { coins: 30, xp: 15 } },
+  { id: 'minigames_all', name: 'Jack of All Games', desc: 'Play all mini games', icon: '🎪', category: 'dedication', rarity: 'silver', goal: 1, reward: { coins: 150, xp: 75 } },
+  { id: 'favorites_5', name: 'Curator', desc: 'Favorite 5 games', icon: '⭐', category: 'dedication', rarity: 'bronze', goal: 5, reward: { coins: 30, xp: 15 } }
+];
+
+let achievementProgress = {};
+let unlockedAchievements = [];
+let totalCoinsEarned = 0;
+let totalXpEarned = 0;
+let loginStreak = 0;
+let gamesPlayedList = [];
+let pongWins = 0;
+
+// Load achievements from Firebase/localStorage
+async function loadAchievements() {
+  if (myProfile) {
+    achievementProgress = myProfile.achievementProgress || {};
+    unlockedAchievements = myProfile.unlockedAchievements || [];
+    totalCoinsEarned = myProfile.totalCoinsEarned || 0;
+    totalXpEarned = myProfile.totalXpEarned || 0;
+    loginStreak = myProfile.loginStreak || 0;
+    gamesPlayedList = myProfile.gamesPlayedList || [];
+    pongWins = myProfile.pongWins || 0;
+    
+    // Check daily login streak
+    checkLoginStreak();
+  }
+  
+  updateAchievementBadge();
+}
+
+// Save achievements to Firebase
+async function saveAchievements() {
+  if (!myProfile) return;
+  
+  try {
+    await db.collection("users").doc(userId).update({
+      achievementProgress: achievementProgress,
+      unlockedAchievements: unlockedAchievements,
+      totalCoinsEarned: totalCoinsEarned,
+      totalXpEarned: totalXpEarned,
+      loginStreak: loginStreak,
+      gamesPlayedList: gamesPlayedList,
+      pongWins: pongWins,
+      lastLoginDate: new Date().toDateString()
+    });
+  } catch (e) {
+    console.error("Error saving achievements:", e);
+  }
+}
+
+// Check login streak
+function checkLoginStreak() {
+  let today = new Date().toDateString();
+  let lastLogin = myProfile.lastLoginDate;
+  
+  if (!lastLogin) {
+    loginStreak = 1;
+  } else {
+    let lastDate = new Date(lastLogin);
+    let todayDate = new Date(today);
+    let diffTime = todayDate - lastDate;
+    let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) {
+      loginStreak++;
+      showNotification(`🔥 ${loginStreak} day streak!`, 'success');
+    } else if (diffDays > 1) {
+      loginStreak = 1;
+    }
+    // If same day, keep streak as is
+  }
+  
+  // Check streak achievements
+  checkAchievement('streak_3', loginStreak);
+  checkAchievement('streak_7', loginStreak);
+  checkAchievement('streak_30', loginStreak);
+  
+  saveAchievements();
+}
+
+// Toggle achievements modal
+function toggleAchievements() {
+  let modal = document.getElementById("achievementsModal");
+  modal.classList.toggle("open");
+  
+  if (modal.classList.contains("open")) {
+    renderAchievements('all');
+  }
+  
+  playSound('click');
+}
+
+// Show achievement category
+function showAchievementCategory(category, btn) {
+  document.querySelectorAll('.achievements-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderAchievements(category);
+}
+
+// Render achievements list
+function renderAchievements(category) {
+  let list = document.getElementById("achievementsList");
+  let filtered = category === 'all' 
+    ? ACHIEVEMENTS 
+    : ACHIEVEMENTS.filter(a => a.category === category);
+  
+  let unlocked = unlockedAchievements.length;
+  let total = ACHIEVEMENTS.length;
+  let percent = Math.round((unlocked / total) * 100);
+  
+  document.getElementById("achievementsUnlocked").textContent = unlocked;
+  document.getElementById("achievementsTotal").textContent = total;
+  document.getElementById("achievementsPercent").textContent = percent + '%';
+  
+  let html = "";
+  
+  // Sort: unlocked first, then by rarity
+  let rarityOrder = { diamond: 0, platinum: 1, gold: 2, silver: 3, bronze: 4 };
+  
+  filtered.sort((a, b) => {
+    let aUnlocked = unlockedAchievements.includes(a.id);
+    let bUnlocked = unlockedAchievements.includes(b.id);
+    
+    if (aUnlocked && !bUnlocked) return -1;
+    if (!aUnlocked && bUnlocked) return 1;
+    
+    return rarityOrder[a.rarity] - rarityOrder[b.rarity];
+  });
+  
+  filtered.forEach(achievement => {
+    let isUnlocked = unlockedAchievements.includes(achievement.id);
+    let progress = achievementProgress[achievement.id] || 0;
+    let progressPercent = Math.min((progress / achievement.goal) * 100, 100);
+    
+    html += `
+      <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}">
+        <span class="achievement-rarity rarity-${achievement.rarity}">${achievement.rarity}</span>
+        <div class="achievement-icon">${achievement.icon}</div>
+        <div class="achievement-name">${achievement.name}</div>
+        <div class="achievement-desc">${achievement.desc}</div>
+        
+        ${!isUnlocked ? `
+          <div class="achievement-progress">
+            <div class="achievement-progress-fill" style="width: ${progressPercent}%"></div>
+          </div>
+          <div class="achievement-progress-text">${progress} / ${achievement.goal}</div>
+        ` : `
+          <div class="achievement-unlocked-date">✓ Unlocked</div>
+        `}
+        
+        <div class="achievement-reward">
+          ${achievement.reward.coins > 0 ? `🪙 ${achievement.reward.coins}` : ''}
+          ${achievement.reward.xp > 0 ? `⭐ ${achievement.reward.xp} XP` : ''}
+        </div>
+      </div>
+    `;
+  });
+  
+  list.innerHTML = html || '<p style="text-align: center; color: var(--text-muted);">No achievements in this category.</p>';
+}
+
+// Check and potentially unlock an achievement
+function checkAchievement(achievementId, currentValue) {
+  if (unlockedAchievements.includes(achievementId)) return;
+  
+  let achievement = ACHIEVEMENTS.find(a => a.id === achievementId);
+  if (!achievement) return;
+  
+  // Update progress
+  achievementProgress[achievementId] = Math.max(
+    achievementProgress[achievementId] || 0,
+    currentValue
+  );
+  
+  // Check if goal reached
+  if (currentValue >= achievement.goal) {
+    unlockAchievement(achievementId);
+  }
+  
+  saveAchievements();
+}
+
+// Unlock an achievement
+function unlockAchievement(achievementId) {
+  if (unlockedAchievements.includes(achievementId)) return;
+  
+  let achievement = ACHIEVEMENTS.find(a => a.id === achievementId);
+  if (!achievement) return;
+  
+  unlockedAchievements.push(achievementId);
+  achievementProgress[achievementId] = achievement.goal;
+  
+  // Show notification
+  showAchievementNotification(achievement);
+  
+  // Give rewards (without triggering more achievement checks to avoid loops)
+  if (achievement.reward.coins > 0) {
+    myProfile.coins = (myProfile.coins || 0) + achievement.reward.coins;
+    document.getElementById("coinsDisplay").textContent = myProfile.coins;
+    document.getElementById("shopCoinsDisplay").textContent = myProfile.coins;
+  }
+  
+  if (achievement.reward.xp > 0) {
+    myProfile.xp = (myProfile.xp || 0) + achievement.reward.xp;
+    updateXPBar();
+  }
+  
+  // Save to Firebase
+  db.collection("users").doc(userId).update({
+    coins: myProfile.coins,
+    xp: myProfile.xp,
+    unlockedAchievements: unlockedAchievements,
+    achievementProgress: achievementProgress
+  });
+  
+  updateAchievementBadge();
+  playSound('notification');
+  createConfetti();
+}
+
+// Show achievement unlock notification
+function showAchievementNotification(achievement) {
+  let notif = document.createElement('div');
+  notif.className = 'achievement-notification';
+  
+  notif.innerHTML = `
+    <div class="achievement-notification-icon">${achievement.icon}</div>
+    <div class="achievement-notification-content">
+      <div class="achievement-notification-title">🏆 Achievement Unlocked!</div>
+      <div class="achievement-notification-name">${achievement.name}</div>
+      <div class="achievement-notification-reward">
+        ${achievement.reward.coins > 0 ? `+${achievement.reward.coins} 🪙` : ''}
+        ${achievement.reward.xp > 0 ? `+${achievement.reward.xp} XP` : ''}
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(notif);
+  
+  setTimeout(() => {
+    notif.remove();
+  }, 5000);
+}
+
+// Update badge on achievements button
+function updateAchievementBadge() {
+  let newUnlocks = 0;
+  let lastSeen = parseInt(localStorage.getItem('achievementsSeen') || 0);
+  
+  if (unlockedAchievements.length > lastSeen) {
+    newUnlocks = unlockedAchievements.length - lastSeen;
+  }
+  
+  let ping = document.getElementById("achievementPing");
+  if (newUnlocks > 0) {
+    ping.textContent = newUnlocks;
+    ping.style.display = 'flex';
+  } else {
+    ping.style.display = 'none';
+  }
+}
+
+// Mark achievements as seen when modal opened
+function markAchievementsSeen() {
+  localStorage.setItem('achievementsSeen', unlockedAchievements.length);
+  updateAchievementBadge();
+}
+
+// Track various stats for achievements
+function trackGamePlayed(gameName) {
+  if (!gamesPlayedList.includes(gameName)) {
+    gamesPlayedList.push(gameName);
+  }
+  
+  let totalGames = myProfile.gamesPlayed || 0;
+  
+  checkAchievement('first_game', 1);
+  checkAchievement('games_10', totalGames);
+  checkAchievement('games_50', totalGames);
+  checkAchievement('games_100', totalGames);
+  checkAchievement('games_500', totalGames);
+  
+  // Check if all minigames played
+  let allMiniGames = ['snake', 'minesweeper', 'tetris', 'pong', 'breakout', 'flappy', 'memory', 'tictactoe', 'clicker', '2048'];
+  let playedAll = allMiniGames.every(g => gamesPlayedList.includes(g));
+  if (playedAll) {
+    checkAchievement('minigames_all', 1);
+  }
+  
+  saveAchievements();
+}
+
+function trackCoinsEarned(amount) {
+  totalCoinsEarned += amount;
+  
+  checkAchievement('coins_100', totalCoinsEarned);
+  checkAchievement('coins_500', totalCoinsEarned);
+  checkAchievement('coins_1000', totalCoinsEarned);
+  checkAchievement('coins_5000', totalCoinsEarned);
+  checkAchievement('coins_10000', totalCoinsEarned);
+  
+  saveAchievements();
+}
+
+function trackXpEarned(amount) {
+  totalXpEarned += amount;
+  
+  checkAchievement('xp_1000', totalXpEarned);
+  checkAchievement('xp_10000', totalXpEarned);
+  checkAchievement('xp_50000', totalXpEarned);
+  
+  saveAchievements();
+}
+
+function trackLevelUp(newLevel) {
+  checkAchievement('level_5', newLevel);
+  checkAchievement('level_10', newLevel);
+  checkAchievement('level_25', newLevel);
+  checkAchievement('level_50', newLevel);
+  checkAchievement('level_100', newLevel);
+}
+
+function trackMessageSent() {
+  let messages = myProfile.messagesSent || 0;
+  
+  checkAchievement('first_message', 1);
+  checkAchievement('messages_50', messages);
+  checkAchievement('messages_200', messages);
+  checkAchievement('messages_500', messages);
+  checkAchievement('messages_1000', messages);
+}
+
+function trackFriendAdded() {
+  let friends = (myProfile.friends || []).length;
+  
+  checkAchievement('first_friend', 1);
+  checkAchievement('friends_5', friends);
+  checkAchievement('friends_10', friends);
+  checkAchievement('friends_25', friends);
+}
+
+function trackProfileUpdated(type) {
+  if (type === 'bio') checkAchievement('set_bio', 1);
+  if (type === 'pic') checkAchievement('set_pic', 1);
+  if (type === 'status') checkAchievement('set_status', 1);
+}
+
+function trackPurchase() {
+  let items = (myProfile.inventory || []).length;
+  
+  checkAchievement('first_purchase', 1);
+  checkAchievement('purchases_5', items);
+  checkAchievement('purchases_15', items);
+  
+  // Check if owns all items
+  if (items >= shopItems.length) {
+    checkAchievement('purchases_all', 1);
+  }
+}
+
+function trackMusicPlaylist() {
+  let songs = musicPlaylist.length;
+  checkAchievement('music_playlist', songs);
+}
+
+function trackFavorites() {
+  let favs = favorites.length;
+  checkAchievement('favorites_5', favs);
+}
+
+
     
     // ===== INITIALIZATION =====
     async function init() {
