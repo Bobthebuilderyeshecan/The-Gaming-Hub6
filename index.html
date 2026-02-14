@@ -2418,6 +2418,324 @@
       font-size: 12px;
       margin-top: 5px;
     }
+ /* ===== MUSIC PLAYER ===== */
+.music-player-toggle {
+  position: fixed;
+  bottom: 130px;
+  right: 20px;
+  background: linear-gradient(135deg, #1db954, #1aa34a);
+  color: white;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 1000;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
+}
+
+.music-player-toggle:hover {
+  transform: scale(1.1);
+}
+
+.music-player {
+  position: fixed;
+  bottom: 185px;
+  right: 20px;
+  width: 320px;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  border: 2px solid #1db954;
+  z-index: 999;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  animation: scaleIn 0.3s;
+}
+
+.music-player.open {
+  display: flex;
+}
+
+.music-player-header {
+  background: linear-gradient(135deg, #1db954, #1aa34a);
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.music-player-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.music-player-close:hover {
+  transform: rotate(90deg);
+}
+
+.music-now-playing {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid var(--bg-tertiary);
+}
+
+.music-song-title {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-song-status {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.music-progress-container {
+  padding: 0 15px;
+  margin-bottom: 5px;
+}
+
+.music-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.music-progress-fill {
+  height: 100%;
+  background: #1db954;
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
+
+.music-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.music-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--bg-tertiary);
+}
+
+.music-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+  padding: 5px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-btn:hover {
+  color: #1db954;
+  background: var(--bg-tertiary);
+}
+
+.music-btn.active {
+  color: #1db954;
+}
+
+.music-play-btn {
+  background: #1db954 !important;
+  color: white !important;
+  width: 45px;
+  height: 45px;
+  font-size: 22px;
+  border-radius: 50%;
+}
+
+.music-play-btn:hover {
+  background: #1aa34a !important;
+  transform: scale(1.05);
+}
+
+.music-volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  border-bottom: 1px solid var(--bg-tertiary);
+}
+
+.music-volume-label {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.music-volume-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 5px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  outline: none;
+}
+
+.music-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #1db954;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.music-playlist {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.music-playlist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-bottom: 4px;
+}
+
+.music-playlist-item:hover {
+  background: var(--bg-tertiary);
+}
+
+.music-playlist-item.playing {
+  background: rgba(29, 185, 84, 0.2);
+  border-left: 3px solid #1db954;
+}
+
+.music-playlist-item-name {
+  flex: 1;
+  color: var(--text-primary);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-playlist-item-remove {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.music-playlist-item-remove:hover {
+  color: var(--danger);
+  background: var(--bg-tertiary);
+}
+
+.music-add-song {
+  padding: 10px;
+  border-top: 1px solid var(--bg-tertiary);
+  display: flex;
+  gap: 8px;
+}
+
+.music-add-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+}
+
+.music-add-input:focus {
+  box-shadow: 0 0 0 2px #1db954;
+}
+
+.music-add-input::placeholder {
+  color: var(--text-muted);
+}
+
+.music-add-btn {
+  background: #1db954;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.music-add-btn:hover {
+  background: #1aa34a;
+}
+
+.music-add-name {
+  padding: 0 10px 5px 10px;
+}
+
+.music-add-name-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 5px;
+}
+
+.music-add-name-input::placeholder {
+  color: var(--text-muted);
+}
+
+.music-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  padding: 20px;
+}
+  
+  
   </style>
 </head>
 <body data-theme="dark">
@@ -2552,6 +2870,58 @@
     </div>
   </div>
 
+<!-- Music Player Toggle -->
+<button class="music-player-toggle" onclick="toggleMusicPlayer()" title="Music Player">🎵</button>
+
+<!-- Music Player -->
+<div id="musicPlayer" class="music-player">
+  <div class="music-player-header">
+    <span>🎵 Music Player</span>
+    <button class="music-player-close" onclick="toggleMusicPlayer()">✕</button>
+  </div>
+
+  <div class="music-now-playing">
+    <div class="music-song-title" id="musicSongTitle">No song playing</div>
+    <div class="music-song-status" id="musicSongStatus">Add songs to get started</div>
+  </div>
+
+  <div class="music-progress-container">
+    <div class="music-progress-bar" id="musicProgressBar" onclick="seekMusic(event)">
+      <div class="music-progress-fill" id="musicProgressFill" style="width: 0%"></div>
+    </div>
+    <div class="music-time">
+      <span id="musicCurrentTime">0:00</span>
+      <span id="musicDuration">0:00</span>
+    </div>
+  </div>
+
+  <div class="music-controls">
+    <button class="music-btn" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle">🔀</button>
+    <button class="music-btn" onclick="prevSong()" title="Previous">⏮️</button>
+    <button class="music-btn music-play-btn" id="musicPlayBtn" onclick="togglePlayPause()" title="Play">▶️</button>
+    <button class="music-btn" onclick="nextSong()" title="Next">⏭️</button>
+    <button class="music-btn" id="repeatBtn" onclick="toggleRepeat()" title="Repeat">🔁</button>
+  </div>
+
+  <div class="music-volume">
+    <span class="music-volume-label">🔊</span>
+    <input type="range" class="music-volume-slider" id="musicVolume" min="0" max="100" value="50" oninput="changeVolume(this.value)">
+  </div>
+
+  <div class="music-playlist" id="musicPlaylist">
+    <div class="music-empty">No songs yet. Add a URL below!</div>
+  </div>
+
+  <div class="music-add-name">
+    <input type="text" class="music-add-name-input" id="musicSongName" placeholder="Song name (optional)">
+  </div>
+  <div class="music-add-song">
+    <input type="text" class="music-add-input" id="musicUrlInput" placeholder="Paste audio URL (.mp3, .wav, etc.)">
+    <button class="music-add-btn" onclick="addSong()">Add</button>
+  </div>
+</div>
+
+  
   <!-- Sound Toggle -->
   <button id="soundToggle" class="sound-toggle" onclick="toggleSound()">🔊</button>
 
@@ -6547,6 +6917,273 @@
       logAdminAction("Cleared announcement");
     }
 
+// ===== MUSIC PLAYER =====
+let musicPlaylist = JSON.parse(localStorage.getItem("musicPlaylist")) || [];
+let musicCurrentIndex = -1;
+let musicAudio = new Audio();
+let musicIsPlaying = false;
+let musicRepeat = false;
+let musicShuffle = false;
+
+musicAudio.volume = 0.5;
+
+musicAudio.addEventListener('timeupdate', updateMusicProgress);
+musicAudio.addEventListener('ended', handleSongEnd);
+musicAudio.addEventListener('loadedmetadata', () => {
+  document.getElementById("musicDuration").textContent = formatMusicTime(musicAudio.duration);
+});
+
+musicAudio.addEventListener('error', () => {
+  document.getElementById("musicSongStatus").textContent = "❌ Error loading audio";
+  document.getElementById("musicSongStatus").style.color = "var(--danger)";
+});
+
+function toggleMusicPlayer() {
+  let player = document.getElementById("musicPlayer");
+  player.classList.toggle("open");
+  playSound('click');
+}
+
+function formatMusicTime(seconds) {
+  if (isNaN(seconds)) return "0:00";
+  let mins = Math.floor(seconds / 60);
+  let secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+function updateMusicProgress() {
+  if (musicAudio.duration) {
+    let percent = (musicAudio.currentTime / musicAudio.duration) * 100;
+    document.getElementById("musicProgressFill").style.width = percent + "%";
+    document.getElementById("musicCurrentTime").textContent = formatMusicTime(musicAudio.currentTime);
+  }
+}
+
+function seekMusic(event) {
+  if (!musicAudio.duration) return;
+  let bar = document.getElementById("musicProgressBar");
+  let rect = bar.getBoundingClientRect();
+  let percent = (event.clientX - rect.left) / rect.width;
+  musicAudio.currentTime = percent * musicAudio.duration;
+}
+
+function handleSongEnd() {
+  if (musicRepeat) {
+    musicAudio.currentTime = 0;
+    musicAudio.play();
+  } else if (musicShuffle) {
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * musicPlaylist.length);
+    } while (randomIndex === musicCurrentIndex && musicPlaylist.length > 1);
+    playSongAtIndex(randomIndex);
+  } else {
+    nextSong();
+  }
+}
+
+function addSong() {
+  let urlInput = document.getElementById("musicUrlInput");
+  let nameInput = document.getElementById("musicSongName");
+  let url = urlInput.value.trim();
+  let name = nameInput.value.trim();
+
+  if (!url) {
+    showNotification("Paste an audio URL!", 'warning');
+    return;
+  }
+
+  if (!name) {
+    // Extract name from URL
+    try {
+      let parts = url.split('/');
+      name = decodeURIComponent(parts[parts.length - 1].split('?')[0]);
+      if (name.length > 50) name = name.substring(0, 50);
+      if (!name) name = "Song " + (musicPlaylist.length + 1);
+    } catch (e) {
+      name = "Song " + (musicPlaylist.length + 1);
+    }
+  }
+
+  musicPlaylist.push({ name: name, url: url });
+  localStorage.setItem("musicPlaylist", JSON.stringify(musicPlaylist));
+
+  urlInput.value = "";
+  nameInput.value = "";
+
+  renderMusicPlaylist();
+  showNotification(`Added "${name}" to playlist!`, 'success');
+  playSound('click');
+
+  // Auto-play if it's the first song
+  if (musicPlaylist.length === 1) {
+    playSongAtIndex(0);
+  }
+}
+
+function removeSong(index) {
+  let wasPlaying = index === musicCurrentIndex;
+
+  musicPlaylist.splice(index, 1);
+  localStorage.setItem("musicPlaylist", JSON.stringify(musicPlaylist));
+
+  if (wasPlaying) {
+    musicAudio.pause();
+    musicIsPlaying = false;
+    document.getElementById("musicPlayBtn").textContent = "▶️";
+
+    if (musicPlaylist.length > 0) {
+      let newIndex = index >= musicPlaylist.length ? 0 : index;
+      playSongAtIndex(newIndex);
+    } else {
+      musicCurrentIndex = -1;
+      document.getElementById("musicSongTitle").textContent = "No song playing";
+      document.getElementById("musicSongStatus").textContent = "Add songs to get started";
+      document.getElementById("musicProgressFill").style.width = "0%";
+      document.getElementById("musicCurrentTime").textContent = "0:00";
+      document.getElementById("musicDuration").textContent = "0:00";
+    }
+  } else if (index < musicCurrentIndex) {
+    musicCurrentIndex--;
+  }
+
+  renderMusicPlaylist();
+  playSound('click');
+}
+
+function playSongAtIndex(index) {
+  if (index < 0 || index >= musicPlaylist.length) return;
+
+  musicCurrentIndex = index;
+  let song = musicPlaylist[index];
+
+  musicAudio.src = song.url;
+  musicAudio.play().then(() => {
+    musicIsPlaying = true;
+    document.getElementById("musicPlayBtn").textContent = "⏸️";
+    document.getElementById("musicSongTitle").textContent = song.name;
+    document.getElementById("musicSongStatus").textContent = `Playing • ${index + 1}/${musicPlaylist.length}`;
+    document.getElementById("musicSongStatus").style.color = "#1db954";
+    renderMusicPlaylist();
+  }).catch(e => {
+    console.error("Music play error:", e);
+    document.getElementById("musicSongStatus").textContent = "❌ Couldn't play this URL";
+    document.getElementById("musicSongStatus").style.color = "var(--danger)";
+  });
+}
+
+function togglePlayPause() {
+  if (musicPlaylist.length === 0) {
+    showNotification("Add songs first!", 'warning');
+    return;
+  }
+
+  if (musicCurrentIndex === -1) {
+    playSongAtIndex(0);
+    return;
+  }
+
+  if (musicIsPlaying) {
+    musicAudio.pause();
+    musicIsPlaying = false;
+    document.getElementById("musicPlayBtn").textContent = "▶️";
+    document.getElementById("musicSongStatus").textContent = "Paused";
+    document.getElementById("musicSongStatus").style.color = "var(--text-muted)";
+  } else {
+    musicAudio.play().then(() => {
+      musicIsPlaying = true;
+      document.getElementById("musicPlayBtn").textContent = "⏸️";
+      document.getElementById("musicSongStatus").textContent = `Playing • ${musicCurrentIndex + 1}/${musicPlaylist.length}`;
+      document.getElementById("musicSongStatus").style.color = "#1db954";
+    }).catch(e => {
+      console.error("Play error:", e);
+    });
+  }
+}
+
+function nextSong() {
+  if (musicPlaylist.length === 0) return;
+
+  let nextIndex;
+  if (musicShuffle) {
+    do {
+      nextIndex = Math.floor(Math.random() * musicPlaylist.length);
+    } while (nextIndex === musicCurrentIndex && musicPlaylist.length > 1);
+  } else {
+    nextIndex = (musicCurrentIndex + 1) % musicPlaylist.length;
+  }
+
+  playSongAtIndex(nextIndex);
+}
+
+function prevSong() {
+  if (musicPlaylist.length === 0) return;
+
+  // If more than 3 seconds in, restart current song
+  if (musicAudio.currentTime > 3) {
+    musicAudio.currentTime = 0;
+    return;
+  }
+
+  let prevIndex = (musicCurrentIndex - 1 + musicPlaylist.length) % musicPlaylist.length;
+  playSongAtIndex(prevIndex);
+}
+
+function toggleRepeat() {
+  musicRepeat = !musicRepeat;
+  document.getElementById("repeatBtn").classList.toggle("active", musicRepeat);
+  showNotification(musicRepeat ? "Repeat ON" : "Repeat OFF", 'info');
+  playSound('click');
+}
+
+function toggleShuffle() {
+  musicShuffle = !musicShuffle;
+  document.getElementById("shuffleBtn").classList.toggle("active", musicShuffle);
+  showNotification(musicShuffle ? "Shuffle ON" : "Shuffle OFF", 'info');
+  playSound('click');
+}
+
+function changeVolume(value) {
+  musicAudio.volume = value / 100;
+  localStorage.setItem("musicVolume", value);
+}
+
+function renderMusicPlaylist() {
+  let container = document.getElementById("musicPlaylist");
+
+  if (musicPlaylist.length === 0) {
+    container.innerHTML = '<div class="music-empty">No songs yet. Add a URL below!</div>';
+    return;
+  }
+
+  let html = "";
+  musicPlaylist.forEach((song, index) => {
+    let isPlaying = index === musicCurrentIndex;
+    html += `<div class="music-playlist-item ${isPlaying ? 'playing' : ''}" onclick="playSongAtIndex(${index})">`;
+    html += `<span style="color: ${isPlaying ? '#1db954' : 'var(--text-muted)'}; font-size: 12px; width: 20px;">${isPlaying ? '▶️' : (index + 1)}</span>`;
+    html += `<span class="music-playlist-item-name">${song.name}</span>`;
+    html += `<button class="music-playlist-item-remove" onclick="event.stopPropagation(); removeSong(${index})" title="Remove">✕</button>`;
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// Load saved volume
+let savedVolume = localStorage.getItem("musicVolume");
+if (savedVolume) {
+  musicAudio.volume = savedVolume / 100;
+  document.addEventListener('DOMContentLoaded', () => {
+    let slider = document.getElementById("musicVolume");
+    if (slider) slider.value = savedVolume;
+  });
+}
+
+// Render playlist on load
+document.addEventListener('DOMContentLoaded', () => {
+  renderMusicPlaylist();
+});
+    
     // ===== INITIALIZATION =====
     async function init() {
       try {
