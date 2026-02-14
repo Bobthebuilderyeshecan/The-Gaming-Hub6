@@ -6549,82 +6549,88 @@
 
     // ===== INITIALIZATION =====
     async function init() {
-      // Loading quote
-      document.getElementById("loadingQuote").textContent = getRandomQuote();
-      
-      // Load saved settings
-      let savedTheme = localStorage.getItem("theme");
-      if (savedTheme) {
-        document.body.dataset.theme = savedTheme;
-        document.getElementById("themeSelect").value = savedTheme;
+      try {
+        let savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+          document.body.dataset.theme = savedTheme;
+          document.getElementById("themeSelect").value = savedTheme;
+        }
+
+        let savedFont = localStorage.getItem("font");
+        if (savedFont) {
+          document.body.className = `font-${savedFont}`;
+          document.getElementById("fontSelect").value = savedFont;
+        }
+
+        let savedParticles = localStorage.getItem("particles");
+        if (savedParticles && savedParticles !== 'none') {
+          changeParticles(savedParticles);
+          document.getElementById("particleSelect").value = savedParticles;
+        }
+
+        let savedCompact = localStorage.getItem("compactMode") === 'true';
+        if (savedCompact) {
+          document.body.classList.add("compact-mode");
+          document.getElementById("compactMode").checked = true;
+        }
+
+        let savedBg = localStorage.getItem("customBg");
+        if (savedBg) {
+          document.getElementById("customBg").style.backgroundImage = `url(${savedBg})`;
+          document.getElementById("bgUrl").value = savedBg;
+        }
+
+        let savedPanic = localStorage.getItem("panicUrl");
+        if (savedPanic) {
+          document.getElementById("panicUrl").value = savedPanic;
+          panicUrl = savedPanic;
+        }
+
+        document.getElementById("soundEnabled").checked = soundEnabled;
+        document.getElementById("notifSound").checked = notifSound;
+        document.getElementById("soundToggle").textContent = soundEnabled ? '🔊' : '🔇';
+
+        loadCloak();
+        document.getElementById("loadingQuote").textContent = getRandomQuote();
+
+        renderGameCards();
+        renderMiniGames();
+        renderCasinoGames();
+
+      } catch (e) {
+        console.error("Settings load error:", e);
       }
-      
-      let savedFont = localStorage.getItem("font");
-      if (savedFont) {
-        document.body.className = `font-${savedFont}`;
-        document.getElementById("fontSelect").value = savedFont;
+
+      try {
+        await checkFirstVisit();
+
+        if (await checkIfBanned()) return;
+
+        loadChat();
+        loadTypingIndicators();
+        loadAnnouncement();
+        loadOnlineUsers();
+
+        try {
+          let users = await db.collection("users").get();
+          document.getElementById("statTotalUsers").textContent = users.size;
+
+          let msgs = await db.collection("chat").get();
+          document.getElementById("statTotalMessages").textContent = msgs.size;
+        } catch (e) {
+          console.error("Stats load error:", e);
+        }
+
+        setInterval(loadOnlineUsers, 30000);
+
+      } catch (e) {
+        console.error("Firebase init error:", e);
+        showNotification("Some features may be unavailable", 'warning');
       }
-      
-      let savedParticles = localStorage.getItem("particles");
-      if (savedParticles && savedParticles !== 'none') {
-        changeParticles(savedParticles);
-        document.getElementById("particleSelect").value = savedParticles;
-      }
-      
-      let savedCompact = localStorage.getItem("compactMode") === 'true';
-      if (savedCompact) {
-        document.body.classList.add("compact-mode");
-        document.getElementById("compactMode").checked = true;
-      }
-      
-      let savedBg = localStorage.getItem("customBg");
-      if (savedBg) {
-        document.getElementById("customBg").style.backgroundImage = `url(${savedBg})`;
-        document.getElementById("bgUrl").value = savedBg;
-      }
-      
-      let savedPanic = localStorage.getItem("panicUrl");
-      if (savedPanic) {
-        document.getElementById("panicUrl").value = savedPanic;
-        panicUrl = savedPanic;
-      }
-      
-      document.getElementById("soundEnabled").checked = soundEnabled;
-      document.getElementById("notifSound").checked = notifSound;
-      document.getElementById("soundToggle").textContent = soundEnabled ? '🔊' : '🔇';
-      
-      loadCloak();
-      
-      // Render content
-      renderGameCards();
-      renderMiniGames();
-      renderCasinoGames();
-      
-      // Check user
-      await checkFirstVisit();
-      
-      if (await checkIfBanned()) return;
-      
-      // Load real-time data
-      loadChat();
-      loadTypingIndicators();
-      loadAnnouncement();
-      loadOnlineUsers();
-      
-      // Update stats
-      let users = await db.collection("users").get();
-      document.getElementById("statTotalUsers").textContent = users.size;
-      
-      let msgs = await db.collection("chat").get();
-      document.getElementById("statTotalMessages").textContent = msgs.size;
-      
-      // Hide loading screen
+
       setTimeout(() => {
         document.getElementById("loadingScreen").classList.add("hidden");
       }, 1500);
-      
-      // Periodic updates
-      setInterval(loadOnlineUsers, 30000);
     }
 
     init();
