@@ -5398,13 +5398,343 @@
       `;
     }
 
-    function initFlappyGame(container) {
-      container.innerHTML = `
-        <h2 style="color: var(--accent); text-align: center;">🐦 Flappy Bird</h2>
-        <p style="text-align: center; color: var(--text-secondary);">Coming soon! Play 2048 or Memory Match for now.</p>
-        <button class="sidebar-btn sidebar-btn-gray" onclick="closeMiniGame()">Close</button>
-      `;
+   function initFlappyGame(container) {
+  container.innerHTML = `
+    <h2 style="color: var(--accent); text-align: center;">🐦 Flappy Bird</h2>
+    <div class="minigame-score">Score: <span id="flappyScore">0</span> | Best: <span id="flappyBest">${localStorage.getItem('flappyBest') || 0}</span></div>
+    <canvas id="flappyCanvas" class="minigame-canvas" width="400" height="500"></canvas>
+    <div class="minigame-controls">
+      <p>Press SPACE or CLICK to flap!</p>
+      <button class="sidebar-btn sidebar-btn-green" onclick="startFlappy()">Start Game</button>
+    </div>
+  `;
+  
+  // Draw initial state
+  let canvas = document.getElementById("flappyCanvas");
+  let ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#87CEEB";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#228B22";
+  ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
+  ctx.font = "20px Poppins";
+  ctx.fillStyle = "white";
+  ctx.textAlign = "center";
+  ctx.fillText("Press Start to Play!", canvas.width/2, canvas.height/2);
+}
+
+function startFlappy() {
+  let canvas = document.getElementById("flappyCanvas");
+  let ctx = canvas.getContext("2d");
+  
+  // Game variables
+  let bird = {
+    x: 80,
+    y: 250,
+    width: 35,
+    height: 25,
+    velocity: 0,
+    gravity: 0.5,
+    jump: -8,
+    rotation: 0
+  };
+  
+  let pipes = [];
+  let pipeWidth = 60;
+  let pipeGap = 150;
+  let pipeSpeed = 3;
+  let pipeSpawnRate = 90;
+  let frameCount = 0;
+  let score = 0;
+  let gameRunning = true;
+  let gameStarted = false;
+  
+  // Colors
+  let skyColor = "#87CEEB";
+  let groundColor = "#228B22";
+  let groundHeight = 50;
+  let pipeColor = "#2ECC71";
+  let pipeBorderColor = "#27AE60";
+  
+  function drawBird() {
+    ctx.save();
+    ctx.translate(bird.x + bird.width/2, bird.y + bird.height/2);
+    
+    // Rotate based on velocity
+    let rotation = Math.min(Math.max(bird.velocity * 3, -30), 90) * Math.PI / 180;
+    ctx.rotate(rotation);
+    
+    // Body (yellow)
+    ctx.fillStyle = "#FFD700";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, bird.width/2, bird.height/2, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#FFA500";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // Wing
+    ctx.fillStyle = "#FFA500";
+    ctx.beginPath();
+    ctx.ellipse(-5, 5, 10, 6, -0.3, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Eye
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(8, -5, 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.arc(10, -5, 4, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Beak
+    ctx.fillStyle = "#FF6B35";
+    ctx.beginPath();
+    ctx.moveTo(15, 0);
+    ctx.lineTo(25, 3);
+    ctx.lineTo(15, 6);
+    ctx.closePath();
+    ctx.fill();
+    
+    ctx.restore();
+  }
+  
+  function drawPipe(pipe) {
+    // Top pipe
+    ctx.fillStyle = pipeColor;
+    ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight);
+    ctx.fillStyle = pipeBorderColor;
+    ctx.fillRect(pipe.x - 3, pipe.topHeight - 30, pipeWidth + 6, 30);
+    
+    // Pipe highlight
+    ctx.fillStyle = "#58D68D";
+    ctx.fillRect(pipe.x + 5, 0, 8, pipe.topHeight - 30);
+    
+    // Bottom pipe
+    let bottomY = pipe.topHeight + pipeGap;
+    ctx.fillStyle = pipeColor;
+    ctx.fillRect(pipe.x, bottomY, pipeWidth, canvas.height - bottomY - groundHeight);
+    ctx.fillStyle = pipeBorderColor;
+    ctx.fillRect(pipe.x - 3, bottomY, pipeWidth + 6, 30);
+    
+    // Pipe highlight
+    ctx.fillStyle = "#58D68D";
+    ctx.fillRect(pipe.x + 5, bottomY + 30, 8, canvas.height - bottomY - groundHeight - 30);
+  }
+  
+  function drawGround() {
+    ctx.fillStyle = groundColor;
+    ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
+    
+    // Grass detail
+    ctx.fillStyle = "#1D8348";
+    for (let i = 0; i < canvas.width; i += 20) {
+      ctx.fillRect(i, canvas.height - groundHeight, 10, 5);
     }
+    
+    // Dirt
+    ctx.fillStyle = "#8B4513";
+    ctx.fillRect(0, canvas.height - groundHeight + 15, canvas.width, groundHeight - 15);
+  }
+  
+  function drawClouds() {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    
+    // Cloud 1
+    ctx.beginPath();
+    ctx.arc(100, 80, 25, 0, Math.PI * 2);
+    ctx.arc(130, 70, 30, 0, Math.PI * 2);
+    ctx.arc(160, 80, 25, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Cloud 2
+    ctx.beginPath();
+    ctx.arc(300, 120, 20, 0, Math.PI * 2);
+    ctx.arc(325, 110, 25, 0, Math.PI * 2);
+    ctx.arc(350, 120, 20, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  function draw() {
+    // Sky
+    ctx.fillStyle = skyColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Clouds
+    drawClouds();
+    
+    // Pipes
+    pipes.forEach(pipe => drawPipe(pipe));
+    
+    // Ground
+    drawGround();
+    
+    // Bird
+    drawBird();
+    
+    // Score
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 3;
+    ctx.font = "bold 40px Poppins";
+    ctx.textAlign = "center";
+    ctx.strokeText(score, canvas.width/2, 60);
+    ctx.fillText(score, canvas.width/2, 60);
+  }
+  
+  function update() {
+    if (!gameRunning) return;
+    
+    frameCount++;
+    
+    // Bird physics
+    bird.velocity += bird.gravity;
+    bird.y += bird.velocity;
+    
+    // Spawn pipes
+    if (frameCount % pipeSpawnRate === 0) {
+      let minHeight = 50;
+      let maxHeight = canvas.height - groundHeight - pipeGap - 50;
+      let topHeight = Math.random() * (maxHeight - minHeight) + minHeight;
+      
+      pipes.push({
+        x: canvas.width,
+        topHeight: topHeight,
+        passed: false
+      });
+    }
+    
+    // Update pipes
+    pipes.forEach((pipe, index) => {
+      pipe.x -= pipeSpeed;
+      
+      // Score
+      if (!pipe.passed && pipe.x + pipeWidth < bird.x) {
+        pipe.passed = true;
+        score++;
+        document.getElementById("flappyScore").textContent = score;
+        playSound('click');
+      }
+      
+      // Remove off-screen pipes
+      if (pipe.x + pipeWidth < 0) {
+        pipes.splice(index, 1);
+      }
+      
+      // Collision detection
+      if (bird.x + bird.width > pipe.x && bird.x < pipe.x + pipeWidth) {
+        if (bird.y < pipe.topHeight || bird.y + bird.height > pipe.topHeight + pipeGap) {
+          gameOver();
+        }
+      }
+    });
+    
+    // Ground collision
+    if (bird.y + bird.height > canvas.height - groundHeight) {
+      bird.y = canvas.height - groundHeight - bird.height;
+      gameOver();
+    }
+    
+    // Ceiling collision
+    if (bird.y < 0) {
+      bird.y = 0;
+      bird.velocity = 0;
+    }
+    
+    draw();
+    
+    if (gameRunning) {
+      window.gameInterval = requestAnimationFrame(update);
+    }
+  }
+  
+  function flap() {
+    if (!gameRunning) return;
+    
+    if (!gameStarted) {
+      gameStarted = true;
+    }
+    
+    bird.velocity = bird.jump;
+    playSound('click');
+  }
+  
+  function gameOver() {
+    gameRunning = false;
+    
+    // Update best score
+    let best = parseInt(localStorage.getItem('flappyBest') || 0);
+    if (score > best) {
+      localStorage.setItem('flappyBest', score);
+      document.getElementById("flappyBest").textContent = score;
+    }
+    
+    // Draw game over screen
+    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = "#FF6B6B";
+    ctx.font = "bold 40px Poppins";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER", canvas.width/2, canvas.height/2 - 40);
+    
+    ctx.fillStyle = "white";
+    ctx.font = "24px Poppins";
+    ctx.fillText(`Score: ${score}`, canvas.width/2, canvas.height/2 + 10);
+    
+    ctx.font = "18px Poppins";
+    ctx.fillStyle = "#FFD700";
+    ctx.fillText(`Best: ${localStorage.getItem('flappyBest') || score}`, canvas.width/2, canvas.height/2 + 45);
+    
+    ctx.font = "16px Poppins";
+    ctx.fillStyle = "#aaa";
+    ctx.fillText("Click START to play again", canvas.width/2, canvas.height/2 + 90);
+    
+    // Award coins
+    if (score > 0) {
+      let coins = Math.floor(score * 2);
+      let xp = Math.floor(score * 1.5);
+      addCoins(coins, `Flappy Bird - Score: ${score}`);
+      addXP(xp, "Flappy Bird");
+    }
+  }
+  
+  // Event listeners
+  function handleKeydown(e) {
+    if (e.code === "Space") {
+      e.preventDefault();
+      flap();
+    }
+  }
+  
+  function handleClick(e) {
+    if (e.target === canvas) {
+      flap();
+    }
+  }
+  
+  // Store old listeners to remove later
+  window.flappyKeydown = handleKeydown;
+  window.flappyClick = handleClick;
+  
+  document.addEventListener("keydown", handleKeydown);
+  canvas.addEventListener("click", handleClick);
+  
+  // Override closeMiniGame to clean up
+  let originalClose = window.closeMiniGame;
+  window.closeMiniGame = function() {
+    document.removeEventListener("keydown", window.flappyKeydown);
+    if (canvas) canvas.removeEventListener("click", window.flappyClick);
+    if (window.gameInterval) cancelAnimationFrame(window.gameInterval);
+    window.closeMiniGame = originalClose;
+    originalClose();
+  };
+  
+  // Start the game
+  draw();
+  update();
+}
 
         // ===== SHOP DATA =====
     const shopItems = [
