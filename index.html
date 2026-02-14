@@ -1323,6 +1323,18 @@
       box-shadow: 0 4px 20px rgba(255, 136, 0, 0.4);
     }
 
+.dm-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.dm-panel.active {
+  display: flex;
+}
+
+    
     .chat-toggle:hover {
       transform: scale(1.05) translateY(-2px);
     }
@@ -3055,7 +3067,7 @@
     </div>
     
     <!-- Global Chat -->
-    <div id="globalChatPanel" class="dm-panel active" style="display: flex;">
+   <div id="globalChatPanel" class="dm-panel active" style="display: flex; flex-direction: column;">
       <div id="chatMessages" class="chat-messages"></div>
       <div id="typingIndicator" class="typing-indicator">
         <span id="typingUser"></span>
