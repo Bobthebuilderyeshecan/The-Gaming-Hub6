@@ -205,6 +205,34 @@
       100% { transform: translateY(-10px) scale(1); opacity: 0; }
     }
 
+/* Force correct initial state */
+#globalChatPanel {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1;
+  min-height: 0;
+}
+
+#globalChatPanel.active {
+  display: flex !important;
+}
+
+#dmsPanel,
+#dmConversation,
+#groupsPanel,
+#groupConversation {
+  display: none;
+}
+
+#dmsPanel.active,
+#dmConversation.active,
+#groupsPanel.active,
+#groupConversation.active {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
     /* ===== LOADING SCREEN ===== */
     .loading-screen {
       position: fixed;
