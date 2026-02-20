@@ -9621,6 +9621,8 @@ function showAchievementNotification(achievement) {
 
 // Update badge on achievements button
 function updateAchievementBadge() {
+  // Achievement badge no longer needed (achievements in sidebar now)
+  // Just update the count silently
   let newUnlocks = 0;
   let lastSeen = parseInt(localStorage.getItem('achievementsSeen') || 0);
   
@@ -9628,15 +9630,17 @@ function updateAchievementBadge() {
     newUnlocks = unlockedAchievements.length - lastSeen;
   }
   
+  // Optional: Update sidebar tab if you want a notification dot
   let ping = document.getElementById("achievementPing");
-  if (newUnlocks > 0) {
-    ping.textContent = newUnlocks;
-    ping.style.display = 'flex';
-  } else {
-    ping.style.display = 'none';
+  if (ping) {
+    if (newUnlocks > 0) {
+      ping.textContent = newUnlocks;
+      ping.style.display = 'flex';
+    } else {
+      ping.style.display = 'none';
+    }
   }
 }
-
 // Mark achievements as seen when modal opened
 function markAchievementsSeen() {
   localStorage.setItem('achievementsSeen', unlockedAchievements.length);
