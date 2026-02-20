@@ -7977,7 +7977,10 @@ function startFlappy() {
   '/stats': 'Show site stats',
   '/items': 'List all shop items',
   '/achievements': 'List all achievement IDs'
-};
+  '/setmylevel [level]': 'Set YOUR level (1-150)',
+  '/setmycoins [amount]': 'Set YOUR coins',
+  '/setmyxp [amount]': 'Set YOUR XP',
+    };
 
     function handleAdminCmd(event) {
       if (event.key === 'Enter') {
@@ -8437,7 +8440,85 @@ case '/achievements':
       document.getElementById("auditLog").innerHTML = html || '<p style="color:var(--text-muted);">No actions yet.</p>';
     }
 
-       // ===== TAB CLOAK =====
+   case '/setmylevel':
+  if (args.length < 1) {
+    result = "Usage: /setmylevel [level]";
+  } else {
+    let level = parseInt(args[0]);
+    
+    if (isNaN(level) || level < 1 || level > 150) {
+      result = `<span style="color:var(--danger)">Level must be between 1 and 150</span>`;
+      break;
+    }
+    
+    // Calculate XP needed for this level
+    let xpNeeded = 0;
+    for (let i = 0; i < level - 1 && i < XP_PER_LEVEL.length; i++) {
+      xpNeeded += XP_PER_LEVEL[i] || 0;
+    }
+    
+    // Directly update YOUR account (no username search)
+    await db.collection("users").doc(userId).update({ xp: xpNeeded });
+    
+    myProfile.xp = xpNeeded;
+    updateXPBar();
+    updateProfileDisplay();
+    
+    let titleInfo = getLevelTitle(level);
+    result = `<span style="color:var(--success)">Set YOUR level to ${level} (${titleInfo.title})</span>`;
+    logAdminAction(`Set own level to ${level}`);
+  }
+  break;
+
+case '/setmycoins':
+  if (args.length < 1) {
+    result = "Usage: /setmycoins [amount]";
+  } else {
+    let amount = parseInt(args[0]);
+    
+    if (isNaN(amount) || amount < 0) {
+      result = `<span style="color:var(--danger)">Coins must be a positive number</span>`;
+      break;
+    }
+    
+    // Directly update YOUR account
+    await db.collection("users").doc(userId).update({ coins: amount });
+    
+    myProfile.coins = amount;
+    document.getElementById("coinsDisplay").textContent = amount;
+    document.getElementById("shopCoinsDisplay").textContent = amount;
+    
+    result = `<span style="color:var(--success)">Set YOUR coins to ${amount}</span>`;
+    logAdminAction(`Set own coins to ${amount}`);
+  }
+  break;
+
+case '/setmyxp':
+  if (args.length < 1) {
+    result = "Usage: /setmyxp [amount]";
+  } else {
+    let amount = parseInt(args[0]);
+    
+    if (isNaN(amount) || amount < 0) {
+      result = `<span style="color:var(--danger)">XP must be a positive number</span>`;
+      break;
+    }
+    
+    // Directly update YOUR account
+    await db.collection("users").doc(userId).update({ xp: amount });
+    
+    myProfile.xp = amount;
+    updateXPBar();
+    updateProfileDisplay();
+    
+    let newLevel = calculateLevel(amount).level;
+    result = `<span style="color:var(--success)">Set YOUR XP to ${amount} (Level ${newLevel})</span>`;
+    logAdminAction(`Set own XP to ${amount}`);
+  }
+  break;
+    
+    
+    // ===== TAB CLOAK =====
     const cloakPresets = {
       classroom: { title: 'Google Classroom', icon: 'https://www.google.com/s2/favicons?domain=classroom.google.com&sz=64' },
       docs: { title: 'Google Docs', icon: 'https://www.google.com/s2/favicons?domain=docs.google.com&sz=64' },
