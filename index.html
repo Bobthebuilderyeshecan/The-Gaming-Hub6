@@ -9043,18 +9043,36 @@ function showSidebarTab(tabId, btn) {
 
     // ===== GAME DATA =====
     const gameData = [
-      { name: "Classroom Resources", url: "https://sites.google.com/view/drive-u-7-home/home", icon: "📚" },
-      { name: "Game Compilation", url: "https://sites.google.com/site/thegamecompilation/home", icon: "🎮" },
-      { name: "Unblocked Games Top", url: "https://sites.google.com/site/unblockedgamestop", icon: "🔝" },
-      { name: "WatchDocumentaries Games", url: "https://watchdocumentaries.com/games", icon: "🎬" },
-      { name: "MSN Play", url: "https://www.msn.com/en-us/play", icon: "🎲" },
-      { name: "Unblocked Games Mix", url: "https://www.symbaloo.com/mix/newunblockedgames", icon: "🎯" },
-      { name: "Unblocked Games 77", url: "https://sites.google.com/site/unblockedgames77", icon: "7️⃣" },
-      { name: "Unblocked Games 76", url: "https://www.symbaloo.com/mix/agariounblockedschool", icon: "🎪" },
-      { name: "Hooda Math Games", url: "https://www.hoodamath.com/Games", icon: "➕" },
-      { name: "Cool Math Games", url: "https://www.coolmathgames.com", icon: "🧮" },
-      { name: "Friv Games", url: "https://www.friv.com", icon: "🎈" }
-    ];
+  // === YOUR EXISTING GAMES ===
+  { name: "Classroom Resources", url: "https://sites.google.com/view/drive-u-7-home/home", icon: "📚" },
+  { name: "Game Compilation", url: "https://sites.google.com/site/thegamecompilation/home", icon: "🎮" },
+  { name: "Unblocked Games Top", url: "https://sites.google.com/site/unblockedgamestop", icon: "🔝" },
+  { name: "WatchDocumentaries Games", url: "https://watchdocumentaries.com/games", icon: "🎬" },
+  { name: "MSN Play", url: "https://www.msn.com/en-us/play", icon: "🎲" },
+  { name: "Unblocked Games Mix", url: "https://www.symbaloo.com/mix/newunblockedgames", icon: "🎯" },
+  { name: "Unblocked Games 77", url: "https://sites.google.com/site/unblockedgames77", icon: "7️⃣" },
+  { name: "Unblocked Games 76", url: "https://www.symbaloo.com/mix/agariounblockedschool", icon: "🎪" },
+  { name: "Hooda Math Games", url: "https://www.hoodamath.com/Games", icon: "➕" },
+  { name: "Cool Math Games", url: "https://www.coolmathgames.com", icon: "🧮" },
+  { name: "Friv Games", url: "https://www.friv.com", icon: "🎈" },
+  
+  // === NEW GAMES ===
+  { name: "Google Games", url: "https://www.google.com/search?q=google+games", icon: "🔍" },
+  { name: "Classroom Center", url: "https://sites.google.com/classroom.center/view-1/", icon: "🏫" },
+  { name: "Survival Race", url: "https://sites.google.com/view/drive-u-7-home/survival-race/race-fullscreen", icon: "🏎️" },
+  { name: "Startpage", url: "https://www.startpage.com/", icon: "🔒" },
+  { name: "YouTube Archive", url: "https://web.archive.org/web/20260000000000*/Youtube", icon: "📼" },
+  { name: "Unblocked Sites 64", url: "https://sites.google.com/view/unblokkedsites64/home", icon: "🎮" },
+  { name: "Prodigy Hacks", url: "https://sites.google.com/gnspes.ca/prodigyhacks/home", icon: "🧙" },
+  { name: "Bing Videos", url: "https://www.bing.com/videos/onecolumn/landing", icon: "📺" },
+  { name: "Yandex Games", url: "https://yandex.ru/games/", icon: "🇷🇺" },
+  { name: "CBC Gem", url: "https://gem.cbc.ca/", icon: "💎" },
+  { name: "Morse Code Translator", url: "https://morsecode.world/international/translator.html", icon: "📡" },
+  { name: "EdNet NS", url: "https://everyone.ednet.ns.ca/landing.php", icon: "📖" },
+  { name: "NASA Space Place", url: "https://spaceplace.nasa.gov/menu/play/", icon: "🚀" },
+  { name: "New Games Hub", url: "https://sites.google.com/view/drive-u-7-home/new", icon: "🆕" },
+  { name: "Playhop", url: "https://playhop.com", icon: "🎪" }
+];
 
     function renderGameCards() {
       let container = document.getElementById("gamesPage1");
