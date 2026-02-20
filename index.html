@@ -3717,12 +3717,50 @@
       "john": "john_2024xauth"
     };
 
-    // ===== XP SYSTEM =====
-    const XP_PER_LEVEL = [
-      100, 150, 225, 340, 510, 765, 1150, 1725, 2590, 3885,
-      5828, 8742, 13113, 19670, 29505, 44258, 66387, 99581, 149372, 224058,
-      336087, 504131, 756197, 1134296, 1701444
-    ];
+   // ===== XP SYSTEM (150 LEVELS) =====
+const XP_PER_LEVEL = [];
+let baseXP = 100;
+for (let i = 0; i < 150; i++) {
+  let multiplier;
+  if (i < 10) multiplier = Math.pow(1.25, i);
+  else if (i < 25) multiplier = Math.pow(1.2, i);
+  else if (i < 50) multiplier = Math.pow(1.15, i);
+  else if (i < 100) multiplier = Math.pow(1.1, i);
+  else multiplier = Math.pow(1.08, i);
+  
+  XP_PER_LEVEL.push(Math.floor(baseXP * multiplier));
+}
+
+// Level Titles (exclusive rewards)
+const LEVEL_TITLES = {
+  1: { title: "Newbie", color: "#888888" },
+  5: { title: "Beginner", color: "#8BC34A" },
+  10: { title: "Rookie", color: "#4CAF50" },
+  15: { title: "Apprentice", color: "#00BCD4" },
+  20: { title: "Skilled", color: "#2196F3" },
+  25: { title: "Adept", color: "#3F51B5" },
+  30: { title: "Veteran", color: "#673AB7" },
+  40: { title: "Expert", color: "#9C27B0" },
+  50: { title: "Elite", color: "#E91E63" },
+  60: { title: "Master", color: "#FF5722" },
+  75: { title: "Grandmaster", color: "#FF9800" },
+  90: { title: "Champion", color: "#FFC107" },
+  100: { title: "Legend", color: "#FFD700" },
+  110: { title: "Mythic", color: "#00FFFF" },
+  125: { title: "Divine", color: "#FF00FF" },
+  140: { title: "Celestial", color: "#FFFFFF" },
+  150: { title: "Immortal", color: "linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff)" }
+};
+
+function getLevelTitle(level) {
+  let title = { title: "Newbie", color: "#888888" };
+  for (let lvl in LEVEL_TITLES) {
+    if (level >= parseInt(lvl)) {
+      title = LEVEL_TITLES[lvl];
+    }
+  }
+  return title;
+}
 
     function getDisplayName(username) {
       if (username && username.includes(SECRET_TAG)) {
@@ -3786,8 +3824,27 @@
     }
 
     function levelUp(newLevel) {
-      playSound('notification');
-      showNotification(`🎉 LEVEL UP! You're now level ${newLevel}!`, 'success');
+  playSound('notification');
+  
+  let titleInfo = getLevelTitle(newLevel);
+  
+  // Check if they earned a new title
+  if (LEVEL_TITLES[newLevel]) {
+    showNotification(`🎉 LEVEL ${newLevel}! New Title: ${titleInfo.title}!`, 'success');
+  } else {
+    showNotification(`🎉 LEVEL UP! You're now level ${newLevel}!`, 'success');
+  }
+  
+  // Reward coins for leveling up
+  let coinReward = newLevel * 50;
+  addCoins(coinReward, `Level ${newLevel} reward`);
+  
+  // Track for achievements
+  trackLevelUp(newLevel);
+  
+  // Confetti animation
+  createConfetti();
+}
       
       // Reward coins for leveling up
       let coinReward = newLevel * 50;
@@ -7898,24 +7955,29 @@ function startFlappy() {
       document.getElementById("pickGreen").style.opacity = 1;
     }
 
-
-        // ===== ADMIN COMMANDS =====
+//admin commandns
     const adminCommands = {
-      '/help': 'Show all commands',
-      '/givexp [user] [amount]': 'Give XP to user',
-      '/givecoins [user] [amount]': 'Give coins to user',
-      '/giveitem [user] [itemid]': 'Give item to user',
-      '/giveall': 'Give yourself all items',
-      '/ban [user]': 'Permanent ban',
-      '/tempban [user] [hours]': 'Temporary ban',
-      '/unban [user]': 'Unban user',
-      '/mute [user]': 'Mute user',
-      '/unmute [user]': 'Unmute user',
-      '/announce [message]': 'Set announcement',
-      '/clearchat': 'Clear all chat messages',
-      '/stats': 'Show site stats',
-      '/items': 'List all shop items'
-    };
+  '/help': 'Show all commands',
+  '/setlevel [user] [level]': 'Set user level (1-150)',
+  '/setxp [user] [amount]': 'Set exact XP amount',
+  '/setcoins [user] [amount]': 'Set exact coin amount',
+  '/givexp [user] [amount]': 'Add XP to user',
+  '/givecoins [user] [amount]': 'Add coins to user',
+  '/giveitem [user] [itemid]': 'Give item to user',
+  '/giveall': 'Give yourself all items',
+  '/giveachievement [user] [id]': 'Give achievement to user',
+  '/giveallachievements [user]': 'Give all achievements',
+  '/ban [user]': 'Permanent ban',
+  '/tempban [user] [hours]': 'Temporary ban',
+  '/unban [user]': 'Unban user',
+  '/mute [user]': 'Mute user',
+  '/unmute [user]': 'Unmute user',
+  '/announce [message]': 'Set announcement',
+  '/clearchat': 'Clear all chat messages',
+  '/stats': 'Show site stats',
+  '/items': 'List all shop items',
+  '/achievements': 'List all achievement IDs'
+};
 
     function handleAdminCmd(event) {
       if (event.key === 'Enter') {
@@ -8169,6 +8231,179 @@ function startFlappy() {
               result += `${item.icon} ${item.id} - ${item.name}<br>`;
             });
             break;
+case '/setlevel':
+  if (args.length < 2) {
+    result = "Usage: /setlevel [username] [level]";
+  } else {
+    let targetName = args[0];
+    let level = parseInt(args[1]);
+    
+    if (isNaN(level) || level < 1 || level > 150) {
+      result = `<span style="color:var(--danger)">Level must be between 1 and 150</span>`;
+      break;
+    }
+    
+    // Calculate XP needed for this level
+    let xpNeeded = 0;
+    for (let i = 0; i < level - 1; i++) {
+      xpNeeded += XP_PER_LEVEL[i] || 0;
+    }
+    
+    let targetUser = await findUserByName(targetName);
+    
+    if (targetUser) {
+      await db.collection("users").doc(targetUser.id).update({ xp: xpNeeded });
+      
+      if (targetUser.id === userId) {
+        myProfile.xp = xpNeeded;
+        updateXPBar();
+        updateProfileDisplay();
+      }
+      
+      let titleInfo = getLevelTitle(level);
+      result = `<span style="color:var(--success)">Set ${targetName} to Level ${level} (${titleInfo.title})</span>`;
+      logAdminAction(`Set ${targetName} to Level ${level}`);
+    } else {
+      result = `<span style="color:var(--danger)">User not found</span>`;
+    }
+  }
+  break;
+
+case '/setxp':
+  if (args.length < 2) {
+    result = "Usage: /setxp [username] [amount]";
+  } else {
+    let targetName = args[0];
+    let amount = parseInt(args[1]);
+    
+    if (isNaN(amount) || amount < 0) {
+      result = `<span style="color:var(--danger)">XP must be a positive number</span>`;
+      break;
+    }
+    
+    let targetUser = await findUserByName(targetName);
+    
+    if (targetUser) {
+      await db.collection("users").doc(targetUser.id).update({ xp: amount });
+      
+      if (targetUser.id === userId) {
+        myProfile.xp = amount;
+        updateXPBar();
+        updateProfileDisplay();
+      }
+      
+      let newLevel = calculateLevel(amount).level;
+      result = `<span style="color:var(--success)">Set ${targetName} XP to ${amount} (Level ${newLevel})</span>`;
+      logAdminAction(`Set ${targetName} XP to ${amount}`);
+    } else {
+      result = `<span style="color:var(--danger)">User not found</span>`;
+    }
+  }
+  break;
+
+case '/setcoins':
+  if (args.length < 2) {
+    result = "Usage: /setcoins [username] [amount]";
+  } else {
+    let targetName = args[0];
+    let amount = parseInt(args[1]);
+    
+    if (isNaN(amount) || amount < 0) {
+      result = `<span style="color:var(--danger)">Coins must be a positive number</span>`;
+      break;
+    }
+    
+    let targetUser = await findUserByName(targetName);
+    
+    if (targetUser) {
+      await db.collection("users").doc(targetUser.id).update({ coins: amount });
+      
+      if (targetUser.id === userId) {
+        myProfile.coins = amount;
+        document.getElementById("coinsDisplay").textContent = amount;
+        document.getElementById("shopCoinsDisplay").textContent = amount;
+      }
+      
+      result = `<span style="color:var(--success)">Set ${targetName} coins to ${amount}</span>`;
+      logAdminAction(`Set ${targetName} coins to ${amount}`);
+    } else {
+      result = `<span style="color:var(--danger)">User not found</span>`;
+    }
+  }
+  break;
+
+case '/giveachievement':
+  if (args.length < 2) {
+    result = "Usage: /giveachievement [username] [achievement_id]<br>Use /achievements to see IDs";
+  } else {
+    let targetName = args[0];
+    let achievementId = args[1];
+    
+    let achievement = ACHIEVEMENTS.find(a => a.id === achievementId);
+    if (!achievement) {
+      result = `<span style="color:var(--danger)">Achievement not found. Use /achievements to see IDs</span>`;
+      break;
+    }
+    
+    let targetUser = await findUserByName(targetName);
+    
+    if (targetUser) {
+      let userAchievements = targetUser.data.unlockedAchievements || [];
+      
+      if (userAchievements.includes(achievementId)) {
+        result = `<span style="color:var(--warning)">${targetName} already has this achievement</span>`;
+      } else {
+        userAchievements.push(achievementId);
+        await db.collection("users").doc(targetUser.id).update({ 
+          unlockedAchievements: userAchievements 
+        });
+        
+        if (targetUser.id === userId) {
+          unlockedAchievements = userAchievements;
+          renderAchievements('all');
+        }
+        
+        result = `<span style="color:var(--success)">Gave "${achievement.name}" to ${targetName}</span>`;
+        logAdminAction(`Gave achievement "${achievement.name}" to ${targetName}`);
+      }
+    } else {
+      result = `<span style="color:var(--danger)">User not found</span>`;
+    }
+  }
+  break;
+
+case '/giveallachievements':
+  if (args.length < 1) {
+    result = "Usage: /giveallachievements [username]";
+  } else {
+    let targetName = args[0];
+    let targetUser = await findUserByName(targetName);
+    
+    if (targetUser) {
+      let allAchievementIds = ACHIEVEMENTS.map(a => a.id);
+      await db.collection("users").doc(targetUser.id).update({ 
+        unlockedAchievements: allAchievementIds 
+      });
+      
+      if (targetUser.id === userId) {
+        unlockedAchievements = allAchievementIds;
+        renderAchievements('all');
+      }
+      
+      result = `<span style="color:var(--success)">Gave all ${allAchievementIds.length} achievements to ${targetName}</span>`;
+      logAdminAction(`Gave all achievements to ${targetName}`);
+    } else {
+      result = `<span style="color:var(--danger)">User not found</span>`;
+    }
+  }
+  break;
+
+case '/achievements':
+  result = "<strong>Achievement IDs:</strong><br>";
+  ACHIEVEMENTS.forEach(a => {
+    result += `${a.icon} <code>${a.id}</code> - ${a.name}<br>`;
+  });
+  break;
             
           default:
             result = `<span style="color:var(--danger)">Unknown command. Use /help</span>`;
