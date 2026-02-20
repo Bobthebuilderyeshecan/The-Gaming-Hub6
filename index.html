@@ -3845,16 +3845,7 @@ function getLevelTitle(level) {
   // Confetti animation
   createConfetti();
 }
-      
-      // Reward coins for leveling up
-      let coinReward = newLevel * 50;
-      addCoins(coinReward, `Level ${newLevel} reward`);
-      
-      // Confetti animation
-      createConfetti();
-  
-    trackLevelUp(newLevel);
-    
+     
 
     function updateXPBar() {
       if (!myProfile) return;
