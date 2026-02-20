@@ -7955,8 +7955,8 @@ function startFlappy() {
       document.getElementById("pickGreen").style.opacity = 1;
     }
 
-//admin commandns
-    const adminCommands = {
+//admin commands
+const adminCommands = {
   '/help': 'Show all commands',
   '/setlevel [user] [level]': 'Set user level (1-150)',
   '/setxp [user] [amount]': 'Set exact XP amount',
@@ -7967,6 +7967,9 @@ function startFlappy() {
   '/giveall': 'Give yourself all items',
   '/giveachievement [user] [id]': 'Give achievement to user',
   '/giveallachievements [user]': 'Give all achievements',
+  '/setmylevel [level]': 'Set YOUR level (1-150)',
+  '/setmycoins [amount]': 'Set YOUR coins',
+  '/setmyxp [amount]': 'Set YOUR XP',
   '/ban [user]': 'Permanent ban',
   '/tempban [user] [hours]': 'Temporary ban',
   '/unban [user]': 'Unban user',
@@ -7977,11 +7980,7 @@ function startFlappy() {
   '/stats': 'Show site stats',
   '/items': 'List all shop items',
   '/achievements': 'List all achievement IDs'
-  '/setmylevel [level]': 'Set YOUR level (1-150)',
-  '/setmycoins [amount]': 'Set YOUR coins',
-  '/setmyxp [amount]': 'Set YOUR XP',
-    };
-
+};
     function handleAdminCmd(event) {
       if (event.key === 'Enter') {
         executeAdminCmd();
@@ -8381,66 +8380,8 @@ case '/achievements':
     result += `${a.icon} <code>${a.id}</code> - ${a.name}<br>`;
   });
   break;
-            
-          default:
-            result = `<span style="color:var(--danger)">Unknown command. Use /help</span>`;
-        }
-      } catch (error) {
-        result = `<span style="color:var(--danger)">Error: ${error.message}</span>`;
-      }
-      
-      output.innerHTML = result;
-      document.getElementById("adminCmd").value = "";
-    }
 
-    async function findUserByName(username) {
-      let snapshot = await db.collection("users").get();
-      let found = null;
-      
-      snapshot.forEach(doc => {
-        let displayName = getDisplayName(doc.data().username);
-        if (displayName.toLowerCase() === username.toLowerCase()) {
-          found = { id: doc.id, data: doc.data() };
-        }
-      });
-      
-      return found;
-    }
-
-    async function logAdminAction(action) {
-      await db.collection("auditLog").add({
-        adminId: userId,
-        adminName: getDisplayName(myProfile.username),
-        action: action,
-        timestamp: Date.now()
-      });
-      
-      loadAuditLog();
-    }
-
-    async function loadAuditLog() {
-      if (!isAdmin) return;
-      
-      let logs = await db.collection("auditLog")
-        .orderBy("timestamp", "desc")
-        .limit(20)
-        .get();
-      
-      let html = "";
-      logs.forEach(doc => {
-        let log = doc.data();
-        let time = new Date(log.timestamp).toLocaleString();
-        html += `<div class="audit-item">`;
-        html += `<span class="audit-admin">${log.adminName}</span>: `;
-        html += `<span class="audit-action">${log.action}</span><br>`;
-        html += `<span class="audit-time">${time}</span>`;
-        html += `</div>`;
-      });
-      
-      document.getElementById("auditLog").innerHTML = html || '<p style="color:var(--text-muted);">No actions yet.</p>';
-    }
-
-   case '/setmylevel':
+  case '/setmylevel':
   if (args.length < 1) {
     result = "Usage: /setmylevel [level]";
   } else {
@@ -8516,7 +8457,67 @@ case '/setmyxp':
     logAdminAction(`Set own XP to ${amount}`);
   }
   break;
-    
+
+            
+          default:
+            result = `<span style="color:var(--danger)">Unknown command. Use /help</span>`;
+        }
+      } catch (error) {
+        result = `<span style="color:var(--danger)">Error: ${error.message}</span>`;
+      }
+      
+      output.innerHTML = result;
+      document.getElementById("adminCmd").value = "";
+    }
+
+    async function findUserByName(username) {
+      let snapshot = await db.collection("users").get();
+      let found = null;
+      
+      snapshot.forEach(doc => {
+        let displayName = getDisplayName(doc.data().username);
+        if (displayName.toLowerCase() === username.toLowerCase()) {
+          found = { id: doc.id, data: doc.data() };
+        }
+      });
+      
+      return found;
+    }
+
+    async function logAdminAction(action) {
+      await db.collection("auditLog").add({
+        adminId: userId,
+        adminName: getDisplayName(myProfile.username),
+        action: action,
+        timestamp: Date.now()
+      });
+      
+      loadAuditLog();
+    }
+
+    async function loadAuditLog() {
+      if (!isAdmin) return;
+      
+      let logs = await db.collection("auditLog")
+        .orderBy("timestamp", "desc")
+        .limit(20)
+        .get();
+      
+      let html = "";
+      logs.forEach(doc => {
+        let log = doc.data();
+        let time = new Date(log.timestamp).toLocaleString();
+        html += `<div class="audit-item">`;
+        html += `<span class="audit-admin">${log.adminName}</span>: `;
+        html += `<span class="audit-action">${log.action}</span><br>`;
+        html += `<span class="audit-time">${time}</span>`;
+        html += `</div>`;
+      });
+      
+      document.getElementById("auditLog").innerHTML = html || '<p style="color:var(--text-muted);">No actions yet.</p>';
+    }
+
+
     
     // ===== TAB CLOAK =====
     const cloakPresets = {
