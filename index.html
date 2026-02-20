@@ -3786,20 +3786,29 @@ function getLevelTitle(level) {
     }
 
     function calculateLevel(xp) {
-      let level = 1;
-      let totalXp = 0;
-      
-      for (let i = 0; i < XP_PER_LEVEL.length; i++) {
-        if (xp >= totalXp + XP_PER_LEVEL[i]) {
-          level = i + 2;
-          totalXp += XP_PER_LEVEL[i];
-        } else {
-          break;
-        }
-      }
-      
-      return { level, currentXp: xp - totalXp, requiredXp: XP_PER_LEVEL[level - 1] || 999999 };
+  let level = 1;
+  let totalXp = 0;
+  
+  for (let i = 0; i < XP_PER_LEVEL.length; i++) {
+    if (xp >= totalXp + XP_PER_LEVEL[i]) {
+      level = i + 2;
+      totalXp += XP_PER_LEVEL[i];
+    } else {
+      break;
     }
+  }
+  
+  // Cap at 150
+  level = Math.min(level, 150);
+  
+  let requiredXp = XP_PER_LEVEL[level - 1] || XP_PER_LEVEL[XP_PER_LEVEL.length - 1];
+  
+  return { 
+    level: level, 
+    currentXp: xp - totalXp, 
+    requiredXp: requiredXp 
+  };
+}
 
     async function addXP(amount, reason) {
       if (!myProfile) return;
@@ -8222,7 +8231,11 @@ function startFlappy() {
               result += `${item.icon} ${item.id} - ${item.name}<br>`;
             });
             break;
-case '/setlevel':
+
+          
+          
+          
+ case '/setlevel':
   if (args.length < 2) {
     result = "Usage: /setlevel [username] [level]";
   } else {
@@ -8236,7 +8249,7 @@ case '/setlevel':
     
     // Calculate XP needed for this level
     let xpNeeded = 0;
-    for (let i = 0; i < level - 1; i++) {
+    for (let i = 0; i < level - 1 && i < XP_PER_LEVEL.length; i++) {
       xpNeeded += XP_PER_LEVEL[i] || 0;
     }
     
@@ -8260,39 +8273,9 @@ case '/setlevel':
   }
   break;
 
-case '/setxp':
-  if (args.length < 2) {
-    result = "Usage: /setxp [username] [amount]";
-  } else {
-    let targetName = args[0];
-    let amount = parseInt(args[1]);
-    
-    if (isNaN(amount) || amount < 0) {
-      result = `<span style="color:var(--danger)">XP must be a positive number</span>`;
-      break;
-    }
-    
-    let targetUser = await findUserByName(targetName);
-    
-    if (targetUser) {
-      await db.collection("users").doc(targetUser.id).update({ xp: amount });
-      
-      if (targetUser.id === userId) {
-        myProfile.xp = amount;
-        updateXPBar();
-        updateProfileDisplay();
-      }
-      
-      let newLevel = calculateLevel(amount).level;
-      result = `<span style="color:var(--success)">Set ${targetName} XP to ${amount} (Level ${newLevel})</span>`;
-      logAdminAction(`Set ${targetName} XP to ${amount}`);
-    } else {
-      result = `<span style="color:var(--danger)">User not found</span>`;
-    }
-  }
-  break;
-
-case '/setcoins':
+          
+          
+    case '/setcoins':
   if (args.length < 2) {
     result = "Usage: /setcoins [username] [amount]";
   } else {
