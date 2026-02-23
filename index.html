@@ -4757,14 +4757,18 @@ if (pic && !pic.includes('dicebear')) trackProfileUpdated('pic');
 
         // ===== CHAT SYSTEM =====
     function toggleChat() {
-      chatOpen = !chatOpen;
-      document.getElementById("chatPanel").classList.toggle("open", chatOpen);
-      if (chatOpen) {
-        document.getElementById("chatBadge").style.display = "none";
-        document.getElementById("chatInput").focus();
-      }
-      playSound('click');
-    }
+  chatOpen = !chatOpen;
+  let chatPanel = document.getElementById("chatPanel");
+  chatPanel.classList.toggle("open", chatOpen);
+  
+  if (chatOpen) {
+    document.getElementById("chatBadge").style.display = "none";
+    let chatInput = document.getElementById("chatInput");
+    if (chatInput) chatInput.focus();
+  }
+  
+  playSound('click');
+}
 
     function showChatTab(tab, btn) {
       document.querySelectorAll('.chat-header-tab').forEach(t => t.classList.remove('active'));
@@ -9235,12 +9239,17 @@ case '/setmyxp':
       window.scrollTo(0, 0);
     }
 
-    // ===== SIDEBAR =====
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("open");
-      document.querySelector(".sidebar-toggle").textContent = document.getElementById("sidebar").classList.contains("open") ? "▶" : "◀";
-      playSound('click');
-    }
+   function toggleSidebar() {
+  let sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("open");
+  let toggle = document.querySelector(".sidebar-toggle");
+  if (sidebar.classList.contains("open")) {
+    toggle.textContent = "▶";
+  } else {
+    toggle.textContent = "◀";
+  }
+  playSound('click');
+}
 
 function showSidebarTab(tabId, btn) {
   document.querySelectorAll(".sidebar-panel").forEach(p => p.classList.remove("active"));
@@ -11188,10 +11197,12 @@ function initBrowser() {
     setTimeout(() => {
       document.getElementById("loadingScreen").classList.add("hidden");
     }, 1500);
-  }  // <-- This closes the FIRST try block (settings load)
+  
+    initBrowser();
+    
+    }  // <-- This closes the FIRST try block (settings load)
 
-  initBrowser();
-
+  
   init();
   </script>
 </body>
