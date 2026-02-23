@@ -2980,7 +2980,384 @@
   font-size: 12px;
 }
     
-  
+/* ===== GALACTIC BROWSER SYSTEM ===== */
+
+/* Browser Controls Bar */
+.browser-controls {
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px;
+  border: 2px solid var(--accent);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.browser-search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.browser-search-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 12px 20px;
+  border: 2px solid var(--bg-tertiary);
+  border-radius: 25px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  transition: 0.3s;
+}
+
+.browser-search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 15px rgba(255, 136, 0, 0.3);
+}
+
+.browser-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.browser-btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.browser-btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: black;
+}
+
+.browser-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 136, 0, 0.4);
+}
+
+.browser-btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.browser-btn-secondary:hover {
+  background: var(--bg-primary);
+}
+
+.browser-btn-secondary.active {
+  background: var(--accent);
+  color: black;
+}
+
+.browser-stats {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 15px;
+  background: var(--bg-tertiary);
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.browser-stat {
+  text-align: center;
+}
+
+.browser-stat-num {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.browser-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.browser-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.browser-filter-tag {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid transparent;
+  user-select: none;
+}
+
+.browser-filter-tag:hover {
+  border-color: var(--accent);
+}
+
+.browser-filter-tag.active {
+  background: var(--accent);
+  color: black;
+  border-color: var(--accent);
+}
+
+.browser-view-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.browser-sort {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.browser-sort-label {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.browser-sort-select {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s;
+}
+
+.browser-sort-select:hover {
+  background: var(--bg-primary);
+}
+
+/* Pagination */
+.browser-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 30px 20px;
+  flex-wrap: wrap;
+}
+
+.browser-page-btn {
+  padding: 10px 15px;
+  border: 2px solid var(--bg-tertiary);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: inherit;
+  font-weight: 600;
+  min-width: 45px;
+}
+
+.browser-page-btn:hover {
+  border-color: var(--accent);
+  background: var(--bg-tertiary);
+}
+
+.browser-page-btn.active {
+  background: var(--accent);
+  color: black;
+  border-color: var(--accent);
+}
+
+.browser-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.browser-page-info {
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+/* List View */
+.games-list.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.games-list.list-view .game-card {
+  width: 100%;
+  max-width: none;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.games-list.list-view .game-thumbnail {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  margin-right: 15px;
+}
+
+.games-list.list-view .game-info {
+  flex: 1;
+  text-align: left;
+}
+
+.games-list.list-view .game-info h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.games-list.list-view .game-url {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  word-break: break-all;
+}
+
+.games-list.list-view .fav-star {
+  position: static;
+  margin-left: 15px;
+}
+
+/* Grid View (default) */
+.games-list.grid-view {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* No Results */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.no-results-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.no-results-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.no-results-sub {
+  font-size: 14px;
+}
+
+/* Recently Visited */
+.recently-visited {
+  background: var(--bg-tertiary);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.recently-visited h4 {
+  color: var(--accent);
+  margin: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.recently-visited-list {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.recently-visited-item {
+  padding: 8px 15px;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  color: var(--text-primary);
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid transparent;
+}
+
+.recently-visited-item:hover {
+  border-color: var(--accent);
+}
+
+/* Loading Animation */
+.browser-loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+}
+
+.browser-loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--bg-tertiary);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: spin 1s linear infinite;
+}
+
+/* Quick Actions Bar */
+.quick-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.quick-action-btn {
+  padding: 10px 20px;
+  background: var(--bg-tertiary);
+  border: 2px solid transparent;
+  border-radius: 25px;
+  color: var(--text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quick-action-btn:hover {
+  border-color: var(--accent);
+  background: var(--bg-secondary);
+}
+
+.quick-action-icon {
+  font-size: 18px;
+}
+
+    
   </style>
 </head>
 <body data-theme="dark">
@@ -3643,11 +4020,114 @@
     </div>
 
     <!-- All Games Page -->
-    <div id="allgames" class="page" style="display: none;">
-      <h2>🎮 All Games</h2>
-      <button class="random-game-btn" onclick="playRandomGame()">🎲 Play Random Game</button>
-      <div id="allGamesList" class="games-list"></div>
+   <!-- All Games Page -->
+<div id="allgames" class="page" style="display: none;">
+  <h2>🌌 Galactic Game Browser</h2>
+  
+  <!-- Browser Controls -->
+  <div class="browser-controls">
+    <!-- Stats -->
+    <div class="browser-stats">
+      <div class="browser-stat">
+        <div class="browser-stat-num" id="totalSites">0</div>
+        <div class="browser-stat-label">Total Sites</div>
+      </div>
+      <div class="browser-stat">
+        <div class="browser-stat-num" id="shownSites">0</div>
+        <div class="browser-stat-label">Showing</div>
+      </div>
+      <div class="browser-stat">
+        <div class="browser-stat-num" id="totalCategories">0</div>
+        <div class="browser-stat-label">Categories</div>
+      </div>
+      <div class="browser-stat">
+        <div class="browser-stat-num" id="favCount">0</div>
+        <div class="browser-stat-label">Favorites</div>
+      </div>
     </div>
+
+    <!-- Search Bar -->
+    <div class="browser-search-bar">
+      <input 
+        type="text" 
+        id="browserSearch" 
+        class="browser-search-input" 
+        placeholder="🔍 Search 10,000+ sites..." 
+        oninput="filterGames()"
+      >
+      <button class="browser-btn browser-btn-primary" onclick="clearSearch()">Clear</button>
+      <button class="browser-btn browser-btn-secondary" onclick="randomGame()">🎲 Random</button>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button class="quick-action-btn" onclick="showOnlyFavorites()">
+        <span class="quick-action-icon">⭐</span>
+        Favorites Only
+      </button>
+      <button class="quick-action-btn" onclick="showRecentlyVisited()">
+        <span class="quick-action-icon">🕐</span>
+        Recent
+      </button>
+      <button class="quick-action-btn" onclick="showAllGames()">
+        <span class="quick-action-icon">🌐</span>
+        Show All
+      </button>
+    </div>
+
+    <!-- Recently Visited -->
+    <div class="recently-visited" id="recentlyVisitedContainer" style="display: none;">
+      <h4>🕐 Recently Visited</h4>
+      <div class="recently-visited-list" id="recentlyVisitedList"></div>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="browser-filters" id="categoryFilters"></div>
+
+    <!-- View & Sort Options -->
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+      <!-- View Toggle -->
+      <div class="browser-view-toggle">
+        <button class="browser-btn browser-btn-secondary active" id="gridViewBtn" onclick="setView('grid')">
+          🔲 Grid
+        </button>
+        <button class="browser-btn browser-btn-secondary" id="listViewBtn" onclick="setView('list')">
+          📋 List
+        </button>
+      </div>
+
+      <!-- Sort Options -->
+      <div class="browser-sort">
+        <span class="browser-sort-label">Sort by:</span>
+        <select class="browser-sort-select" id="sortSelect" onchange="sortGames()">
+          <option value="default">Default</option>
+          <option value="a-z">A → Z</option>
+          <option value="z-a">Z → A</option>
+          <option value="recent">Recently Added</option>
+          <option value="popular">Most Visited</option>
+        </select>
+      </div>
+
+      <!-- Per Page -->
+      <div class="browser-sort">
+        <span class="browser-sort-label">Per page:</span>
+        <select class="browser-sort-select" id="perPageSelect" onchange="changePerPage()">
+          <option value="20">20</option>
+          <option value="50" selected>50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Games List -->
+  <div id="allGamesList" class="games-list grid-view"></div>
+
+  <!-- Pagination -->
+  <div class="browser-pagination" id="pagination"></div>
+</div>
 
     <!-- Mini Games Page -->
     <div id="minigames" class="page" style="display: none;">
@@ -10185,7 +10665,442 @@ function toggleChatExpand() {
   playSound('click');
 }
 
+// ===== GALACTIC BROWSER SYSTEM =====
+let currentPage = 1;
+let gamesPerPage = 50;
+let currentView = 'grid'; // 'grid' or 'list'
+let currentSort = 'default';
+let activeFilters = [];
+let filteredGames = [];
+let recentlyVisited = JSON.parse(localStorage.getItem('recentlyVisited')) || [];
+let gameVisitCount = JSON.parse(localStorage.getItem('gameVisitCount')) || {};
 
+// Extract categories from gameData
+function extractCategories() {
+  let categories = new Set();
+  
+  gameData.forEach(game => {
+    if (game.tags) {
+      game.tags.forEach(tag => categories.add(tag));
+    }
+  });
+  
+  return Array.from(categories);
+}
+
+// Auto-tag games based on name/URL
+function autoTagGames() {
+  gameData.forEach(game => {
+    if (!game.tags) game.tags = [];
+    
+    let name = game.name.toLowerCase();
+    let url = game.url.toLowerCase();
+    
+    // IO Games
+    if (url.includes('.io') || name.includes('.io')) {
+      game.tags.push('IO Games');
+    }
+    
+    // Proxies
+    if (name.includes('proxy') || name.includes('vpn') || name.includes('unblock')) {
+      game.tags.push('Proxies');
+    }
+    
+    // Unblocked
+    if (name.includes('unblocked')) {
+      game.tags.push('Unblocked');
+    }
+    
+    // Educational
+    if (name.includes('math') || name.includes('edu') || name.includes('learn') || 
+        name.includes('school') || name.includes('kids')) {
+      game.tags.push('Educational');
+    }
+    
+    // Retro
+    if (name.includes('retro') || name.includes('classic') || name.includes('dos') || 
+        name.includes('nes') || name.includes('snes') || name.includes('emulator')) {
+      game.tags.push('Retro');
+    }
+    
+    // Flash
+    if (name.includes('flash')) {
+      game.tags.push('Flash Games');
+    }
+    
+    // Puzzles
+    if (name.includes('puzzle') || name.includes('sudoku') || name.includes('chess') || 
+        name.includes('solitaire') || name.includes('word')) {
+      game.tags.push('Puzzle');
+    }
+    
+    // Typing
+    if (name.includes('type') || name.includes('typing')) {
+      game.tags.push('Typing');
+    }
+    
+    // Popular Sites
+    if (name.includes('cool math') || name.includes('poki') || name.includes('crazy') || 
+        name.includes('armor') || name.includes('kong')) {
+      game.tags.push('Popular');
+    }
+    
+    // Google Sites
+    if (url.includes('sites.google.com')) {
+      game.tags.push('Google Sites');
+    }
+    
+    // Tools
+    if (name.includes('tool') || name.includes('calculator') || name.includes('converter')) {
+      game.tags.push('Tools');
+    }
+    
+    // Remove duplicates
+    game.tags = [...new Set(game.tags)];
+    
+    // Default tag if none
+    if (game.tags.length === 0) {
+      game.tags.push('Other');
+    }
+  });
+}
+
+// Render category filters
+function renderCategoryFilters() {
+  autoTagGames();
+  let categories = extractCategories();
+  let container = document.getElementById('categoryFilters');
+  
+  let html = '<span style="color: var(--text-secondary); font-size: 14px; margin-right: 10px;">Filter:</span>';
+  
+  categories.forEach(cat => {
+    html += `<div class="browser-filter-tag" onclick="toggleFilter('${cat}')">${cat}</div>`;
+  });
+  
+  container.innerHTML = html;
+  
+  document.getElementById('totalCategories').textContent = categories.length;
+}
+
+// Toggle category filter
+function toggleFilter(category) {
+  let idx = activeFilters.indexOf(category);
+  
+  if (idx === -1) {
+    activeFilters.push(category);
+  } else {
+    activeFilters.splice(idx, 1);
+  }
+  
+  // Update UI
+  document.querySelectorAll('.browser-filter-tag').forEach(tag => {
+    if (tag.textContent === category) {
+      tag.classList.toggle('active', activeFilters.includes(category));
+    }
+  });
+  
+  filterGames();
+}
+
+// Filter games
+function filterGames() {
+  let search = document.getElementById('browserSearch').value.toLowerCase();
+  
+  filteredGames = gameData.filter(game => {
+    let matchesSearch = game.name.toLowerCase().includes(search) || 
+                       game.url.toLowerCase().includes(search);
+    
+    let matchesFilters = activeFilters.length === 0 || 
+                        activeFilters.some(filter => game.tags.includes(filter));
+    
+    return matchesSearch && matchesFilters;
+  });
+  
+  currentPage = 1;
+  sortGames();
+}
+
+// Sort games
+function sortGames() {
+  let sortType = document.getElementById('sortSelect').value;
+  
+  switch(sortType) {
+    case 'a-z':
+      filteredGames.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case 'z-a':
+      filteredGames.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+    case 'popular':
+      filteredGames.sort((a, b) => {
+        let aCount = gameVisitCount[a.url] || 0;
+        let bCount = gameVisitCount[b.url] || 0;
+        return bCount - aCount;
+      });
+      break;
+    case 'recent':
+      // Keep original order (assuming newest are at end)
+      break;
+    default:
+      // Keep original order
+      break;
+  }
+  
+  renderGames();
+}
+
+// Render games
+function renderGames() {
+  let container = document.getElementById('allGamesList');
+  let perPage = document.getElementById('perPageSelect').value;
+  
+  if (perPage === 'all') {
+    gamesPerPage = filteredGames.length;
+  } else {
+    gamesPerPage = parseInt(perPage);
+  }
+  
+  let start = (currentPage - 1) * gamesPerPage;
+  let end = start + gamesPerPage;
+  let paginated = filteredGames.slice(start, end);
+  
+  // Update stats
+  document.getElementById('totalSites').textContent = gameData.length;
+  document.getElementById('shownSites').textContent = filteredGames.length;
+  document.getElementById('favCount').textContent = favorites.length;
+  
+  if (filteredGames.length === 0) {
+    container.innerHTML = `
+      <div class="no-results">
+        <div class="no-results-icon">🔍</div>
+        <div class="no-results-text">No sites found</div>
+        <div class="no-results-sub">Try different search terms or filters</div>
+      </div>
+    `;
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+  
+  let html = "";
+  paginated.forEach(game => {
+    let isFav = favorites.some(f => f.url === game.url);
+    let visitCount = gameVisitCount[game.url] || 0;
+    
+    if (currentView === 'list') {
+      html += `<a href="${game.url}" target="_blank" class="game-link" onclick="trackVisit('${game.url}', '${game.name}')">
+        <div class="game-card" data-game="${game.name}">
+          <span class="fav-star ${isFav ? 'favorited' : ''}" onclick="event.preventDefault(); event.stopPropagation(); toggleFavoriteByUrl('${game.url}', '${game.name}');">${isFav ? '★' : '☆'}</span>
+          <div class="game-thumbnail">${game.icon}</div>
+          <div class="game-info">
+            <h3>${game.name}</h3>
+            <div class="game-url">${game.url}</div>
+            ${visitCount > 0 ? `<div style="font-size: 10px; color: var(--text-muted); margin-top: 3px;">👁️ ${visitCount} visits</div>` : ''}
+          </div>
+        </div>
+      </a>`;
+    } else {
+      html += `<a href="${game.url}" target="_blank" class="game-link" onclick="trackVisit('${game.url}', '${game.name}')">
+        <div class="game-card" data-game="${game.name}">
+          <span class="fav-star ${isFav ? 'favorited' : ''}" onclick="event.preventDefault(); event.stopPropagation(); toggleFavoriteByUrl('${game.url}', '${game.name}');">${isFav ? '★' : '☆'}</span>
+          <div class="game-thumbnail">${game.icon}</div>
+          <div class="game-info">
+            <h3>${game.name}</h3>
+            ${visitCount > 0 ? `<div style="font-size: 10px; color: var(--text-muted);">👁️ ${visitCount}</div>` : ''}
+          </div>
+        </div>
+      </a>`;
+    }
+  });
+  
+  container.innerHTML = html;
+  renderPagination();
+  updateRecentlyVisited();
+}
+
+// Render pagination
+function renderPagination() {
+  let totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+  
+  if (totalPages <= 1) {
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+  
+  let html = "";
+  
+  // Previous
+  html += `<button class="browser-page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>← Prev</button>`;
+  
+  // Page numbers (show max 7)
+  let startPage = Math.max(1, currentPage - 3);
+  let endPage = Math.min(totalPages, currentPage + 3);
+  
+  if (startPage > 1) {
+    html += `<button class="browser-page-btn" onclick="changePage(1)">1</button>`;
+    if (startPage > 2) html += `<span class="browser-page-info">...</span>`;
+  }
+  
+  for (let i = startPage; i <= endPage; i++) {
+    html += `<button class="browser-page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+  }
+  
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) html += `<span class="browser-page-info">...</span>`;
+    html += `<button class="browser-page-btn" onclick="changePage(${totalPages})">${totalPages}</button>`;
+  }
+  
+  // Next
+  html += `<button class="browser-page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next →</button>`;
+  
+  // Page info
+  html += `<span class="browser-page-info">Page ${currentPage} of ${totalPages}</span>`;
+  
+  document.getElementById('pagination').innerHTML = html;
+}
+
+// Change page
+function changePage(page) {
+  let totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+  if (page < 1 || page > totalPages) return;
+  
+  currentPage = page;
+  renderGames();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Change per page
+function changePerPage() {
+  currentPage = 1;
+  renderGames();
+}
+
+// Set view
+function setView(view) {
+  currentView = view;
+  
+  document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
+  document.getElementById('listViewBtn').classList.toggle('active', view === 'list');
+  
+  let container = document.getElementById('allGamesList');
+  container.className = `games-list ${view}-view`;
+  
+  renderGames();
+}
+
+// Clear search
+function clearSearch() {
+  document.getElementById('browserSearch').value = '';
+  activeFilters = [];
+  
+  document.querySelectorAll('.browser-filter-tag').forEach(tag => {
+    tag.classList.remove('active');
+  });
+  
+  filterGames();
+}
+
+// Random game
+function randomGame() {
+  if (gameData.length === 0) return;
+  
+  let randomIndex = Math.floor(Math.random() * gameData.length);
+  let game = gameData[randomIndex];
+  
+  trackVisit(game.url, game.name);
+  window.open(game.url, '_blank');
+}
+
+// Show only favorites
+function showOnlyFavorites() {
+  if (favorites.length === 0) {
+    showNotification("You don't have any favorites yet!", 'warning');
+    return;
+  }
+  
+  filteredGames = gameData.filter(game => favorites.some(f => f.url === game.url));
+  currentPage = 1;
+  renderGames();
+}
+
+// Show recently visited
+function showRecentlyVisited() {
+  if (recentlyVisited.length === 0) {
+    showNotification("You haven't visited any sites yet!", 'warning');
+    return;
+  }
+  
+  filteredGames = gameData.filter(game => recentlyVisited.includes(game.url));
+  currentPage = 1;
+  renderGames();
+}
+
+// Show all games
+function showAllGames() {
+  clearSearch();
+}
+
+// Track visit
+function trackVisit(url, name) {
+  // Add to recently visited
+  if (!recentlyVisited.includes(url)) {
+    recentlyVisited.unshift(url);
+    if (recentlyVisited.length > 10) recentlyVisited.pop();
+    localStorage.setItem('recentlyVisited', JSON.stringify(recentlyVisited));
+  }
+  
+  // Track visit count
+  gameVisitCount[url] = (gameVisitCount[url] || 0) + 1;
+  localStorage.setItem('gameVisitCount', JSON.stringify(gameVisitCount));
+  
+  // Add XP for visiting
+  addXP(1, `Visited ${name}`);
+}
+
+// Update recently visited display
+function updateRecentlyVisited() {
+  let container = document.getElementById('recentlyVisitedContainer');
+  let list = document.getElementById('recentlyVisitedList');
+  
+  if (recentlyVisited.length === 0) {
+    container.style.display = 'none';
+    return;
+  }
+  
+  container.style.display = 'block';
+  
+  let html = "";
+  recentlyVisited.slice(0, 10).forEach(url => {
+    let game = gameData.find(g => g.url === url);
+    if (game) {
+      html += `<div class="recently-visited-item" onclick="window.open('${game.url}', '_blank'); trackVisit('${game.url}', '${game.name}');">${game.icon} ${game.name}</div>`;
+    }
+  });
+  
+  list.innerHTML = html;
+}
+
+// Toggle favorite by URL
+function toggleFavoriteByUrl(url, name) {
+  let idx = favorites.findIndex(f => f.url === url);
+  
+  if (idx === -1) {
+    favorites.push({ name, url });
+  } else {
+    favorites.splice(idx, 1);
+  }
+  
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+  renderGames();
+  playSound('click');
+}
+
+// Initialize browser on page load
+function initBrowser() {
+  autoTagGames();
+  renderCategoryFilters();
+  filteredGames = [...gameData];
+  renderGames();
+}
     
     
     // ===== INITIALIZATION =====
@@ -10272,6 +11187,9 @@ function toggleChatExpand() {
       setTimeout(() => {
         document.getElementById("loadingScreen").classList.add("hidden");
       }, 1500);
+ 
+      initBrowser();
+    
     }
 
     init();
