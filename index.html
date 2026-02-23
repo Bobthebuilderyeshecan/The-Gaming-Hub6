@@ -205,34 +205,6 @@
       100% { transform: translateY(-10px) scale(1); opacity: 0; }
     }
 
-/* Force correct initial state */
-#globalChatPanel {
-  display: flex !important;
-  flex-direction: column !important;
-  flex: 1;
-  min-height: 0;
-}
-
-#globalChatPanel.active {
-  display: flex !important;
-}
-
-#dmsPanel,
-#dmConversation,
-#groupsPanel,
-#groupConversation {
-  display: none;
-}
-
-#dmsPanel.active,
-#dmConversation.active,
-#groupsPanel.active,
-#groupConversation.active {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
     /* ===== LOADING SCREEN ===== */
     .loading-screen {
       position: fixed;
@@ -926,412 +898,6 @@
       background-color: var(--text-muted);
     }
 
-/* ===== MUSIC PLAYER (SIDEBAR) ===== */
-.music-sidebar-now-playing {
-  background: var(--bg-tertiary);
-  border-radius: 10px;
-  padding: 12px;
-  text-align: center;
-  margin-bottom: 12px;
-}
-
-.music-sidebar-title {
-  color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.music-sidebar-status {
-  color: var(--text-muted);
-  font-size: 11px;
-  margin-top: 3px;
-}
-
-.music-sidebar-progress {
-  margin-bottom: 12px;
-}
-
-.music-sidebar-progress-bar {
-  width: 100%;
-  height: 6px;
-  background: var(--bg-tertiary);
-  border-radius: 3px;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.music-sidebar-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #1db954, #1ed760);
-  border-radius: 3px;
-  transition: width 0.1s;
-}
-
-.music-sidebar-time {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-
-.music-sidebar-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.music-sidebar-btn {
-  background: var(--bg-tertiary);
-  border: none;
-  color: var(--text-primary);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 16px;
-  transition: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.music-sidebar-btn:hover {
-  background: var(--bg-primary);
-  color: #1db954;
-}
-
-.music-sidebar-btn.active {
-  color: #1db954;
-}
-
-.music-sidebar-play {
-  background: #1db954 !important;
-  color: white !important;
-  width: 44px;
-  height: 44px;
-  font-size: 18px;
-}
-
-.music-sidebar-play:hover {
-  background: #1ed760 !important;
-  transform: scale(1.05);
-}
-
-.music-sidebar-volume {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.music-sidebar-volume span {
-  color: var(--text-secondary);
-}
-
-.music-sidebar-volume-slider {
-  flex: 1;
-  -webkit-appearance: none;
-  height: 5px;
-  background: var(--bg-tertiary);
-  border-radius: 3px;
-  outline: none;
-}
-
-.music-sidebar-volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  background: #1db954;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.music-sidebar-playlist {
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.music-sidebar-playlist-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-  margin-bottom: 4px;
-}
-
-.music-sidebar-playlist-item:hover {
-  background: var(--bg-tertiary);
-}
-
-.music-sidebar-playlist-item.playing {
-  background: rgba(29, 185, 84, 0.2);
-  border-left: 3px solid #1db954;
-}
-
-.music-sidebar-playlist-item-num {
-  color: var(--text-muted);
-  font-size: 11px;
-  width: 18px;
-  text-align: center;
-}
-
-.music-sidebar-playlist-item-name {
-  flex: 1;
-  color: var(--text-primary);
-  font-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.music-sidebar-playlist-item-remove {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 12px;
-  opacity: 0;
-  transition: 0.2s;
-}
-
-.music-sidebar-playlist-item:hover .music-sidebar-playlist-item-remove {
-  opacity: 1;
-}
-
-.music-sidebar-playlist-item-remove:hover {
-  color: var(--danger);
-}
-
-/* ===== ACHIEVEMENTS (SIDEBAR) ===== */
-.achievements-sidebar-stats {
-  display: flex;
-  justify-content: space-around;
-  background: var(--bg-tertiary);
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 10px;
-}
-
-.achievements-sidebar-stat {
-  text-align: center;
-}
-
-.achievements-sidebar-stat-num {
-  color: #f39c12;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.achievements-sidebar-stat-label {
-  color: var(--text-muted);
-  font-size: 10px;
-}
-
-.achievements-sidebar-tabs {
-  display: flex;
-  gap: 5px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-
-.achievements-sidebar-tab {
-  flex: 1;
-  min-width: 40px;
-  padding: 6px 8px;
-  border: none;
-  border-radius: 6px;
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-size: 11px;
-  font-family: inherit;
-  transition: 0.2s;
-}
-
-.achievements-sidebar-tab.active {
-  background: #f39c12;
-  color: black;
-}
-
-.achievements-sidebar-tab:hover:not(.active) {
-  background: var(--bg-primary);
-}
-
-.achievements-sidebar-list {
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.achievement-sidebar-card {
-  background: var(--bg-tertiary);
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  border: 2px solid transparent;
-  transition: 0.2s;
-}
-
-.achievement-sidebar-card:hover {
-  border-color: var(--bg-primary);
-}
-
-.achievement-sidebar-card.unlocked {
-  border-color: #f39c12;
-  background: linear-gradient(135deg, var(--bg-tertiary), rgba(243, 156, 18, 0.1));
-}
-
-.achievement-sidebar-card.locked {
-  opacity: 0.6;
-}
-
-.achievement-sidebar-icon {
-  font-size: 28px;
-  flex-shrink: 0;
-}
-
-.achievement-sidebar-card.locked .achievement-sidebar-icon {
-  filter: grayscale(100%);
-}
-
-.achievement-sidebar-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.achievement-sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 3px;
-}
-
-.achievement-sidebar-name {
-  color: var(--text-primary);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.achievement-sidebar-rarity {
-  font-size: 8px;
-  padding: 2px 6px;
-  border-radius: 8px;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-
-.achievement-sidebar-desc {
-  color: var(--text-muted);
-  font-size: 11px;
-  margin-bottom: 6px;
-}
-
-.achievement-sidebar-progress {
-  width: 100%;
-  height: 4px;
-  background: var(--bg-secondary);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 4px;
-}
-
-.achievement-sidebar-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #f39c12, #e67e22);
-  border-radius: 2px;
-}
-
-.achievement-sidebar-progress-text {
-  color: var(--text-muted);
-  font-size: 10px;
-}
-
-.achievement-sidebar-reward {
-  color: #f39c12;
-  font-size: 10px;
-  margin-top: 4px;
-}
-
-.achievement-sidebar-unlocked {
-  color: #2ecc71;
-  font-size: 10px;
-}
-
-/* Achievement notification popup (keep this) */
-.achievement-notification {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-  border: 2px solid #f39c12;
-  border-radius: 15px;
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  z-index: 10001;
-  animation: achievementSlideIn 0.5s ease, achievementSlideOut 0.5s ease 4.5s forwards;
-  box-shadow: 0 10px 40px rgba(243, 156, 18, 0.3);
-  max-width: 350px;
-}
-
-@keyframes achievementSlideIn {
-  from { transform: translateX(400px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes achievementSlideOut {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(400px); opacity: 0; }
-}
-
-.achievement-notification-icon {
-  font-size: 40px;
-}
-
-.achievement-notification-content {
-  flex: 1;
-}
-
-.achievement-notification-title {
-  color: #f39c12;
-  font-size: 11px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.achievement-notification-name {
-  color: var(--text-primary);
-  font-size: 15px;
-  font-weight: 600;
-  margin: 2px 0;
-}
-
-.achievement-notification-reward {
-  color: var(--text-secondary);
-  font-size: 11px;
-}
-
-/* Rarity colors */
-.rarity-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); color: white; }
-.rarity-silver { background: linear-gradient(135deg, #c0c0c0, #808080); color: black; }
-.rarity-gold { background: linear-gradient(135deg, #ffd700, #ffaa00); color: black; }
-.rarity-platinum { background: linear-gradient(135deg, #e5e4e2, #a0b2c6); color: black; }
-.rarity-diamond { background: linear-gradient(135deg, #b9f2ff, #4fc3f7); color: black; }
-
-    
     /* ===== CHAT STYLES ===== */
     .chat-toggle {
       position: fixed;
@@ -1351,61 +917,6 @@
       box-shadow: 0 4px 20px rgba(255, 136, 0, 0.4);
     }
 
-.dm-panel {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-}
-
-.dm-panel.active {
-  display: flex;
-}
-
-/* Chat Expand Toggle */
-.chat-expand-toggle {
-  background: var(--bg-tertiary);
-  color: var(--text-secondary);
-  padding: 8px 15px;
-  text-align: center;
-  cursor: pointer;
-  font-size: 12px;
-  border-top: 1px solid var(--bg-primary);
-  transition: 0.2s;
-  user-select: none;
-}
-
-.chat-expand-toggle:hover {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-}
-
-#chatExpandArrow {
-  display: inline-block;
-  transition: transform 0.3s;
-  margin-right: 5px;
-}
-
-.chat-messages-wrapper {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-}
-
-.chat-messages-wrapper.collapsed {
-  flex: 0;
-  height: 0;
-  min-height: 0;
-}
-
-.chat-messages-wrapper.collapsed + .chat-expand-toggle #chatExpandArrow {
-  transform: rotate(180deg);
-}
-
-    
-    
     .chat-toggle:hover {
       transform: scale(1.05) translateY(-2px);
     }
@@ -1423,25 +934,26 @@
       animation: pulse 1s infinite;
     }
 
-   .chat-panel {
-  position: fixed;
-  bottom: 90px;
-  left: 20px;
-  width: 400px;
-  height: 520px;
-  background-color: var(--bg-secondary);
-  border-radius: 20px;
-  border: 2px solid var(--accent);
-  z-index: 999;
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
+    .chat-panel {
+      position: fixed;
+      bottom: 90px;
+      left: 20px;
+      width: 400px;
+      height: 520px;
+      background-color: var(--bg-secondary);
+      border-radius: 20px;
+      border: 2px solid var(--accent);
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
 
-.chat-panel.open {
-  display: flex;
-}
+    .chat-panel.open {
+      display: flex;
+      animation: scaleIn 0.3s;
+    }
 
     @keyframes scaleIn {
       from { opacity: 0; transform: scale(0.9); }
@@ -1496,29 +1008,29 @@
       transform: rotate(90deg);
     }
 
-  .chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-}
- .chat-message {
-  background-color: var(--bg-tertiary);
-  border-radius: 15px;
-  padding: 12px;
-  max-width: 85%;
-  min-width: 150px;
-  position: relative;
-  word-wrap: break-word;
-}
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-message {
+      background-color: var(--bg-tertiary);
+      border-radius: 15px;
+      padding: 12px;
+      max-width: 85%;
+      position: relative;
+    }
+
     .chat-message.mine {
-  align-self: flex-end;
-  background: linear-gradient(135deg, #3a3a00, #2a2a00);
-  border: 1px solid var(--accent);
-}
+      align-self: flex-end;
+      background: linear-gradient(135deg, #3a3a00, #2a2a00);
+      border: 1px solid var(--accent);
+    }
+
     .chat-message-header {
       display: flex;
       align-items: center;
@@ -1564,14 +1076,12 @@
       margin-left: auto;
     }
 
-   .chat-message-text {
-  color: var(--text-primary);
-  font-size: 14px;
-  word-wrap: break-word;
-  line-height: 1.4;
-  width: 100%;
-  white-space: normal;
-}
+    .chat-message-text {
+      color: var(--text-primary);
+      font-size: 14px;
+      word-wrap: break-word;
+      line-height: 1.4;
+    }
 
     .chat-message-text .mention {
       color: var(--info);
@@ -1581,15 +1091,13 @@
       cursor: pointer;
     }
 
-   .chat-input-area {
-  padding: 15px;
-  background-color: var(--bg-tertiary);
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  width: 100%;
-}
+    .chat-input-area {
+      padding: 15px;
+      background-color: var(--bg-tertiary);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
 
     .chat-input {
       flex: 1;
@@ -2910,77 +2418,6 @@
       font-size: 12px;
       margin-top: 5px;
     }
-
-/* Achievement unlock notification */
-.achievement-notification {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-  border: 2px solid #f39c12;
-  border-radius: 15px;
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  z-index: 10001;
-  animation: achievementSlideIn 0.5s ease, achievementSlideOut 0.5s ease 4.5s forwards;
-  box-shadow: 0 10px 40px rgba(243, 156, 18, 0.3);
-  max-width: 350px;
-}
-
-@keyframes achievementSlideIn {
-  from {
-    transform: translateX(400px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes achievementSlideOut {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(400px);
-    opacity: 0;
-  }
-}
-
-.achievement-notification-icon {
-  font-size: 45px;
-  animation: achievementBounce 0.5s ease 0.3s;
-}
-
-.achievement-notification-content {
-  flex: 1;
-}
-
-.achievement-notification-title {
-  color: #f39c12;
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.achievement-notification-name {
-  color: var(--text-primary);
-  font-size: 16px;
-  font-weight: 600;
-  margin: 3px 0;
-}
-
-.achievement-notification-reward {
-  color: var(--text-secondary);
-  font-size: 12px;
-}
-    
-  
   </style>
 </head>
 <body data-theme="dark">
@@ -3002,6 +2439,13 @@
   <div id="announcementBanner" class="announcement-banner"></div>
 
 
+
+      <div class="cloak-actions">
+        <button class="about-blank-btn" onclick="openInAboutBlank()">🚀 Open in about:blank</button>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="closeCloakModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Welcome Popup -->
   <div id="welcomePopup" class="popup-overlay" style="display: none;">
@@ -3108,13 +2552,6 @@
     </div>
   </div>
 
-
-
-
-
-
-  
-  
   <!-- Sound Toggle -->
   <button id="soundToggle" class="sound-toggle" onclick="toggleSound()">🔊</button>
 
@@ -3138,23 +2575,18 @@
     </div>
     
     <!-- Global Chat -->
- <div id="globalChatPanel" class="dm-panel active" style="display: flex; flex-direction: column;">
- <div class="chat-messages-wrapper" id="chatMessagesWrapper">
-  <div id="chatMessages" class="chat-messages"></div>
-  <div id="typingIndicator" class="typing-indicator">
-    <span id="typingUser"></span>
-    <span class="typing-dots"><span></span><span></span><span></span></span>
-  </div>
-</div>
-  <div class="chat-expand-toggle" onclick="toggleChatExpand()">
-    <span id="chatExpandArrow">▲</span> Messages
-  </div>
-  <div class="chat-input-area">
-    <div id="mentionsDropdown" class="mentions-dropdown"></div>
-    <input type="text" id="chatInput" class="chat-input" placeholder="Type a message... (@mention)" onkeypress="handleChatKeypress(event)" oninput="handleTyping(); checkMentions();">
-    <button class="chat-send" onclick="sendMessage()">Send</button>
-  </div>
-</div>
+    <div id="globalChatPanel" class="dm-panel active" style="display: flex;">
+      <div id="chatMessages" class="chat-messages"></div>
+      <div id="typingIndicator" class="typing-indicator">
+        <span id="typingUser"></span>
+        <span class="typing-dots"><span></span><span></span><span></span></span>
+      </div>
+      <div class="chat-input-area">
+        <div id="mentionsDropdown" class="mentions-dropdown"></div>
+        <input type="text" id="chatInput" class="chat-input" placeholder="Type a message... (@mention)" onkeypress="handleChatKeypress(event)" oninput="handleTyping(); checkMentions();">
+        <button class="chat-send" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
 
     <!-- DMs Panel -->
     <div id="dmsPanel" class="dm-panel">
@@ -3198,17 +2630,15 @@
     <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
     <h2>⚡ Menu</h2>
 
-   <div class="sidebar-tabs">
-  <button class="sidebar-tab active" onclick="showSidebarTab('profileTab', this)" title="Profile">👤</button>
-  <button class="sidebar-tab" onclick="showSidebarTab('friendsTab', this)" title="Friends">👥</button>
-  <button class="sidebar-tab" onclick="showSidebarTab('activityTab', this)" title="Activity">📰</button>
-  <button class="sidebar-tab" onclick="showSidebarTab('onlineTab', this)" title="Online">🟢</button>
-  <button class="sidebar-tab" onclick="showSidebarTab('inventoryTab', this)" title="Inventory">🎒</button>
-  <button class="sidebar-tab" onclick="showSidebarTab('musicTab', this)" title="Music">🎵</button>
-  <button class="sidebar-tab" onclick="showSidebarTab('achievementsTab', this)" title="Achievements">🏆</button>
-  <button class="sidebar-tab" onclick="showSidebarTab('settingsTab', this)" title="Settings">⚙️</button>
-  <button id="adminTabBtn" class="sidebar-tab admin-tab" onclick="showSidebarTab('adminTab', this)" style="display: none;" title="Admin">👑</button>
-</div>
+    <div class="sidebar-tabs">
+      <button class="sidebar-tab active" onclick="showSidebarTab('profileTab', this)" title="Profile">👤</button>
+      <button class="sidebar-tab" onclick="showSidebarTab('friendsTab', this)" title="Friends">👥</button>
+      <button class="sidebar-tab" onclick="showSidebarTab('activityTab', this)" title="Activity">📰</button>
+      <button class="sidebar-tab" onclick="showSidebarTab('onlineTab', this)" title="Online">🟢</button>
+      <button class="sidebar-tab" onclick="showSidebarTab('inventoryTab', this)" title="Inventory">🎒</button>
+      <button class="sidebar-tab" onclick="showSidebarTab('settingsTab', this)" title="Settings">⚙️</button>
+      <button id="adminTabBtn" class="sidebar-tab admin-tab" onclick="showSidebarTab('adminTab', this)" style="display: none;" title="Admin">👑</button>
+    </div>
 
     <!-- Profile Tab -->
     <div id="profileTab" class="sidebar-panel active">
@@ -3419,88 +2849,6 @@
       <button class="sidebar-btn sidebar-btn-red" onclick="resetAccount()">Reset Account</button>
     </div>
 
-
-<!-- Music Tab -->
-<div id="musicTab" class="sidebar-panel">
-  <h3>🎵 Music Player</h3>
-  
-  <div class="music-sidebar-now-playing">
-    <div class="music-sidebar-title" id="musicSongTitle">No song playing</div>
-    <div class="music-sidebar-status" id="musicSongStatus">Add songs below</div>
-  </div>
-  
-  <div class="music-sidebar-progress">
-    <div class="music-sidebar-progress-bar" id="musicProgressBar" onclick="seekMusic(event)">
-      <div class="music-sidebar-progress-fill" id="musicProgressFill" style="width: 0%"></div>
-    </div>
-    <div class="music-sidebar-time">
-      <span id="musicCurrentTime">0:00</span>
-      <span id="musicDuration">0:00</span>
-    </div>
-  </div>
-  
-  <div class="music-sidebar-controls">
-    <button class="music-sidebar-btn" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle">🔀</button>
-    <button class="music-sidebar-btn" onclick="prevSong()" title="Previous">⏮️</button>
-    <button class="music-sidebar-btn music-sidebar-play" id="musicPlayBtn" onclick="togglePlayPause()" title="Play">▶️</button>
-    <button class="music-sidebar-btn" onclick="nextSong()" title="Next">⏭️</button>
-    <button class="music-sidebar-btn" id="repeatBtn" onclick="toggleRepeat()" title="Repeat">🔁</button>
-  </div>
-  
-  <div class="music-sidebar-volume">
-    <span>🔊</span>
-    <input type="range" class="music-sidebar-volume-slider" id="musicVolume" min="0" max="100" value="50" oninput="changeVolume(this.value)">
-  </div>
-  
-  <hr class="sidebar-divider">
-  
-  <h3>📋 Playlist</h3>
-  <div class="music-sidebar-playlist" id="musicPlaylist">
-    <p style="color: var(--text-muted); font-size: 12px; text-align: center;">No songs yet</p>
-  </div>
-  
-  <hr class="sidebar-divider">
-  
-  <h3>➕ Add Song</h3>
-  <input type="text" class="sidebar-input" id="musicSongName" placeholder="Song name (optional)">
-  <input type="text" class="sidebar-input" id="musicUrlInput" placeholder="Audio URL (.mp3, .wav, etc.)">
-  <button class="sidebar-btn sidebar-btn-green" onclick="addSong()" style="width: 100%;">Add Song</button>
-</div>
-
-<!-- Achievements Tab -->
-<div id="achievementsTab" class="sidebar-panel">
-  <h3>🏆 Achievements</h3>
-  
-  <div class="achievements-sidebar-stats">
-    <div class="achievements-sidebar-stat">
-      <div class="achievements-sidebar-stat-num" id="achievementsUnlocked">0</div>
-      <div class="achievements-sidebar-stat-label">Unlocked</div>
-    </div>
-    <div class="achievements-sidebar-stat">
-      <div class="achievements-sidebar-stat-num" id="achievementsTotal">0</div>
-      <div class="achievements-sidebar-stat-label">Total</div>
-    </div>
-    <div class="achievements-sidebar-stat">
-      <div class="achievements-sidebar-stat-num" id="achievementsPercent">0%</div>
-      <div class="achievements-sidebar-stat-label">Complete</div>
-    </div>
-  </div>
-  
-  <hr class="sidebar-divider">
-  
-  <div class="achievements-sidebar-tabs">
-    <button class="achievements-sidebar-tab active" onclick="showAchievementCategory('all', this)">All</button>
-    <button class="achievements-sidebar-tab" onclick="showAchievementCategory('gaming', this)">🎮</button>
-    <button class="achievements-sidebar-tab" onclick="showAchievementCategory('social', this)">💬</button>
-    <button class="achievements-sidebar-tab" onclick="showAchievementCategory('wealth', this)">💰</button>
-    <button class="achievements-sidebar-tab" onclick="showAchievementCategory('dedication', this)">⭐</button>
-  </div>
-  
-  <div class="achievements-sidebar-list" id="achievementsList"></div>
-</div>
-
-
-    
     <!-- Admin Tab -->
     <div id="adminTab" class="sidebar-panel">
       <h3 style="color: #ff6666;">👑 Admin Panel</h3>
@@ -3717,50 +3065,12 @@
       "john": "john_2024xauth"
     };
 
-   // ===== XP SYSTEM (150 LEVELS) =====
-const XP_PER_LEVEL = [];
-let baseXP = 100;
-for (let i = 0; i < 150; i++) {
-  let multiplier;
-  if (i < 10) multiplier = Math.pow(1.25, i);
-  else if (i < 25) multiplier = Math.pow(1.2, i);
-  else if (i < 50) multiplier = Math.pow(1.15, i);
-  else if (i < 100) multiplier = Math.pow(1.1, i);
-  else multiplier = Math.pow(1.08, i);
-  
-  XP_PER_LEVEL.push(Math.floor(baseXP * multiplier));
-}
-
-// Level Titles (exclusive rewards)
-const LEVEL_TITLES = {
-  1: { title: "Newbie", color: "#888888" },
-  5: { title: "Beginner", color: "#8BC34A" },
-  10: { title: "Rookie", color: "#4CAF50" },
-  15: { title: "Apprentice", color: "#00BCD4" },
-  20: { title: "Skilled", color: "#2196F3" },
-  25: { title: "Adept", color: "#3F51B5" },
-  30: { title: "Veteran", color: "#673AB7" },
-  40: { title: "Expert", color: "#9C27B0" },
-  50: { title: "Elite", color: "#E91E63" },
-  60: { title: "Master", color: "#FF5722" },
-  75: { title: "Grandmaster", color: "#FF9800" },
-  90: { title: "Champion", color: "#FFC107" },
-  100: { title: "Legend", color: "#FFD700" },
-  110: { title: "Mythic", color: "#00FFFF" },
-  125: { title: "Divine", color: "#FF00FF" },
-  140: { title: "Celestial", color: "#FFFFFF" },
-  150: { title: "Immortal", color: "linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff)" }
-};
-
-function getLevelTitle(level) {
-  let title = { title: "Newbie", color: "#888888" };
-  for (let lvl in LEVEL_TITLES) {
-    if (level >= parseInt(lvl)) {
-      title = LEVEL_TITLES[lvl];
-    }
-  }
-  return title;
-}
+    // ===== XP SYSTEM =====
+    const XP_PER_LEVEL = [
+      100, 150, 225, 340, 510, 765, 1150, 1725, 2590, 3885,
+      5828, 8742, 13113, 19670, 29505, 44258, 66387, 99581, 149372, 224058,
+      336087, 504131, 756197, 1134296, 1701444
+    ];
 
     function getDisplayName(username) {
       if (username && username.includes(SECRET_TAG)) {
@@ -3786,29 +3096,20 @@ function getLevelTitle(level) {
     }
 
     function calculateLevel(xp) {
-  let level = 1;
-  let totalXp = 0;
-  
-  for (let i = 0; i < XP_PER_LEVEL.length; i++) {
-    if (xp >= totalXp + XP_PER_LEVEL[i]) {
-      level = i + 2;
-      totalXp += XP_PER_LEVEL[i];
-    } else {
-      break;
+      let level = 1;
+      let totalXp = 0;
+      
+      for (let i = 0; i < XP_PER_LEVEL.length; i++) {
+        if (xp >= totalXp + XP_PER_LEVEL[i]) {
+          level = i + 2;
+          totalXp += XP_PER_LEVEL[i];
+        } else {
+          break;
+        }
+      }
+      
+      return { level, currentXp: xp - totalXp, requiredXp: XP_PER_LEVEL[level - 1] || 999999 };
     }
-  }
-  
-  // Cap at 150
-  level = Math.min(level, 150);
-  
-  let requiredXp = XP_PER_LEVEL[level - 1] || XP_PER_LEVEL[XP_PER_LEVEL.length - 1];
-  
-  return { 
-    level: level, 
-    currentXp: xp - totalXp, 
-    requiredXp: requiredXp 
-  };
-}
 
     async function addXP(amount, reason) {
       if (!myProfile) return;
@@ -3827,34 +3128,20 @@ function getLevelTitle(level) {
       
       if (reason) {
         showNotification(`+${amount} XP: ${reason}`);
-   
-     trackXpEarned(amount); 
       }
     }
 
     function levelUp(newLevel) {
-  playSound('notification');
-  
-  let titleInfo = getLevelTitle(newLevel);
-  
-  // Check if they earned a new title
-  if (LEVEL_TITLES[newLevel]) {
-    showNotification(`🎉 LEVEL ${newLevel}! New Title: ${titleInfo.title}!`, 'success');
-  } else {
-    showNotification(`🎉 LEVEL UP! You're now level ${newLevel}!`, 'success');
-  }
-  
-  // Reward coins for leveling up
-  let coinReward = newLevel * 50;
-  addCoins(coinReward, `Level ${newLevel} reward`);
-  
-  // Track for achievements
-  trackLevelUp(newLevel);
-  
-  // Confetti animation
-  createConfetti();
-}
-     
+      playSound('notification');
+      showNotification(`🎉 LEVEL UP! You're now level ${newLevel}!`, 'success');
+      
+      // Reward coins for leveling up
+      let coinReward = newLevel * 50;
+      addCoins(coinReward, `Level ${newLevel} reward`);
+      
+      // Confetti animation
+      createConfetti();
+    }
 
     function updateXPBar() {
       if (!myProfile) return;
@@ -3891,8 +3178,6 @@ function getLevelTitle(level) {
       
       if (reason && amount > 0) {
         showNotification(`+${amount} 🪙: ${reason}`, 'success');
-   
-      trackCoinsEarned(amount);
       }
     }
   
@@ -3940,8 +3225,6 @@ function getLevelTitle(level) {
       });
       
       document.getElementById("myStatGames").textContent = myProfile.gamesPlayed;
-
-    trackGamePlayed(gameName);
     }
 
     // ===== SOUNDS =====
@@ -4083,11 +3366,6 @@ function getLevelTitle(level) {
         checkAdmin();
         updateXPBar();
         updateInventory();
-        try {
-  loadAchievements();
-} catch(e) {
-  console.error("Achievements error:", e);
-}
       }
     }
 
@@ -4173,9 +3451,6 @@ function getLevelTitle(level) {
       checkAdmin();
       playSound('click');
       showNotification("Profile saved!", 'success');
-  
-    if (bio) trackProfileUpdated('bio');
-if (pic && !pic.includes('dicebear')) trackProfileUpdated('pic');
     }
 
     // ===== UPDATE PROFILE DISPLAY =====
@@ -4228,8 +3503,6 @@ if (pic && !pic.includes('dicebear')) trackProfileUpdated('pic');
       updateProfileDisplay();
       document.getElementById("statusInput").value = "";
       showNotification("Status updated!", 'success');
-  
-    trackProfileUpdated('status');
     }
 
     // ===== ONLINE STATUS =====
@@ -4435,8 +3708,6 @@ if (pic && !pic.includes('dicebear')) trackProfileUpdated('pic');
       // XP for chatting
       if (Math.random() < 0.3) {
         addXP(2, "Chatting");
-  
-      trackMessageSent();
       }
     }
 
@@ -5740,1629 +5011,37 @@ if (pic && !pic.includes('dicebear')) trackProfileUpdated('pic');
     }
 
     // ===== SIMPLE VERSIONS OF OTHER GAMES =====
-   function initTetrisGame(container) {
-  container.innerHTML = `
-    <h2 style="color: var(--accent); text-align: center;">🧱 Tetris</h2>
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-      <div>
-        <canvas id="tetrisCanvas" class="minigame-canvas" width="300" height="600" style="border: 3px solid var(--accent);"></canvas>
-      </div>
-      <div style="text-align: center;">
-        <div class="minigame-score" style="margin-bottom: 20px;">
-          <div>Score: <span id="tetrisScore">0</span></div>
-          <div>Lines: <span id="tetrisLines">0</span></div>
-          <div>Level: <span id="tetrisLevel">1</span></div>
-        </div>
-        <div style="background: var(--bg-tertiary); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-          <div style="color: var(--text-secondary); font-size: 12px; margin-bottom: 8px;">Next Piece:</div>
-          <canvas id="tetrisNextCanvas" width="120" height="120" style="background: var(--bg-secondary); border-radius: 5px;"></canvas>
-        </div>
-        <div class="minigame-controls">
-          <p style="font-size: 12px; color: var(--text-secondary);">
-            ⬅️➡️ Move<br>
-            ⬇️ Drop<br>
-            ⬆️ Rotate<br>
-            SPACE Hard Drop
-          </p>
-          <button class="sidebar-btn sidebar-btn-green" onclick="startTetris()" id="tetrisStartBtn">Start Game</button>
-        </div>
-      </div>
-    </div>
-  `;
-  
-  let canvas = document.getElementById("tetrisCanvas");
-  let ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
+    function initTetrisGame(container) {
+      container.innerHTML = `
+        <h2 style="color: var(--accent); text-align: center;">🧱 Tetris</h2>
+        <p style="text-align: center; color: var(--text-secondary);">Coming soon! Play Snake or 2048 for now.</p>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="closeMiniGame()">Close</button>
+      `;
+    }
 
-function startTetris() {
-  let canvas = document.getElementById("tetrisCanvas");
-  let ctx = canvas.getContext("2d");
-  let nextCanvas = document.getElementById("tetrisNextCanvas");
-  let nextCtx = nextCanvas.getContext("2d");
-  
-  const COLS = 10;
-  const ROWS = 20;
-  const BLOCK_SIZE = 30;
-  
-  let board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-  let score = 0;
-  let lines = 0;
-  let level = 1;
-  let gameRunning = true;
-  let dropCounter = 0;
-  let dropInterval = 1000;
-  let lastTime = 0;
-  
-  // Tetromino shapes
-  const SHAPES = {
-    I: [[1,1,1,1]],
-    J: [[1,0,0],[1,1,1]],
-    L: [[0,0,1],[1,1,1]],
-    O: [[1,1],[1,1]],
-    S: [[0,1,1],[1,1,0]],
-    T: [[0,1,0],[1,1,1]],
-    Z: [[1,1,0],[0,1,1]]
-  };
-  
-  const COLORS = {
-    I: '#00f0f0',
-    J: '#0000f0',
-    L: '#f0a000',
-    O: '#f0f000',
-    S: '#00f000',
-    T: '#a000f0',
-    Z: '#f00000',
-    0: '#000000'
-  };
-  
-  let currentPiece = null;
-  let nextPiece = null;
-  
-  function createPiece() {
-    const pieces = 'IJLOSTZ';
-    const type = pieces[Math.floor(Math.random() * pieces.length)];
-    return {
-      shape: SHAPES[type],
-      color: type,
-      x: Math.floor(COLS / 2) - Math.floor(SHAPES[type][0].length / 2),
-      y: 0
-    };
-  }
-  
-  function drawBlock(x, y, color, context = ctx) {
-    context.fillStyle = COLORS[color];
-    context.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-    context.strokeStyle = '#222';
-    context.lineWidth = 2;
-    context.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-    
-    // Shine effect
-    context.fillStyle = 'rgba(255,255,255,0.2)';
-    context.fillRect(x * BLOCK_SIZE + 2, y * BLOCK_SIZE + 2, BLOCK_SIZE - 4, BLOCK_SIZE / 3);
-  }
-  
-  function drawBoard() {
-    // Background
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Grid
-    ctx.strokeStyle = '#111';
-    ctx.lineWidth = 1;
-    for (let row = 0; row < ROWS; row++) {
-      for (let col = 0; col < COLS; col++) {
-        ctx.strokeRect(col * BLOCK_SIZE, row * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-        
-        if (board[row][col]) {
-          drawBlock(col, row, board[row][col]);
-        }
-      }
-    }
-  }
-  
-  function drawPiece(piece) {
-    piece.shape.forEach((row, y) => {
-      row.forEach((value, x) => {
-        if (value) {
-          drawBlock(piece.x + x, piece.y + y, piece.color);
-        }
-      });
-    });
-  }
-  
-  function drawNextPiece() {
-    nextCtx.fillStyle = '#1a1a1a';
-    nextCtx.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
-    
-    if (!nextPiece) return;
-    
-    const blockSize = 25;
-    const offsetX = (nextCanvas.width - nextPiece.shape[0].length * blockSize) / 2;
-    const offsetY = (nextCanvas.height - nextPiece.shape.length * blockSize) / 2;
-    
-    nextPiece.shape.forEach((row, y) => {
-      row.forEach((value, x) => {
-        if (value) {
-          nextCtx.fillStyle = COLORS[nextPiece.color];
-          nextCtx.fillRect(
-            offsetX + x * blockSize,
-            offsetY + y * blockSize,
-            blockSize,
-            blockSize
-          );
-          nextCtx.strokeStyle = '#222';
-          nextCtx.lineWidth = 2;
-          nextCtx.strokeRect(
-            offsetX + x * blockSize,
-            offsetY + y * blockSize,
-            blockSize,
-            blockSize
-          );
-        }
-      });
-    });
-  }
-  
-  function collide(piece) {
-    return piece.shape.some((row, dy) => {
-      return row.some((value, dx) => {
-        if (value) {
-          let newX = piece.x + dx;
-          let newY = piece.y + dy;
-          return (
-            newX < 0 ||
-            newX >= COLS ||
-            newY >= ROWS ||
-            (newY >= 0 && board[newY][newX])
-          );
-        }
-        return false;
-      });
-    });
-  }
-  
-  function merge(piece) {
-    piece.shape.forEach((row, y) => {
-      row.forEach((value, x) => {
-        if (value) {
-          if (piece.y + y >= 0) {
-            board[piece.y + y][piece.x + x] = piece.color;
-          }
-        }
-      });
-    });
-  }
-  
-  function rotate(piece) {
-    let rotated = piece.shape[0].map((_, i) =>
-      piece.shape.map(row => row[i]).reverse()
-    );
-    
-    let previousShape = piece.shape;
-    piece.shape = rotated;
-    
-    // Wall kick
-    let offset = 0;
-    while (collide(piece)) {
-      piece.x += offset;
-      offset = -(offset + (offset > 0 ? 1 : -1));
-      if (offset > piece.shape[0].length) {
-        piece.shape = previousShape;
-        piece.x -= offset;
-        return;
-      }
-    }
-  }
-  
-  function clearLines() {
-    let linesCleared = 0;
-    
-    outer: for (let row = ROWS - 1; row >= 0; row--) {
-      for (let col = 0; col < COLS; col++) {
-        if (!board[row][col]) continue outer;
-      }
-      
-      // Line is full
-      board.splice(row, 1);
-      board.unshift(Array(COLS).fill(0));
-      row++;
-      linesCleared++;
-    }
-    
-    if (linesCleared > 0) {
-      lines += linesCleared;
-      
-      // Scoring
-      const points = [0, 100, 300, 500, 800];
-      score += points[linesCleared] * level;
-      
-      // Level up every 10 lines
-      level = Math.floor(lines / 10) + 1;
-      dropInterval = Math.max(100, 1000 - (level - 1) * 100);
-      
-      document.getElementById("tetrisScore").textContent = score;
-      document.getElementById("tetrisLines").textContent = lines;
-      document.getElementById("tetrisLevel").textContent = level;
-      
-      playSound('notification');
-    }
-  }
-  
-  function drop() {
-    currentPiece.y++;
-    if (collide(currentPiece)) {
-      currentPiece.y--;
-      merge(currentPiece);
-      clearLines();
-      
-      // Get next piece
-      currentPiece = nextPiece;
-      nextPiece = createPiece();
-      drawNextPiece();
-      
-      if (collide(currentPiece)) {
-        gameOver();
-      }
-    }
-    dropCounter = 0;
-  }
-  
-  function hardDrop() {
-    while (!collide(currentPiece)) {
-      currentPiece.y++;
-      score += 2;
-    }
-    currentPiece.y--;
-    document.getElementById("tetrisScore").textContent = score;
-    drop();
-  }
-  
-  function move(dir) {
-    currentPiece.x += dir;
-    if (collide(currentPiece)) {
-      currentPiece.x -= dir;
-    }
-  }
-  
-  function gameOver() {
-    gameRunning = false;
-    
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.fillStyle = '#ff4444';
-    ctx.font = 'bold 40px Poppins';
-    ctx.textAlign = 'center';
-    ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2 - 40);
-    
-    ctx.fillStyle = 'white';
-    ctx.font = '24px Poppins';
-    ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 10);
-    ctx.fillText(`Lines: ${lines}`, canvas.width / 2, canvas.height / 2 + 45);
-    
-    ctx.font = '16px Poppins';
-    ctx.fillStyle = '#aaa';
-    ctx.fillText('Click START to play again', canvas.width / 2, canvas.height / 2 + 90);
-    
-    // Award coins & XP
-    if (score > 0) {
-      let coins = Math.floor(score / 10);
-      let xp = Math.floor(lines * 5);
-      addCoins(coins, `Tetris - ${lines} lines`);
-      addXP(xp, "Tetris");
-    }
-    
-    document.getElementById("tetrisStartBtn").textContent = "Play Again";
-  }
-  
-  function update(time = 0) {
-    if (!gameRunning) return;
-    
-    const deltaTime = time - lastTime;
-    lastTime = time;
-    dropCounter += deltaTime;
-    
-    if (dropCounter > dropInterval) {
-      drop();
-    }
-    
-    drawBoard();
-    drawPiece(currentPiece);
-    
-    window.gameInterval = requestAnimationFrame(update);
-  }
-  
-  // Keyboard controls
-  function handleKeyDown(e) {
-    if (!gameRunning) return;
-    
-    if (e.key === 'ArrowLeft') {
-      move(-1);
-    } else if (e.key === 'ArrowRight') {
-      move(1);
-    } else if (e.key === 'ArrowDown') {
-      drop();
-    } else if (e.key === 'ArrowUp') {
-      rotate(currentPiece);
-    } else if (e.key === ' ') {
-      e.preventDefault();
-      hardDrop();
-    }
-  }
-  
-  window.tetrisKeydown = handleKeyDown;
-  document.addEventListener('keydown', handleKeyDown);
-  
-  // Cleanup on close
-  let originalClose = window.closeMiniGame;
-  window.closeMiniGame = function() {
-    document.removeEventListener('keydown', window.tetrisKeydown);
-    if (window.gameInterval) cancelAnimationFrame(window.gameInterval);
-    window.closeMiniGame = originalClose;
-    originalClose();
-  };
-  
-  // Initialize
-  currentPiece = createPiece();
-  nextPiece = createPiece();
-  drawNextPiece();
-  document.getElementById("tetrisStartBtn").textContent = "Pause";
-  update();
-}
     function initPongGame(container) {
-  container.innerHTML = `
-    <h2 style="color: var(--accent); text-align: center;">🏓 Pong</h2>
-    <div class="minigame-score">
-      <span id="pongPlayerScore" style="color: #00ff00; font-size: 24px;">0</span>
-      <span style="color: var(--text-muted);"> - </span>
-      <span id="pongAiScore" style="color: #ff4444; font-size: 24px;">0</span>
-    </div>
-    <p style="text-align: center; color: var(--text-secondary); font-size: 12px;">First to 7 wins!</p>
-    <canvas id="pongCanvas" class="minigame-canvas" width="600" height="400"></canvas>
-    <div class="minigame-controls">
-      <p>Use ⬆️ ⬇️ Arrow Keys or W/S to move</p>
-      <button class="sidebar-btn sidebar-btn-green" onclick="startPong()">Start Game</button>
-    </div>
-  `;
-  
-  // Draw initial state
-  let canvas = document.getElementById("pongCanvas");
-  let ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  // Draw center line
-  ctx.setLineDash([10, 10]);
-  ctx.strokeStyle = "#333";
-  ctx.lineWidth = 4;
-  ctx.beginPath();
-  ctx.moveTo(canvas.width / 2, 0);
-  ctx.lineTo(canvas.width / 2, canvas.height);
-  ctx.stroke();
-  ctx.setLineDash([]);
-  
-  ctx.fillStyle = "white";
-  ctx.font = "24px Poppins";
-  ctx.textAlign = "center";
-  ctx.fillText("Press Start to Play!", canvas.width / 2, canvas.height / 2);
-}
+      container.innerHTML = `
+        <h2 style="color: var(--accent); text-align: center;">🏓 Pong</h2>
+        <p style="text-align: center; color: var(--text-secondary);">Coming soon! Play Snake or Memory Match for now.</p>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="closeMiniGame()">Close</button>
+      `;
+    }
 
-function startPong() {
-  let canvas = document.getElementById("pongCanvas");
-  let ctx = canvas.getContext("2d");
-  
-  // Game objects
-  const paddleWidth = 15;
-  const paddleHeight = 100;
-  const ballSize = 15;
-  
-  let player = {
-    x: 20,
-    y: canvas.height / 2 - paddleHeight / 2,
-    width: paddleWidth,
-    height: paddleHeight,
-    speed: 8,
-    score: 0,
-    dy: 0
-  };
-  
-  let ai = {
-    x: canvas.width - 20 - paddleWidth,
-    y: canvas.height / 2 - paddleHeight / 2,
-    width: paddleWidth,
-    height: paddleHeight,
-    speed: 5,
-    score: 0
-  };
-  
-  let ball = {
-    x: canvas.width / 2,
-    y: canvas.height / 2,
-    size: ballSize,
-    speedX: 6,
-    speedY: 4,
-    dx: 6,
-    dy: 4
-  };
-  
-  let gameRunning = true;
-  let winScore = 7;
-  let particles = [];
-  
-  // Particle effect on score
-  function createParticles(x, y, color) {
-    for (let i = 0; i < 20; i++) {
-      particles.push({
-        x: x,
-        y: y,
-        dx: (Math.random() - 0.5) * 10,
-        dy: (Math.random() - 0.5) * 10,
-        size: Math.random() * 5 + 2,
-        color: color,
-        life: 1
-      });
+    function initBreakoutGame(container) {
+      container.innerHTML = `
+        <h2 style="color: var(--accent); text-align: center;">🧱 Breakout</h2>
+        <p style="text-align: center; color: var(--text-secondary);">Coming soon! Try Tic Tac Toe or Cookie Clicker!</p>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="closeMiniGame()">Close</button>
+      `;
     }
-  }
-  
-  function updateParticles() {
-    particles = particles.filter(p => p.life > 0);
-    particles.forEach(p => {
-      p.x += p.dx;
-      p.y += p.dy;
-      p.life -= 0.02;
-      p.dx *= 0.98;
-      p.dy *= 0.98;
-    });
-  }
-  
-  function drawParticles() {
-    particles.forEach(p => {
-      ctx.globalAlpha = p.life;
-      ctx.fillStyle = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    ctx.globalAlpha = 1;
-  }
-  
-  function drawBackground() {
-    // Black background
-    ctx.fillStyle = "#000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Center line
-    ctx.setLineDash([15, 15]);
-    ctx.strokeStyle = "#333";
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2, 0);
-    ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    
-    // Score
-    ctx.font = "bold 60px Poppins";
-    ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
-    ctx.textAlign = "center";
-    ctx.fillText(player.score, canvas.width / 4, 80);
-    ctx.fillText(ai.score, canvas.width * 3 / 4, 80);
-  }
-  
-  function drawPaddle(paddle, color) {
-    // Glow effect
-    ctx.shadowColor = color;
-    ctx.shadowBlur = 20;
-    
-    // Paddle
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.roundRect(paddle.x, paddle.y, paddle.width, paddle.height, 5);
-    ctx.fill();
-    
-    ctx.shadowBlur = 0;
-  }
-  
-  function drawBall() {
-    // Trail effect
-    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
-    ctx.beginPath();
-    ctx.arc(ball.x - ball.dx, ball.y - ball.dy, ball.size * 0.8, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Glow
-    ctx.shadowColor = "#fff";
-    ctx.shadowBlur = 15;
-    
-    // Ball
-    ctx.fillStyle = "#fff";
-    ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
-    ctx.fill();
-    
-    ctx.shadowBlur = 0;
-  }
-  
-  function resetBall(scorer) {
-    ball.x = canvas.width / 2;
-    ball.y = canvas.height / 2;
-    ball.dx = scorer === 'player' ? 6 : -6;
-    ball.dy = (Math.random() - 0.5) * 8;
-    
-    // Increase speed slightly each point
-    ball.speedX = Math.min(12, 6 + (player.score + ai.score) * 0.3);
-  }
-  
-  function update() {
-    if (!gameRunning) return;
-    
-    // Move player paddle
-    player.y += player.dy;
-    
-    // Keep player in bounds
-    player.y = Math.max(0, Math.min(canvas.height - player.height, player.y));
-        // AI movement (dumber AI - only reacts when ball is on its side)
-    if (ball.dx > 0 && ball.x > canvas.width / 3) {
-      // Only track ball when it's coming toward AI and past the first third
-      let aiTarget = ball.y - ai.height / 2;
-      let aiDiff = aiTarget - ai.y;
-      
-      // Add some randomness to make AI miss sometimes
-      let randomError = (Math.random() - 0.5) * 30;
-      aiDiff += randomError;
-      
-      // Slower base speed
-      let aiSpeed = 3.5;
-      
-      // AI only gets slightly better when losing badly
-      if (player.score > ai.score + 2) {
-        aiSpeed = 4.5;
-      }
-      
-      if (Math.abs(aiDiff) > aiSpeed) {
-        ai.y += aiDiff > 0 ? aiSpeed : -aiSpeed;
-      }
-    } else {
-      // When ball going away, slowly drift toward center
-      let centerDiff = (canvas.height / 2 - ai.height / 2) - ai.y;
-      if (Math.abs(centerDiff) > 2) {
-        ai.y += centerDiff > 0 ? 1.5 : -1.5;
-      }
-    } 
-  
-    
-    // Keep AI in bounds
-    ai.y = Math.max(0, Math.min(canvas.height - ai.height, ai.y));
-    
-    // Move ball
-    ball.x += ball.dx;
-    ball.y += ball.dy;
-    
-    // Ball collision with top/bottom
-    if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height) {
-      ball.dy *= -1;
-      ball.y = ball.y - ball.size < 0 ? ball.size : canvas.height - ball.size;
-      playSound('click');
-    }
-    
-    // Ball collision with player paddle
-    if (
-      ball.x - ball.size < player.x + player.width &&
-      ball.x + ball.size > player.x &&
-      ball.y > player.y &&
-      ball.y < player.y + player.height
-    ) {
-      ball.dx = Math.abs(ball.dx) * 1.05;
-      ball.dx = Math.min(ball.dx, 15);
-      
-      // Add spin based on where ball hits paddle
-      let hitPos = (ball.y - player.y) / player.height;
-      ball.dy = (hitPos - 0.5) * 12;
-      
-      ball.x = player.x + player.width + ball.size;
-      playSound('click');
-      createParticles(ball.x, ball.y, "#00ff00");
-    }
-    
-    // Ball collision with AI paddle
-    if (
-      ball.x + ball.size > ai.x &&
-      ball.x - ball.size < ai.x + ai.width &&
-      ball.y > ai.y &&
-      ball.y < ai.y + ai.height
-    ) {
-      ball.dx = -Math.abs(ball.dx) * 1.05;
-      ball.dx = Math.max(ball.dx, -15);
-      
-      let hitPos = (ball.y - ai.y) / ai.height;
-      ball.dy = (hitPos - 0.5) * 12;
-      
-      ball.x = ai.x - ball.size;
-      playSound('click');
-      createParticles(ball.x, ball.y, "#ff4444");
-    }
-    
-    // Score
-    if (ball.x < 0) {
-      ai.score++;
-      document.getElementById("pongAiScore").textContent = ai.score;
-      createParticles(50, canvas.height / 2, "#ff4444");
-      playSound('notification');
-      
-      if (ai.score >= winScore) {
-        gameOver(false);
-      } else {
-        resetBall('ai');
-      }
-    }
-    
-    if (ball.x > canvas.width) {
-      player.score++;
-      document.getElementById("pongPlayerScore").textContent = player.score;
-      createParticles(canvas.width - 50, canvas.height / 2, "#00ff00");
-      playSound('notification');
-      
-      if (player.score >= winScore) {
-        gameOver(true);
-      } else {
-        resetBall('player');
-      }
-    }
-    
-    updateParticles();
-  }
-  
-  function draw() {
-    drawBackground();
-    drawParticles();
-    drawPaddle(player, "#00ff00");
-    drawPaddle(ai, "#ff4444");
-    drawBall();
-  }
-  
-  function gameLoop() {
-    if (!gameRunning) return;
-    
-    update();
-    draw();
-    
-    window.gameInterval = requestAnimationFrame(gameLoop);
-  }
-  
-  function gameOver(playerWon) {
-    gameRunning = false;
-    
-    ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.textAlign = "center";
-    
-    if (playerWon) {
-      ctx.fillStyle = "#00ff00";
-      ctx.font = "bold 50px Poppins";
-      ctx.fillText("YOU WIN!", canvas.width / 2, canvas.height / 2 - 30);
-      
-      let coins = 50 + (7 - ai.score) * 10;
-      let xp = 30 + (7 - ai.score) * 5;
-      addCoins(coins, "Pong Victory!");
-      addXP(xp, "Pong");
-      
-      createConfetti();
-    } else {
-      ctx.fillStyle = "#ff4444";
-      ctx.font = "bold 50px Poppins";
-      ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 30);
-      
-      if (player.score > 0) {
-        let coins = player.score * 5;
-        let xp = player.score * 3;
-        addCoins(coins, `Pong - Scored ${player.score}`);
-        addXP(xp, "Pong");
-      }
-    }
-    
-    ctx.fillStyle = "white";
-    ctx.font = "24px Poppins";
-    ctx.fillText(`${player.score} - ${ai.score}`, canvas.width / 2, canvas.height / 2 + 20);
-    
-    ctx.fillStyle = "#aaa";
-    ctx.font = "16px Poppins";
-    ctx.fillText("Click START to play again", canvas.width / 2, canvas.height / 2 + 70);
-  }
-  
-  // Keyboard controls
-  function handleKeyDown(e) {
-    if (e.key === "ArrowUp" || e.key === "w" || e.key === "W") {
-      e.preventDefault();
-      player.dy = -player.speed;
-    } else if (e.key === "ArrowDown" || e.key === "s" || e.key === "S") {
-      e.preventDefault();
-      player.dy = player.speed;
-    }
-  }
-  
-  function handleKeyUp(e) {
-    if (
-      e.key === "ArrowUp" || e.key === "w" || e.key === "W" ||
-      e.key === "ArrowDown" || e.key === "s" || e.key === "S"
-    ) {
-      player.dy = 0;
-    }
-  }
-  
-  window.pongKeydown = handleKeyDown;
-  window.pongKeyup = handleKeyUp;
-  
-  document.addEventListener("keydown", handleKeyDown);
-  document.addEventListener("keyup", handleKeyUp);
-  
-  // Cleanup on close
-  let originalClose = window.closeMiniGame;
-  window.closeMiniGame = function() {
-    document.removeEventListener("keydown", window.pongKeydown);
-    document.removeEventListener("keyup", window.pongKeyup);
-    if (window.gameInterval) cancelAnimationFrame(window.gameInterval);
-    window.closeMiniGame = originalClose;
-    originalClose();
-  };
-  
-  // Start the game
-  resetBall('player');
-  gameLoop();
-}
 
-   function initBreakoutGame(container) {
-  container.innerHTML = `
-    <h2 style="color: var(--accent); text-align: center;">🧱 Breakout</h2>
-    <div class="minigame-score">
-      Score: <span id="breakoutScore">0</span> | 
-      Lives: <span id="breakoutLives">3</span> |
-      Level: <span id="breakoutLevel">1</span>
-    </div>
-    <canvas id="breakoutCanvas" class="minigame-canvas" width="600" height="500"></canvas>
-    <div class="minigame-controls">
-      <p>Use ⬅️ ➡️ Arrow Keys or A/D to move | SPACE to launch</p>
-      <button class="sidebar-btn sidebar-btn-green" onclick="startBreakout()" id="breakoutStartBtn">Start Game</button>
-    </div>
-  `;
-  
-  // Draw initial state
-  let canvas = document.getElementById("breakoutCanvas");
-  let ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "white";
-  ctx.font = "24px Poppins";
-  ctx.textAlign = "center";
-  ctx.fillText("Press Start to Play!", canvas.width / 2, canvas.height / 2);
-}
-
-function startBreakout() {
-  let canvas = document.getElementById("breakoutCanvas");
-  let ctx = canvas.getContext("2d");
-  
-  // Game settings
-  const BRICK_ROWS = 5;
-  const BRICK_COLS = 10;
-  const BRICK_WIDTH = 54;
-  const BRICK_HEIGHT = 20;
-  const BRICK_PADDING = 4;
-  const BRICK_OFFSET_TOP = 50;
-  const BRICK_OFFSET_LEFT = 15;
-  
-  // Colors for each row
-  const ROW_COLORS = [
-    { fill: '#ff4444', glow: '#ff0000', points: 50 },  // Red - top
-    { fill: '#ff8844', glow: '#ff4400', points: 40 },  // Orange
-    { fill: '#ffcc00', glow: '#ffaa00', points: 30 },  // Yellow
-    { fill: '#44ff44', glow: '#00ff00', points: 20 },  // Green
-    { fill: '#4488ff', glow: '#0044ff', points: 10 }   // Blue - bottom
-  ];
-  
-  // Paddle
-  let paddle = {
-    width: 100,
-    height: 15,
-    x: 0,
-    speed: 8,
-    dx: 0
-  };
-  paddle.x = (canvas.width - paddle.width) / 2;
-  
-  // Ball
-  let ball = {
-    x: canvas.width / 2,
-    y: canvas.height - 50,
-    radius: 8,
-    speed: 5,
-    dx: 0,
-    dy: 0,
-    launched: false
-  };
-  
-  // Game state
-  let bricks = [];
-  let score = 0;
-  let lives = 3;
-  let level = 1;
-  let gameRunning = true;
-  let particles = [];
-  
-  // Initialize bricks
-  function createBricks() {
-    bricks = [];
-    for (let row = 0; row < BRICK_ROWS; row++) {
-      for (let col = 0; col < BRICK_COLS; col++) {
-        bricks.push({
-          x: BRICK_OFFSET_LEFT + col * (BRICK_WIDTH + BRICK_PADDING),
-          y: BRICK_OFFSET_TOP + row * (BRICK_HEIGHT + BRICK_PADDING),
-          width: BRICK_WIDTH,
-          height: BRICK_HEIGHT,
-          color: ROW_COLORS[row].fill,
-          glow: ROW_COLORS[row].glow,
-          points: ROW_COLORS[row].points,
-          alive: true,
-          hits: row < 2 && level > 1 ? 2 : 1 // Top rows need 2 hits on higher levels
-        });
-      }
+    function initFlappyGame(container) {
+      container.innerHTML = `
+        <h2 style="color: var(--accent); text-align: center;">🐦 Flappy Bird</h2>
+        <p style="text-align: center; color: var(--text-secondary);">Coming soon! Play 2048 or Memory Match for now.</p>
+        <button class="sidebar-btn sidebar-btn-gray" onclick="closeMiniGame()">Close</button>
+      `;
     }
-  }
-  
-  // Particle effects
-  function createParticles(x, y, color, count = 10) {
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: x,
-        y: y,
-        dx: (Math.random() - 0.5) * 8,
-        dy: (Math.random() - 0.5) * 8,
-        radius: Math.random() * 4 + 2,
-        color: color,
-        life: 1
-      });
-    }
-  }
-  
-  function updateParticles() {
-    particles = particles.filter(p => p.life > 0);
-    particles.forEach(p => {
-      p.x += p.dx;
-      p.y += p.dy;
-      p.dy += 0.1; // Gravity
-      p.life -= 0.02;
-    });
-  }
-  
-  function drawParticles() {
-    particles.forEach(p => {
-      ctx.globalAlpha = p.life;
-      ctx.fillStyle = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    ctx.globalAlpha = 1;
-  }
-  
-  // Draw functions
-  function drawBackground() {
-    // Gradient background
-    let gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#1a1a2e');
-    gradient.addColorStop(1, '#000');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Stars
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-    for (let i = 0; i < 50; i++) {
-      let x = (i * 137) % canvas.width;
-      let y = (i * 97) % (canvas.height - 150);
-      ctx.beginPath();
-      ctx.arc(x, y, Math.random() * 1.5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-  
-  function drawPaddle() {
-    // Glow
-    ctx.shadowColor = '#00ffff';
-    ctx.shadowBlur = 20;
-    
-    // Paddle gradient
-    let gradient = ctx.createLinearGradient(paddle.x, 0, paddle.x + paddle.width, 0);
-    gradient.addColorStop(0, '#0088ff');
-    gradient.addColorStop(0.5, '#00ffff');
-    gradient.addColorStop(1, '#0088ff');
-    
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.roundRect(paddle.x, canvas.height - 30, paddle.width, paddle.height, 5);
-    ctx.fill();
-    
-    ctx.shadowBlur = 0;
-  }
-  
-  function drawBall() {
-    if (!ball.launched) {
-      // Ball sits on paddle before launch
-      ball.x = paddle.x + paddle.width / 2;
-      ball.y = canvas.height - 30 - ball.radius;
-    }
-    
-    // Trail
-    if (ball.launched) {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-      ctx.beginPath();
-      ctx.arc(ball.x - ball.dx * 0.5, ball.y - ball.dy * 0.5, ball.radius * 0.7, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    
-    // Glow
-    ctx.shadowColor = '#fff';
-    ctx.shadowBlur = 15;
-    
-    // Ball
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-    ctx.fill();
-    
-    ctx.shadowBlur = 0;
-  }
-  
-  function drawBricks() {
-    bricks.forEach(brick => {
-      if (!brick.alive) return;
-      
-      // Glow
-      ctx.shadowColor = brick.glow;
-      ctx.shadowBlur = 10;
-      
-      // Brick
-      ctx.fillStyle = brick.color;
-      ctx.beginPath();
-      ctx.roundRect(brick.x, brick.y, brick.width, brick.height, 3);
-      ctx.fill();
-      
-      // Highlight
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-      ctx.fillRect(brick.x + 2, brick.y + 2, brick.width - 4, brick.height / 3);
-      
-      // Show crack if brick has 2 hits (needs another hit)
-      if (brick.hits === 1 && level > 1) {
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(brick.x + brick.width * 0.3, brick.y);
-        ctx.lineTo(brick.x + brick.width * 0.5, brick.y + brick.height);
-        ctx.stroke();
-      }
-      
-      ctx.shadowBlur = 0;
-    });
-  }
-  
-  function drawUI() {
-    // Launch hint
-    if (!ball.launched) {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-      ctx.font = '16px Poppins';
-      ctx.textAlign = 'center';
-      ctx.fillText('Press SPACE to launch!', canvas.width / 2, canvas.height - 60);
-    }
-  }
-  
-  // Update functions
-  function update() {
-    if (!gameRunning) return;
-    
-    // Move paddle
-    paddle.x += paddle.dx;
-    
-    // Keep paddle in bounds
-    if (paddle.x < 0) paddle.x = 0;
-    if (paddle.x + paddle.width > canvas.width) paddle.x = canvas.width - paddle.width;
-    
-    // Ball movement
-    if (ball.launched) {
-      ball.x += ball.dx;
-      ball.y += ball.dy;
-      
-      // Wall collisions
-      if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
-        ball.dx *= -1;
-        ball.x = ball.x - ball.radius < 0 ? ball.radius : canvas.width - ball.radius;
-        playSound('click');
-      }
-      
-      // Ceiling collision
-      if (ball.y - ball.radius < 0) {
-        ball.dy *= -1;
-        ball.y = ball.radius;
-        playSound('click');
-      }
-      
-      // Paddle collision
-      if (
-        ball.y + ball.radius > canvas.height - 30 &&
-        ball.y - ball.radius < canvas.height - 30 + paddle.height &&
-        ball.x > paddle.x &&
-        ball.x < paddle.x + paddle.width
-      ) {
-        // Bounce angle based on where ball hits paddle
-        let hitPos = (ball.x - paddle.x) / paddle.width;
-        let angle = (hitPos - 0.5) * Math.PI * 0.7; // -70 to +70 degrees
-        
-        let speed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy);
-        speed = Math.min(speed * 1.02, 12); // Slight speed increase, max 12
-        
-        ball.dx = Math.sin(angle) * speed;
-        ball.dy = -Math.cos(angle) * speed;
-        
-        ball.y = canvas.height - 30 - ball.radius;
-        
-        playSound('click');
-        createParticles(ball.x, ball.y, '#00ffff', 5);
-      }
-      
-      // Ball lost
-      if (ball.y > canvas.height) {
-        lives--;
-        document.getElementById("breakoutLives").textContent = lives;
-        
-        if (lives <= 0) {
-          gameOver(false);
-        } else {
-          // Reset ball
-          ball.launched = false;
-          ball.dx = 0;
-          ball.dy = 0;
-          playSound('notification');
-        }
-      }
-      
-      // Brick collisions
-      bricks.forEach(brick => {
-        if (!brick.alive) return;
-        
-        if (
-          ball.x + ball.radius > brick.x &&
-          ball.x - ball.radius < brick.x + brick.width &&
-          ball.y + ball.radius > brick.y &&
-          ball.y - ball.radius < brick.y + brick.height
-        ) {
-          brick.hits--;
-          
-          if (brick.hits <= 0) {
-            brick.alive = false;
-            score += brick.points * level;
-            document.getElementById("breakoutScore").textContent = score;
-            createParticles(brick.x + brick.width / 2, brick.y + brick.height / 2, brick.color, 15);
-            playSound('click');
-          } else {
-            // Brick cracked but not destroyed
-            brick.color = shadeColor(brick.color, -30);
-            playSound('click');
-          }
-          
-          // Determine bounce direction
-          let overlapLeft = ball.x + ball.radius - brick.x;
-          let overlapRight = brick.x + brick.width - (ball.x - ball.radius);
-          let overlapTop = ball.y + ball.radius - brick.y;
-          let overlapBottom = brick.y + brick.height - (ball.y - ball.radius);
-          
-          let minOverlapX = Math.min(overlapLeft, overlapRight);
-          let minOverlapY = Math.min(overlapTop, overlapBottom);
-          
-          if (minOverlapX < minOverlapY) {
-            ball.dx *= -1;
-          } else {
-            ball.dy *= -1;
-          }
-        }
-      });
-      
-      // Check win condition
-      if (bricks.every(b => !b.alive)) {
-        levelUp();
-      }
-    }
-    
-    updateParticles();
-  }
-  
-  function shadeColor(color, percent) {
-    let num = parseInt(color.replace('#', ''), 16);
-    let amt = Math.round(2.55 * percent);
-    let R = (num >> 16) + amt;
-    let G = (num >> 8 & 0x00FF) + amt;
-    let B = (num & 0x0000FF) + amt;
-    
-    R = Math.max(Math.min(255, R), 0);
-    G = Math.max(Math.min(255, G), 0);
-    B = Math.max(Math.min(255, B), 0);
-    
-    return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
-  }
-  
-  function levelUp() {
-    level++;
-    document.getElementById("breakoutLevel").textContent = level;
-    
-    // Bonus points
-    score += 100 * level;
-    document.getElementById("breakoutScore").textContent = score;
-    
-    // Reset ball
-    ball.launched = false;
-    ball.dx = 0;
-    ball.dy = 0;
-    ball.speed = Math.min(5 + level * 0.5, 10);
-    
-    // Recreate bricks
-    createBricks();
-    
-    // Add a life every 3 levels
-    if (level % 3 === 0 && lives < 5) {
-      lives++;
-      document.getElementById("breakoutLives").textContent = lives;
-    }
-    
-    showNotification(`Level ${level}!`, 'success');
-    playSound('notification');
-  }
-  
-  function launchBall() {
-    if (!ball.launched && gameRunning) {
-      ball.launched = true;
-      let angle = (Math.random() - 0.5) * Math.PI * 0.5; // Random angle
-      ball.dx = Math.sin(angle) * ball.speed;
-      ball.dy = -ball.speed;
-      playSound('click');
-    }
-  }
-  
-  function draw() {
-    drawBackground();
-    drawBricks();
-    drawParticles();
-    drawPaddle();
-    drawBall();
-    drawUI();
-  }
-  
-  function gameLoop() {
-    if (!gameRunning) return;
-    
-    update();
-    draw();
-    
-    window.gameInterval = requestAnimationFrame(gameLoop);
-  }
-  
-  function gameOver(won) {
-    gameRunning = false;
-    
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.textAlign = 'center';
-    
-    if (won) {
-      ctx.fillStyle = '#00ff00';
-      ctx.font = 'bold 50px Poppins';
-      ctx.fillText('YOU WIN!', canvas.width / 2, canvas.height / 2 - 50);
-    } else {
-      ctx.fillStyle = '#ff4444';
-      ctx.font = 'bold 50px Poppins';
-      ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2 - 50);
-    }
-    
-    ctx.fillStyle = 'white';
-    ctx.font = '28px Poppins';
-    ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 10);
-    ctx.fillText(`Level: ${level}`, canvas.width / 2, canvas.height / 2 + 50);
-    
-    ctx.fillStyle = '#aaa';
-    ctx.font = '16px Poppins';
-    ctx.fillText('Click START to play again', canvas.width / 2, canvas.height / 2 + 100);
-    
-    // Rewards
-    let coins = Math.floor(score / 20);
-    let xp = Math.floor(score / 10);
-    if (coins > 0) {
-      addCoins(coins, `Breakout - Level ${level}`);
-      addXP(xp, "Breakout");
-    }
-    
-    document.getElementById("breakoutStartBtn").textContent = "Play Again";
-  }
-  
-  // Keyboard controls
-  function handleKeyDown(e) {
-    if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
-      e.preventDefault();
-      paddle.dx = -paddle.speed;
-    } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
-      e.preventDefault();
-      paddle.dx = paddle.speed;
-    } else if (e.key === ' ') {
-      e.preventDefault();
-      launchBall();
-    }
-  }
-  
-  function handleKeyUp(e) {
-    if (
-      e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A' ||
-      e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D'
-    ) {
-      paddle.dx = 0;
-    }
-  }
-  
-  window.breakoutKeydown = handleKeyDown;
-  window.breakoutKeyup = handleKeyUp;
-  
-  document.addEventListener('keydown', handleKeyDown);
-  document.addEventListener('keyup', handleKeyUp);
-  
-  // Cleanup on close
-  let originalClose = window.closeMiniGame;
-  window.closeMiniGame = function() {
-    document.removeEventListener('keydown', window.breakoutKeydown);
-    document.removeEventListener('keyup', window.breakoutKeyup);
-    if (window.gameInterval) cancelAnimationFrame(window.gameInterval);
-    window.closeMiniGame = originalClose;
-    originalClose();
-  };
-  
-  // Initialize and start
-  createBricks();
-  document.getElementById("breakoutStartBtn").textContent = "Restart";
-  gameLoop();
-}
-
-   function initFlappyGame(container) {
-  container.innerHTML = `
-    <h2 style="color: var(--accent); text-align: center;">🐦 Flappy Bird</h2>
-    <div class="minigame-score">Score: <span id="flappyScore">0</span> | Best: <span id="flappyBest">${localStorage.getItem('flappyBest') || 0}</span></div>
-    <canvas id="flappyCanvas" class="minigame-canvas" width="400" height="500"></canvas>
-    <div class="minigame-controls">
-      <p>Press SPACE or CLICK to flap!</p>
-      <button class="sidebar-btn sidebar-btn-green" onclick="startFlappy()">Start Game</button>
-    </div>
-  `;
-  
-  // Draw initial state
-  let canvas = document.getElementById("flappyCanvas");
-  let ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#87CEEB";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#228B22";
-  ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
-  ctx.font = "20px Poppins";
-  ctx.fillStyle = "white";
-  ctx.textAlign = "center";
-  ctx.fillText("Press Start to Play!", canvas.width/2, canvas.height/2);
-}
-
-function startFlappy() {
-  let canvas = document.getElementById("flappyCanvas");
-  let ctx = canvas.getContext("2d");
-  
-  // Game variables
-  let bird = {
-    x: 80,
-    y: 250,
-    width: 35,
-    height: 25,
-    velocity: 0,
-    gravity: 0.5,
-    jump: -8,
-    rotation: 0
-  };
-  
-  let pipes = [];
-  let pipeWidth = 60;
-  let pipeGap = 150;
-  let pipeSpeed = 3;
-  let pipeSpawnRate = 90;
-  let frameCount = 0;
-  let score = 0;
-  let gameRunning = true;
-  let gameStarted = false;
-  
-  // Colors
-  let skyColor = "#87CEEB";
-  let groundColor = "#228B22";
-  let groundHeight = 50;
-  let pipeColor = "#2ECC71";
-  let pipeBorderColor = "#27AE60";
-  
-  function drawBird() {
-    ctx.save();
-    ctx.translate(bird.x + bird.width/2, bird.y + bird.height/2);
-    
-    // Rotate based on velocity
-    let rotation = Math.min(Math.max(bird.velocity * 3, -30), 90) * Math.PI / 180;
-    ctx.rotate(rotation);
-    
-    // Body (yellow)
-    ctx.fillStyle = "#FFD700";
-    ctx.beginPath();
-    ctx.ellipse(0, 0, bird.width/2, bird.height/2, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#FFA500";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    
-    // Wing
-    ctx.fillStyle = "#FFA500";
-    ctx.beginPath();
-    ctx.ellipse(-5, 5, 10, 6, -0.3, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Eye
-    ctx.fillStyle = "white";
-    ctx.beginPath();
-    ctx.arc(8, -5, 8, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "black";
-    ctx.beginPath();
-    ctx.arc(10, -5, 4, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Beak
-    ctx.fillStyle = "#FF6B35";
-    ctx.beginPath();
-    ctx.moveTo(15, 0);
-    ctx.lineTo(25, 3);
-    ctx.lineTo(15, 6);
-    ctx.closePath();
-    ctx.fill();
-    
-    ctx.restore();
-  }
-  
-  function drawPipe(pipe) {
-    // Top pipe
-    ctx.fillStyle = pipeColor;
-    ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight);
-    ctx.fillStyle = pipeBorderColor;
-    ctx.fillRect(pipe.x - 3, pipe.topHeight - 30, pipeWidth + 6, 30);
-    
-    // Pipe highlight
-    ctx.fillStyle = "#58D68D";
-    ctx.fillRect(pipe.x + 5, 0, 8, pipe.topHeight - 30);
-    
-    // Bottom pipe
-    let bottomY = pipe.topHeight + pipeGap;
-    ctx.fillStyle = pipeColor;
-    ctx.fillRect(pipe.x, bottomY, pipeWidth, canvas.height - bottomY - groundHeight);
-    ctx.fillStyle = pipeBorderColor;
-    ctx.fillRect(pipe.x - 3, bottomY, pipeWidth + 6, 30);
-    
-    // Pipe highlight
-    ctx.fillStyle = "#58D68D";
-    ctx.fillRect(pipe.x + 5, bottomY + 30, 8, canvas.height - bottomY - groundHeight - 30);
-  }
-  
-  function drawGround() {
-    ctx.fillStyle = groundColor;
-    ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
-    
-    // Grass detail
-    ctx.fillStyle = "#1D8348";
-    for (let i = 0; i < canvas.width; i += 20) {
-      ctx.fillRect(i, canvas.height - groundHeight, 10, 5);
-    }
-    
-    // Dirt
-    ctx.fillStyle = "#8B4513";
-    ctx.fillRect(0, canvas.height - groundHeight + 15, canvas.width, groundHeight - 15);
-  }
-  
-  function drawClouds() {
-    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-    
-    // Cloud 1
-    ctx.beginPath();
-    ctx.arc(100, 80, 25, 0, Math.PI * 2);
-    ctx.arc(130, 70, 30, 0, Math.PI * 2);
-    ctx.arc(160, 80, 25, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Cloud 2
-    ctx.beginPath();
-    ctx.arc(300, 120, 20, 0, Math.PI * 2);
-    ctx.arc(325, 110, 25, 0, Math.PI * 2);
-    ctx.arc(350, 120, 20, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  
-  function draw() {
-    // Sky
-    ctx.fillStyle = skyColor;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Clouds
-    drawClouds();
-    
-    // Pipes
-    pipes.forEach(pipe => drawPipe(pipe));
-    
-    // Ground
-    drawGround();
-    
-    // Bird
-    drawBird();
-    
-    // Score
-    ctx.fillStyle = "white";
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 3;
-    ctx.font = "bold 40px Poppins";
-    ctx.textAlign = "center";
-    ctx.strokeText(score, canvas.width/2, 60);
-    ctx.fillText(score, canvas.width/2, 60);
-  }
-  
-  function update() {
-    if (!gameRunning) return;
-    
-    frameCount++;
-    
-    // Bird physics
-    bird.velocity += bird.gravity;
-    bird.y += bird.velocity;
-    
-    // Spawn pipes
-    if (frameCount % pipeSpawnRate === 0) {
-      let minHeight = 50;
-      let maxHeight = canvas.height - groundHeight - pipeGap - 50;
-      let topHeight = Math.random() * (maxHeight - minHeight) + minHeight;
-      
-      pipes.push({
-        x: canvas.width,
-        topHeight: topHeight,
-        passed: false
-      });
-    }
-    
-    // Update pipes
-    pipes.forEach((pipe, index) => {
-      pipe.x -= pipeSpeed;
-      
-      // Score
-      if (!pipe.passed && pipe.x + pipeWidth < bird.x) {
-        pipe.passed = true;
-        score++;
-        document.getElementById("flappyScore").textContent = score;
-        playSound('click');
-      }
-      
-      // Remove off-screen pipes
-      if (pipe.x + pipeWidth < 0) {
-        pipes.splice(index, 1);
-      }
-      
-      // Collision detection
-      if (bird.x + bird.width > pipe.x && bird.x < pipe.x + pipeWidth) {
-        if (bird.y < pipe.topHeight || bird.y + bird.height > pipe.topHeight + pipeGap) {
-          gameOver();
-        }
-      }
-    });
-    
-    // Ground collision
-    if (bird.y + bird.height > canvas.height - groundHeight) {
-      bird.y = canvas.height - groundHeight - bird.height;
-      gameOver();
-    }
-    
-    // Ceiling collision
-    if (bird.y < 0) {
-      bird.y = 0;
-      bird.velocity = 0;
-    }
-    
-    draw();
-    
-    if (gameRunning) {
-      window.gameInterval = requestAnimationFrame(update);
-    }
-  }
-  
-  function flap() {
-    if (!gameRunning) return;
-    
-    if (!gameStarted) {
-      gameStarted = true;
-    }
-    
-    bird.velocity = bird.jump;
-    playSound('click');
-  }
-  
-  function gameOver() {
-    gameRunning = false;
-    
-    // Update best score
-    let best = parseInt(localStorage.getItem('flappyBest') || 0);
-    if (score > best) {
-      localStorage.setItem('flappyBest', score);
-      document.getElementById("flappyBest").textContent = score;
-    }
-    
-    // Draw game over screen
-    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.fillStyle = "#FF6B6B";
-    ctx.font = "bold 40px Poppins";
-    ctx.textAlign = "center";
-    ctx.fillText("GAME OVER", canvas.width/2, canvas.height/2 - 40);
-    
-    ctx.fillStyle = "white";
-    ctx.font = "24px Poppins";
-    ctx.fillText(`Score: ${score}`, canvas.width/2, canvas.height/2 + 10);
-    
-    ctx.font = "18px Poppins";
-    ctx.fillStyle = "#FFD700";
-    ctx.fillText(`Best: ${localStorage.getItem('flappyBest') || score}`, canvas.width/2, canvas.height/2 + 45);
-    
-    ctx.font = "16px Poppins";
-    ctx.fillStyle = "#aaa";
-    ctx.fillText("Click START to play again", canvas.width/2, canvas.height/2 + 90);
-    
-    // Award coins
-    if (score > 0) {
-      let coins = Math.floor(score * 2);
-      let xp = Math.floor(score * 1.5);
-      addCoins(coins, `Flappy Bird - Score: ${score}`);
-      addXP(xp, "Flappy Bird");
-    }
-  }
-  
-  // Event listeners
-  function handleKeydown(e) {
-    if (e.code === "Space") {
-      e.preventDefault();
-      flap();
-    }
-  }
-  
-  function handleClick(e) {
-    if (e.target === canvas) {
-      flap();
-    }
-  }
-  
-  // Store old listeners to remove later
-  window.flappyKeydown = handleKeydown;
-  window.flappyClick = handleClick;
-  
-  document.addEventListener("keydown", handleKeydown);
-  canvas.addEventListener("click", handleClick);
-  
-  // Override closeMiniGame to clean up
-  let originalClose = window.closeMiniGame;
-  window.closeMiniGame = function() {
-    document.removeEventListener("keydown", window.flappyKeydown);
-    if (canvas) canvas.removeEventListener("click", window.flappyClick);
-    if (window.gameInterval) cancelAnimationFrame(window.gameInterval);
-    window.closeMiniGame = originalClose;
-    originalClose();
-  };
-  
-  // Start the game
-  draw();
-  update();
-}
 
         // ===== SHOP DATA =====
     const shopItems = [
@@ -7443,7 +5122,7 @@ function startFlappy() {
         html += `</div>`;
       });
       
-      
+      container.innerHTML = html;
     }
 
     async function buyItem(itemId) {
@@ -7472,8 +5151,6 @@ function startFlappy() {
       createConfetti();
       renderShopItems();
       updateInventory();
-   
-    trackPurchase();
     }
 
     function updateInventory() {
@@ -7955,32 +5632,25 @@ function startFlappy() {
       document.getElementById("pickGreen").style.opacity = 1;
     }
 
-//admin commands
-const adminCommands = {
-  '/help': 'Show all commands',
-  '/setlevel [user] [level]': 'Set user level (1-150)',
-  '/setxp [user] [amount]': 'Set exact XP amount',
-  '/setcoins [user] [amount]': 'Set exact coin amount',
-  '/givexp [user] [amount]': 'Add XP to user',
-  '/givecoins [user] [amount]': 'Add coins to user',
-  '/giveitem [user] [itemid]': 'Give item to user',
-  '/giveall': 'Give yourself all items',
-  '/giveachievement [user] [id]': 'Give achievement to user',
-  '/giveallachievements [user]': 'Give all achievements',
-  '/setmylevel [level]': 'Set YOUR level (1-150)',
-  '/setmycoins [amount]': 'Set YOUR coins',
-  '/setmyxp [amount]': 'Set YOUR XP',
-  '/ban [user]': 'Permanent ban',
-  '/tempban [user] [hours]': 'Temporary ban',
-  '/unban [user]': 'Unban user',
-  '/mute [user]': 'Mute user',
-  '/unmute [user]': 'Unmute user',
-  '/announce [message]': 'Set announcement',
-  '/clearchat': 'Clear all chat messages',
-  '/stats': 'Show site stats',
-  '/items': 'List all shop items',
-  '/achievements': 'List all achievement IDs'
-};
+
+        // ===== ADMIN COMMANDS =====
+    const adminCommands = {
+      '/help': 'Show all commands',
+      '/givexp [user] [amount]': 'Give XP to user',
+      '/givecoins [user] [amount]': 'Give coins to user',
+      '/giveitem [user] [itemid]': 'Give item to user',
+      '/giveall': 'Give yourself all items',
+      '/ban [user]': 'Permanent ban',
+      '/tempban [user] [hours]': 'Temporary ban',
+      '/unban [user]': 'Unban user',
+      '/mute [user]': 'Mute user',
+      '/unmute [user]': 'Unmute user',
+      '/announce [message]': 'Set announcement',
+      '/clearchat': 'Clear all chat messages',
+      '/stats': 'Show site stats',
+      '/items': 'List all shop items'
+    };
+
     function handleAdminCmd(event) {
       if (event.key === 'Enter') {
         executeAdminCmd();
@@ -8233,231 +5903,6 @@ const adminCommands = {
               result += `${item.icon} ${item.id} - ${item.name}<br>`;
             });
             break;
-
-          
-          
-          
- case '/setlevel':
-  if (args.length < 2) {
-    result = "Usage: /setlevel [username] [level]";
-  } else {
-    let targetName = args[0];
-    let level = parseInt(args[1]);
-    
-    if (isNaN(level) || level < 1 || level > 150) {
-      result = `<span style="color:var(--danger)">Level must be between 1 and 150</span>`;
-      break;
-    }
-    
-    // Calculate XP needed for this level
-    let xpNeeded = 0;
-    for (let i = 0; i < level - 1 && i < XP_PER_LEVEL.length; i++) {
-      xpNeeded += XP_PER_LEVEL[i] || 0;
-    }
-    
-    let targetUser = await findUserByName(targetName);
-    
-    if (targetUser) {
-      await db.collection("users").doc(targetUser.id).update({ xp: xpNeeded });
-      
-      if (targetUser.id === userId) {
-        myProfile.xp = xpNeeded;
-        updateXPBar();
-        updateProfileDisplay();
-      }
-      
-      let titleInfo = getLevelTitle(level);
-      result = `<span style="color:var(--success)">Set ${targetName} to Level ${level} (${titleInfo.title})</span>`;
-      logAdminAction(`Set ${targetName} to Level ${level}`);
-    } else {
-      result = `<span style="color:var(--danger)">User not found</span>`;
-    }
-  }
-  break;
-
-          
-          
-    case '/setcoins':
-  if (args.length < 2) {
-    result = "Usage: /setcoins [username] [amount]";
-  } else {
-    let targetName = args[0];
-    let amount = parseInt(args[1]);
-    
-    if (isNaN(amount) || amount < 0) {
-      result = `<span style="color:var(--danger)">Coins must be a positive number</span>`;
-      break;
-    }
-    
-    let targetUser = await findUserByName(targetName);
-    
-    if (targetUser) {
-      await db.collection("users").doc(targetUser.id).update({ coins: amount });
-      
-      if (targetUser.id === userId) {
-        myProfile.coins = amount;
-        document.getElementById("coinsDisplay").textContent = amount;
-        document.getElementById("shopCoinsDisplay").textContent = amount;
-      }
-      
-      result = `<span style="color:var(--success)">Set ${targetName} coins to ${amount}</span>`;
-      logAdminAction(`Set ${targetName} coins to ${amount}`);
-    } else {
-      result = `<span style="color:var(--danger)">User not found</span>`;
-    }
-  }
-  break;
-
-case '/giveachievement':
-  if (args.length < 2) {
-    result = "Usage: /giveachievement [username] [achievement_id]<br>Use /achievements to see IDs";
-  } else {
-    let targetName = args[0];
-    let achievementId = args[1];
-    
-    let achievement = ACHIEVEMENTS.find(a => a.id === achievementId);
-    if (!achievement) {
-      result = `<span style="color:var(--danger)">Achievement not found. Use /achievements to see IDs</span>`;
-      break;
-    }
-    
-    let targetUser = await findUserByName(targetName);
-    
-    if (targetUser) {
-      let userAchievements = targetUser.data.unlockedAchievements || [];
-      
-      if (userAchievements.includes(achievementId)) {
-        result = `<span style="color:var(--warning)">${targetName} already has this achievement</span>`;
-      } else {
-        userAchievements.push(achievementId);
-        await db.collection("users").doc(targetUser.id).update({ 
-          unlockedAchievements: userAchievements 
-        });
-        
-        if (targetUser.id === userId) {
-          unlockedAchievements = userAchievements;
-          renderAchievements('all');
-        }
-        
-        result = `<span style="color:var(--success)">Gave "${achievement.name}" to ${targetName}</span>`;
-        logAdminAction(`Gave achievement "${achievement.name}" to ${targetName}`);
-      }
-    } else {
-      result = `<span style="color:var(--danger)">User not found</span>`;
-    }
-  }
-  break;
-
-case '/giveallachievements':
-  if (args.length < 1) {
-    result = "Usage: /giveallachievements [username]";
-  } else {
-    let targetName = args[0];
-    let targetUser = await findUserByName(targetName);
-    
-    if (targetUser) {
-      let allAchievementIds = ACHIEVEMENTS.map(a => a.id);
-      await db.collection("users").doc(targetUser.id).update({ 
-        unlockedAchievements: allAchievementIds 
-      });
-      
-      if (targetUser.id === userId) {
-        unlockedAchievements = allAchievementIds;
-        renderAchievements('all');
-      }
-      
-      result = `<span style="color:var(--success)">Gave all ${allAchievementIds.length} achievements to ${targetName}</span>`;
-      logAdminAction(`Gave all achievements to ${targetName}`);
-    } else {
-      result = `<span style="color:var(--danger)">User not found</span>`;
-    }
-  }
-  break;
-
-case '/achievements':
-  result = "<strong>Achievement IDs:</strong><br>";
-  ACHIEVEMENTS.forEach(a => {
-    result += `${a.icon} <code>${a.id}</code> - ${a.name}<br>`;
-  });
-  break;
-
-  case '/setmylevel':
-  if (args.length < 1) {
-    result = "Usage: /setmylevel [level]";
-  } else {
-    let level = parseInt(args[0]);
-    
-    if (isNaN(level) || level < 1 || level > 150) {
-      result = `<span style="color:var(--danger)">Level must be between 1 and 150</span>`;
-      break;
-    }
-    
-    // Calculate XP needed for this level
-    let xpNeeded = 0;
-    for (let i = 0; i < level - 1 && i < XP_PER_LEVEL.length; i++) {
-      xpNeeded += XP_PER_LEVEL[i] || 0;
-    }
-    
-    // Directly update YOUR account (no username search)
-    await db.collection("users").doc(userId).update({ xp: xpNeeded });
-    
-    myProfile.xp = xpNeeded;
-    updateXPBar();
-    updateProfileDisplay();
-    
-    let titleInfo = getLevelTitle(level);
-    result = `<span style="color:var(--success)">Set YOUR level to ${level} (${titleInfo.title})</span>`;
-    logAdminAction(`Set own level to ${level}`);
-  }
-  break;
-
-case '/setmycoins':
-  if (args.length < 1) {
-    result = "Usage: /setmycoins [amount]";
-  } else {
-    let amount = parseInt(args[0]);
-    
-    if (isNaN(amount) || amount < 0) {
-      result = `<span style="color:var(--danger)">Coins must be a positive number</span>`;
-      break;
-    }
-    
-    // Directly update YOUR account
-    await db.collection("users").doc(userId).update({ coins: amount });
-    
-    myProfile.coins = amount;
-    document.getElementById("coinsDisplay").textContent = amount;
-    document.getElementById("shopCoinsDisplay").textContent = amount;
-    
-    result = `<span style="color:var(--success)">Set YOUR coins to ${amount}</span>`;
-    logAdminAction(`Set own coins to ${amount}`);
-  }
-  break;
-
-case '/setmyxp':
-  if (args.length < 1) {
-    result = "Usage: /setmyxp [amount]";
-  } else {
-    let amount = parseInt(args[0]);
-    
-    if (isNaN(amount) || amount < 0) {
-      result = `<span style="color:var(--danger)">XP must be a positive number</span>`;
-      break;
-    }
-    
-    // Directly update YOUR account
-    await db.collection("users").doc(userId).update({ xp: amount });
-    
-    myProfile.xp = amount;
-    updateXPBar();
-    updateProfileDisplay();
-    
-    let newLevel = calculateLevel(amount).level;
-    result = `<span style="color:var(--success)">Set YOUR XP to ${amount} (Level ${newLevel})</span>`;
-    logAdminAction(`Set own XP to ${amount}`);
-  }
-  break;
-
             
           default:
             result = `<span style="color:var(--danger)">Unknown command. Use /help</span>`;
@@ -8517,9 +5962,7 @@ case '/setmyxp':
       document.getElementById("auditLog").innerHTML = html || '<p style="color:var(--text-muted);">No actions yet.</p>';
     }
 
-
-    
-    // ===== TAB CLOAK =====
+       // ===== TAB CLOAK =====
     const cloakPresets = {
       classroom: { title: 'Google Classroom', icon: 'https://www.google.com/s2/favicons?domain=classroom.google.com&sz=64' },
       docs: { title: 'Google Docs', icon: 'https://www.google.com/s2/favicons?domain=docs.google.com&sz=64' },
@@ -8762,23 +6205,17 @@ case '/setmyxp':
       playSound('click');
     }
 
-function showSidebarTab(tabId, btn) {
-  document.querySelectorAll(".sidebar-panel").forEach(p => p.classList.remove("active"));
-  document.querySelectorAll(".sidebar-tab").forEach(t => t.classList.remove("active"));
-  document.getElementById(tabId).classList.add("active");
-  btn.classList.add("active");
-  
-  try {
-    if (tabId === "adminTab") loadAuditLog();
-    if (tabId === "onlineTab") loadOnlineUsers();
-    if (tabId === "achievementsTab") renderAchievements('all');
-    if (tabId === "musicTab") renderMusicPlaylist();
-  } catch(e) {
-    console.error("Tab error:", e);
-  }
-  
-  playSound('click');
-}
+    function showSidebarTab(tabId, btn) {
+      document.querySelectorAll(".sidebar-panel").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".sidebar-tab").forEach(t => t.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+      btn.classList.add("active");
+      
+      if (tabId === "adminTab") loadAuditLog();
+      if (tabId === "onlineTab") loadOnlineUsers();
+      
+      playSound('click');
+    }
 
     // ===== PROFILE MODAL =====
     async function viewProfile(uid) {
@@ -8898,9 +6335,6 @@ function showSidebarTab(tabId, btn) {
       
       showNotification("Friend added!", 'success');
       updateProfileDisplay();
-   
-    trackFriendAdded();
-    
     }
 
     async function declineFriend(reqId) {
@@ -9022,8 +6456,6 @@ function showSidebarTab(tabId, btn) {
       
       localStorage.setItem("favorites", JSON.stringify(favorites));
       playSound('click');
-    
-    trackFavorites();
     }
 
     function clearFavorites() {
@@ -9043,36 +6475,18 @@ function showSidebarTab(tabId, btn) {
 
     // ===== GAME DATA =====
     const gameData = [
-  // === YOUR EXISTING GAMES ===
-  { name: "Classroom Resources", url: "https://sites.google.com/view/drive-u-7-home/home", icon: "📚" },
-  { name: "Game Compilation", url: "https://sites.google.com/site/thegamecompilation/home", icon: "🎮" },
-  { name: "Unblocked Games Top", url: "https://sites.google.com/site/unblockedgamestop", icon: "🔝" },
-  { name: "WatchDocumentaries Games", url: "https://watchdocumentaries.com/games", icon: "🎬" },
-  { name: "MSN Play", url: "https://www.msn.com/en-us/play", icon: "🎲" },
-  { name: "Unblocked Games Mix", url: "https://www.symbaloo.com/mix/newunblockedgames", icon: "🎯" },
-  { name: "Unblocked Games 77", url: "https://sites.google.com/site/unblockedgames77", icon: "7️⃣" },
-  { name: "Unblocked Games 76", url: "https://www.symbaloo.com/mix/agariounblockedschool", icon: "🎪" },
-  { name: "Hooda Math Games", url: "https://www.hoodamath.com/Games", icon: "➕" },
-  { name: "Cool Math Games", url: "https://www.coolmathgames.com", icon: "🧮" },
-  { name: "Friv Games", url: "https://www.friv.com", icon: "🎈" },
-  
-  // === NEW GAMES ===
-  { name: "Google Games", url: "https://www.google.com/search?q=google+games", icon: "🔍" },
-  { name: "Classroom Center", url: "https://sites.google.com/classroom.center/view-1/", icon: "🏫" },
-  { name: "Survival Race", url: "https://sites.google.com/view/drive-u-7-home/survival-race/race-fullscreen", icon: "🏎️" },
-  { name: "Startpage", url: "https://www.startpage.com/", icon: "🔒" },
-  { name: "YouTube Archive", url: "https://web.archive.org/web/20260000000000*/Youtube", icon: "📼" },
-  { name: "Unblocked Sites 64", url: "https://sites.google.com/view/unblokkedsites64/home", icon: "🎮" },
-  { name: "Prodigy Hacks", url: "https://sites.google.com/gnspes.ca/prodigyhacks/home", icon: "🧙" },
-  { name: "Bing Videos", url: "https://www.bing.com/videos/onecolumn/landing", icon: "📺" },
-  { name: "Yandex Games", url: "https://yandex.ru/games/", icon: "🇷🇺" },
-  { name: "CBC Gem", url: "https://gem.cbc.ca/", icon: "💎" },
-  { name: "Morse Code Translator", url: "https://morsecode.world/international/translator.html", icon: "📡" },
-  { name: "EdNet NS", url: "https://everyone.ednet.ns.ca/landing.php", icon: "📖" },
-  { name: "NASA Space Place", url: "https://spaceplace.nasa.gov/menu/play/", icon: "🚀" },
-  { name: "New Games Hub", url: "https://sites.google.com/view/drive-u-7-home/new", icon: "🆕" },
-  { name: "Playhop", url: "https://playhop.com", icon: "🎪" }
-];
+      { name: "Classroom Resources", url: "https://sites.google.com/view/drive-u-7-home/home", icon: "📚" },
+      { name: "Game Compilation", url: "https://sites.google.com/site/thegamecompilation/home", icon: "🎮" },
+      { name: "Unblocked Games Top", url: "https://sites.google.com/site/unblockedgamestop", icon: "🔝" },
+      { name: "WatchDocumentaries Games", url: "https://watchdocumentaries.com/games", icon: "🎬" },
+      { name: "MSN Play", url: "https://www.msn.com/en-us/play", icon: "🎲" },
+      { name: "Unblocked Games Mix", url: "https://www.symbaloo.com/mix/newunblockedgames", icon: "🎯" },
+      { name: "Unblocked Games 77", url: "https://sites.google.com/site/unblockedgames77", icon: "7️⃣" },
+      { name: "Unblocked Games 76", url: "https://www.symbaloo.com/mix/agariounblockedschool", icon: "🎪" },
+      { name: "Hooda Math Games", url: "https://www.hoodamath.com/Games", icon: "➕" },
+      { name: "Cool Math Games", url: "https://www.coolmathgames.com", icon: "🧮" },
+      { name: "Friv Games", url: "https://www.friv.com", icon: "🎈" }
+    ];
 
     function renderGameCards() {
       let container = document.getElementById("gamesPage1");
@@ -9133,828 +6547,84 @@ function showSidebarTab(tabId, btn) {
       logAdminAction("Cleared announcement");
     }
 
-// ===== MUSIC PLAYER =====
-let musicPlaylist = JSON.parse(localStorage.getItem("musicPlaylist")) || [];
-let musicCurrentIndex = -1;
-let musicAudio = new Audio();
-let musicIsPlaying = false;
-let musicRepeat = false;
-let musicShuffle = false;
-
-musicAudio.volume = 0.5;
-
-musicAudio.addEventListener('timeupdate', updateMusicProgress);
-musicAudio.addEventListener('ended', handleSongEnd);
-musicAudio.addEventListener('loadedmetadata', () => {
-  document.getElementById("musicDuration").textContent = formatMusicTime(musicAudio.duration);
-});
-
-musicAudio.addEventListener('error', () => {
-  document.getElementById("musicSongStatus").textContent = "❌ Error loading audio";
-  document.getElementById("musicSongStatus").style.color = "var(--danger)";
-});
-
-
-
-function formatMusicTime(seconds) {
-  if (isNaN(seconds)) return "0:00";
-  let mins = Math.floor(seconds / 60);
-  let secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
-
-function updateMusicProgress() {
-  if (musicAudio.duration) {
-    let percent = (musicAudio.currentTime / musicAudio.duration) * 100;
-    document.getElementById("musicProgressFill").style.width = percent + "%";
-    document.getElementById("musicCurrentTime").textContent = formatMusicTime(musicAudio.currentTime);
-  }
-}
-
-function seekMusic(event) {
-  if (!musicAudio.duration) return;
-  let bar = document.getElementById("musicProgressBar");
-  let rect = bar.getBoundingClientRect();
-  let percent = (event.clientX - rect.left) / rect.width;
-  musicAudio.currentTime = percent * musicAudio.duration;
-}
-
-function handleSongEnd() {
-  if (musicRepeat) {
-    musicAudio.currentTime = 0;
-    musicAudio.play();
-  } else if (musicShuffle) {
-    let randomIndex;
-    do {
-      randomIndex = Math.floor(Math.random() * musicPlaylist.length);
-    } while (randomIndex === musicCurrentIndex && musicPlaylist.length > 1);
-    playSongAtIndex(randomIndex);
-  } else {
-    nextSong();
-  }
-}
-
-function addSong() {
-  let urlInput = document.getElementById("musicUrlInput");
-  let nameInput = document.getElementById("musicSongName");
-  let url = urlInput.value.trim();
-  let name = nameInput.value.trim();
-
-  if (!url) {
-    showNotification("Paste an audio URL!", 'warning');
-    return;
-  }
-
-  if (!name) {
-    // Extract name from URL
-    try {
-      let parts = url.split('/');
-      name = decodeURIComponent(parts[parts.length - 1].split('?')[0]);
-      if (name.length > 50) name = name.substring(0, 50);
-      if (!name) name = "Song " + (musicPlaylist.length + 1);
-    } catch (e) {
-      name = "Song " + (musicPlaylist.length + 1);
-    }
-  }
-
-  musicPlaylist.push({ name: name, url: url });
-  localStorage.setItem("musicPlaylist", JSON.stringify(musicPlaylist));
-
-  urlInput.value = "";
-  nameInput.value = "";
-
-  renderMusicPlaylist();
-  showNotification(`Added "${name}" to playlist!`, 'success');
-  playSound('click');
-
-  // Auto-play if it's the first song
-  if (musicPlaylist.length === 1) {
-    playSongAtIndex(0);
-  }
-}
-
-function removeSong(index) {
-  let wasPlaying = index === musicCurrentIndex;
-
-  musicPlaylist.splice(index, 1);
-  localStorage.setItem("musicPlaylist", JSON.stringify(musicPlaylist));
-
-  if (wasPlaying) {
-    musicAudio.pause();
-    musicIsPlaying = false;
-    document.getElementById("musicPlayBtn").textContent = "▶️";
-
-    if (musicPlaylist.length > 0) {
-      let newIndex = index >= musicPlaylist.length ? 0 : index;
-      playSongAtIndex(newIndex);
-    } else {
-      musicCurrentIndex = -1;
-      document.getElementById("musicSongTitle").textContent = "No song playing";
-      document.getElementById("musicSongStatus").textContent = "Add songs to get started";
-      document.getElementById("musicProgressFill").style.width = "0%";
-      document.getElementById("musicCurrentTime").textContent = "0:00";
-      document.getElementById("musicDuration").textContent = "0:00";
-    }
-  } else if (index < musicCurrentIndex) {
-    musicCurrentIndex--;
-  }
-
-  renderMusicPlaylist();
-  playSound('click');
-}
-
-function playSongAtIndex(index) {
-  if (index < 0 || index >= musicPlaylist.length) return;
-
-  musicCurrentIndex = index;
-  let song = musicPlaylist[index];
-
-  musicAudio.src = song.url;
-  musicAudio.play().then(() => {
-    musicIsPlaying = true;
-    document.getElementById("musicPlayBtn").textContent = "⏸️";
-    document.getElementById("musicSongTitle").textContent = song.name;
-    document.getElementById("musicSongStatus").textContent = `Playing • ${index + 1}/${musicPlaylist.length}`;
-    document.getElementById("musicSongStatus").style.color = "#1db954";
-    renderMusicPlaylist();
-  }).catch(e => {
-    console.error("Music play error:", e);
-    document.getElementById("musicSongStatus").textContent = "❌ Couldn't play this URL";
-    document.getElementById("musicSongStatus").style.color = "var(--danger)";
-  });
-}
-
-function togglePlayPause() {
-  if (musicPlaylist.length === 0) {
-    showNotification("Add songs first!", 'warning');
-    return;
-  }
-
-  if (musicCurrentIndex === -1) {
-    playSongAtIndex(0);
-    return;
-  }
-
-  if (musicIsPlaying) {
-    musicAudio.pause();
-    musicIsPlaying = false;
-    document.getElementById("musicPlayBtn").textContent = "▶️";
-    document.getElementById("musicSongStatus").textContent = "Paused";
-    document.getElementById("musicSongStatus").style.color = "var(--text-muted)";
-  } else {
-    musicAudio.play().then(() => {
-      musicIsPlaying = true;
-      document.getElementById("musicPlayBtn").textContent = "⏸️";
-      document.getElementById("musicSongStatus").textContent = `Playing • ${musicCurrentIndex + 1}/${musicPlaylist.length}`;
-      document.getElementById("musicSongStatus").style.color = "#1db954";
-    }).catch(e => {
-      console.error("Play error:", e);
-    });
-  }
-}
-
-function nextSong() {
-  if (musicPlaylist.length === 0) return;
-
-  let nextIndex;
-  if (musicShuffle) {
-    do {
-      nextIndex = Math.floor(Math.random() * musicPlaylist.length);
-    } while (nextIndex === musicCurrentIndex && musicPlaylist.length > 1);
-  } else {
-    nextIndex = (musicCurrentIndex + 1) % musicPlaylist.length;
-  }
-
-  playSongAtIndex(nextIndex);
-}
-
-function prevSong() {
-  if (musicPlaylist.length === 0) return;
-
-  // If more than 3 seconds in, restart current song
-  if (musicAudio.currentTime > 3) {
-    musicAudio.currentTime = 0;
-    return;
-  }
-
-  let prevIndex = (musicCurrentIndex - 1 + musicPlaylist.length) % musicPlaylist.length;
-  playSongAtIndex(prevIndex);
-}
-
-function toggleRepeat() {
-  musicRepeat = !musicRepeat;
-  document.getElementById("repeatBtn").classList.toggle("active", musicRepeat);
-  showNotification(musicRepeat ? "Repeat ON" : "Repeat OFF", 'info');
-  playSound('click');
-}
-
-function toggleShuffle() {
-  musicShuffle = !musicShuffle;
-  document.getElementById("shuffleBtn").classList.toggle("active", musicShuffle);
-  showNotification(musicShuffle ? "Shuffle ON" : "Shuffle OFF", 'info');
-  playSound('click');
-}
-
-function changeVolume(value) {
-  musicAudio.volume = value / 100;
-  localStorage.setItem("musicVolume", value);
-}
-
-function renderMusicPlaylist() {
-  let container = document.getElementById("musicPlaylist");
-
-  if (musicPlaylist.length === 0) {
-    container.innerHTML = '<p style="color: var(--text-muted); font-size: 12px; text-align: center;">No songs yet</p>';
-    return;
-  }
-
-  let html = "";
-  musicPlaylist.forEach((song, index) => {
-    let isPlaying = index === musicCurrentIndex;
-    html += `
-      <div class="music-sidebar-playlist-item ${isPlaying ? 'playing' : ''}" onclick="playSongAtIndex(${index})">
-        <span class="music-sidebar-playlist-item-num">${isPlaying ? '▶️' : (index + 1)}</span>
-        <span class="music-sidebar-playlist-item-name">${song.name}</span>
-        <button class="music-sidebar-playlist-item-remove" onclick="event.stopPropagation(); removeSong(${index})" title="Remove">✕</button>
-      </div>
-    `;
-  });
-
-  container.innerHTML = html;
-}
-
-
-
-
-// Load saved volume
-let savedVolume = localStorage.getItem("musicVolume");
-if (savedVolume) {
-  musicAudio.volume = savedVolume / 100;
-  document.addEventListener('DOMContentLoaded', () => {
-    let slider = document.getElementById("musicVolume");
-    if (slider) slider.value = savedVolume;
-  });
-}
-
-// Render playlist on load
-document.addEventListener('DOMContentLoaded', () => {
-  renderMusicPlaylist();
-});
-
-// ===== ACHIEVEMENTS SYSTEM =====
-const ACHIEVEMENTS = [
-  // Gaming achievements
-  { id: 'first_game', name: 'First Steps', desc: 'Play your first game', icon: '🎮', category: 'gaming', rarity: 'bronze', goal: 1, reward: { coins: 25, xp: 10 } },
-  { id: 'games_10', name: 'Getting Started', desc: 'Play 10 games', icon: '🕹️', category: 'gaming', rarity: 'bronze', goal: 10, reward: { coins: 50, xp: 25 } },
-  { id: 'games_50', name: 'Gamer', desc: 'Play 50 games', icon: '🎯', category: 'gaming', rarity: 'silver', goal: 50, reward: { coins: 150, xp: 75 } },
-  { id: 'games_100', name: 'Dedicated Gamer', desc: 'Play 100 games', icon: '🏆', category: 'gaming', rarity: 'gold', goal: 100, reward: { coins: 300, xp: 150 } },
-  { id: 'games_500', name: 'Gaming Legend', desc: 'Play 500 games', icon: '👑', category: 'gaming', rarity: 'platinum', goal: 500, reward: { coins: 1000, xp: 500 } },
-  
-  { id: 'flappy_10', name: 'Baby Bird', desc: 'Score 10 in Flappy Bird', icon: '🐣', category: 'gaming', rarity: 'bronze', goal: 10, reward: { coins: 30, xp: 15 } },
-  { id: 'flappy_25', name: 'Flying High', desc: 'Score 25 in Flappy Bird', icon: '🐦', category: 'gaming', rarity: 'silver', goal: 25, reward: { coins: 75, xp: 40 } },
-  { id: 'flappy_50', name: 'Sky Master', desc: 'Score 50 in Flappy Bird', icon: '🦅', category: 'gaming', rarity: 'gold', goal: 50, reward: { coins: 200, xp: 100 } },
-  
-  { id: 'tetris_1000', name: 'Block Builder', desc: 'Score 1000 in Tetris', icon: '🧱', category: 'gaming', rarity: 'bronze', goal: 1000, reward: { coins: 40, xp: 20 } },
-  { id: 'tetris_5000', name: 'Tetris Pro', desc: 'Score 5000 in Tetris', icon: '🏗️', category: 'gaming', rarity: 'silver', goal: 5000, reward: { coins: 100, xp: 50 } },
-  { id: 'tetris_10000', name: 'Tetris Master', desc: 'Score 10000 in Tetris', icon: '🌆', category: 'gaming', rarity: 'gold', goal: 10000, reward: { coins: 250, xp: 125 } },
-  
-  { id: 'pong_win', name: 'Pong Champion', desc: 'Win a game of Pong', icon: '🏓', category: 'gaming', rarity: 'bronze', goal: 1, reward: { coins: 50, xp: 25 } },
-  { id: 'pong_wins_10', name: 'Pong Master', desc: 'Win 10 games of Pong', icon: '🎾', category: 'gaming', rarity: 'silver', goal: 10, reward: { coins: 150, xp: 75 } },
-  { id: 'pong_flawless', name: 'Flawless Victory', desc: 'Win Pong 7-0', icon: '💯', category: 'gaming', rarity: 'gold', goal: 1, reward: { coins: 200, xp: 100 } },
-  
-  { id: 'breakout_level_5', name: 'Brick Breaker', desc: 'Reach level 5 in Breakout', icon: '🧱', category: 'gaming', rarity: 'silver', goal: 5, reward: { coins: 100, xp: 50 } },
-  { id: 'breakout_level_10', name: 'Demolition Expert', desc: 'Reach level 10 in Breakout', icon: '💥', category: 'gaming', rarity: 'gold', goal: 10, reward: { coins: 250, xp: 125 } },
-  
-  { id: 'snake_50', name: 'Sneaky Snake', desc: 'Score 50 in Snake', icon: '🐍', category: 'gaming', rarity: 'bronze', goal: 50, reward: { coins: 30, xp: 15 } },
-  { id: 'snake_100', name: 'Slithering Pro', desc: 'Score 100 in Snake', icon: '🐉', category: 'gaming', rarity: 'silver', goal: 100, reward: { coins: 80, xp: 40 } },
-  
-  { id: 'memory_20', name: 'Good Memory', desc: 'Complete Memory Match in under 20 moves', icon: '🧠', category: 'gaming', rarity: 'silver', goal: 1, reward: { coins: 75, xp: 40 } },
-  { id: 'memory_15', name: 'Perfect Memory', desc: 'Complete Memory Match in under 15 moves', icon: '🎓', category: 'gaming', rarity: 'gold', goal: 1, reward: { coins: 150, xp: 75 } },
-  
-  { id: 'reach_2048', name: '2048!', desc: 'Reach 2048 tile in 2048', icon: '🔢', category: 'gaming', rarity: 'gold', goal: 1, reward: { coins: 200, xp: 100 } },
-  
-  { id: 'casino_win', name: 'Lucky', desc: 'Win in the casino', icon: '🎰', category: 'gaming', rarity: 'bronze', goal: 1, reward: { coins: 25, xp: 10 } },
-  { id: 'casino_jackpot', name: 'JACKPOT!', desc: 'Hit a jackpot in slots', icon: '💎', category: 'gaming', rarity: 'platinum', goal: 1, reward: { coins: 500, xp: 250 } },
-  
-  // Social achievements
-  { id: 'first_message', name: 'Hello World', desc: 'Send your first chat message', icon: '💬', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 15, xp: 5 } },
-  { id: 'messages_50', name: 'Chatty', desc: 'Send 50 messages', icon: '🗣️', category: 'social', rarity: 'bronze', goal: 50, reward: { coins: 50, xp: 25 } },
-  { id: 'messages_200', name: 'Social Butterfly', desc: 'Send 200 messages', icon: '🦋', category: 'social', rarity: 'silver', goal: 200, reward: { coins: 100, xp: 50 } },
-  { id: 'messages_500', name: 'Chatterbox', desc: 'Send 500 messages', icon: '📢', category: 'social', rarity: 'gold', goal: 500, reward: { coins: 200, xp: 100 } },
-  { id: 'messages_1000', name: 'Legendary Talker', desc: 'Send 1000 messages', icon: '🎙️', category: 'social', rarity: 'platinum', goal: 1000, reward: { coins: 500, xp: 250 } },
-  
-  { id: 'first_friend', name: 'Friendly', desc: 'Add your first friend', icon: '🤝', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 25, xp: 10 } },
-  { id: 'friends_5', name: 'Popular', desc: 'Have 5 friends', icon: '👥', category: 'social', rarity: 'silver', goal: 5, reward: { coins: 75, xp: 40 } },
-  { id: 'friends_10', name: 'Social Star', desc: 'Have 10 friends', icon: '⭐', category: 'social', rarity: 'gold', goal: 10, reward: { coins: 150, xp: 75 } },
-  { id: 'friends_25', name: 'Influencer', desc: 'Have 25 friends', icon: '🌟', category: 'social', rarity: 'platinum', goal: 25, reward: { coins: 400, xp: 200 } },
-  
-  { id: 'set_bio', name: 'About Me', desc: 'Set your bio', icon: '📝', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 15, xp: 5 } },
-  { id: 'set_pic', name: 'Picture Perfect', desc: 'Set a custom profile picture', icon: '🖼️', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 20, xp: 10 } },
-  { id: 'set_status', name: 'Status Update', desc: 'Set your status', icon: '💭', category: 'social', rarity: 'bronze', goal: 1, reward: { coins: 15, xp: 5 } },
-  
-  // Wealth achievements
-  { id: 'coins_100', name: 'Pocket Change', desc: 'Earn 100 coins total', icon: '🪙', category: 'wealth', rarity: 'bronze', goal: 100, reward: { coins: 25, xp: 10 } },
-  { id: 'coins_500', name: 'Saving Up', desc: 'Earn 500 coins total', icon: '💵', category: 'wealth', rarity: 'bronze', goal: 500, reward: { coins: 50, xp: 25 } },
-  { id: 'coins_1000', name: 'Making Bank', desc: 'Earn 1000 coins total', icon: '💰', category: 'wealth', rarity: 'silver', goal: 1000, reward: { coins: 100, xp: 50 } },
-  { id: 'coins_5000', name: 'Rich', desc: 'Earn 5000 coins total', icon: '🤑', category: 'wealth', rarity: 'gold', goal: 5000, reward: { coins: 250, xp: 125 } },
-  { id: 'coins_10000', name: 'Wealthy', desc: 'Earn 10000 coins total', icon: '💎', category: 'wealth', rarity: 'platinum', goal: 10000, reward: { coins: 500, xp: 250 } },
-  
-  { id: 'first_purchase', name: 'Shopper', desc: 'Buy your first item', icon: '🛒', category: 'wealth', rarity: 'bronze', goal: 1, reward: { coins: 25, xp: 10 } },
-  { id: 'purchases_5', name: 'Collector', desc: 'Buy 5 items', icon: '🛍️', category: 'wealth', rarity: 'silver', goal: 5, reward: { coins: 75, xp: 40 } },
-  { id: 'purchases_15', name: 'Hoarder', desc: 'Buy 15 items', icon: '📦', category: 'wealth', rarity: 'gold', goal: 15, reward: { coins: 200, xp: 100 } },
-  { id: 'purchases_all', name: 'Own Everything', desc: 'Buy all shop items', icon: '👑', category: 'wealth', rarity: 'diamond', goal: 1, reward: { coins: 1000, xp: 500 } },
-  
-  // Dedication achievements
-  { id: 'level_5', name: 'Rising Star', desc: 'Reach level 5', icon: '⬆️', category: 'dedication', rarity: 'bronze', goal: 5, reward: { coins: 50, xp: 0 } },
-  { id: 'level_10', name: 'Experienced', desc: 'Reach level 10', icon: '📈', category: 'dedication', rarity: 'silver', goal: 10, reward: { coins: 100, xp: 0 } },
-  { id: 'level_25', name: 'Veteran', desc: 'Reach level 25', icon: '🎖️', category: 'dedication', rarity: 'gold', goal: 25, reward: { coins: 250, xp: 0 } },
-  { id: 'level_50', name: 'Elite', desc: 'Reach level 50', icon: '🏅', category: 'dedication', rarity: 'platinum', goal: 50, reward: { coins: 500, xp: 0 } },
-  { id: 'level_100', name: 'Legendary', desc: 'Reach level 100', icon: '🌟', category: 'dedication', rarity: 'diamond', goal: 100, reward: { coins: 2000, xp: 0 } },
-  
-  { id: 'streak_3', name: 'Consistent', desc: 'Visit 3 days in a row', icon: '📅', category: 'dedication', rarity: 'bronze', goal: 3, reward: { coins: 50, xp: 25 } },
-  { id: 'streak_7', name: 'Dedicated', desc: 'Visit 7 days in a row', icon: '🔥', category: 'dedication', rarity: 'silver', goal: 7, reward: { coins: 150, xp: 75 } },
-  { id: 'streak_30', name: 'Committed', desc: 'Visit 30 days in a row', icon: '💪', category: 'dedication', rarity: 'gold', goal: 30, reward: { coins: 500, xp: 250 } },
-  
-  { id: 'xp_1000', name: 'XP Hunter', desc: 'Earn 1000 XP total', icon: '✨', category: 'dedication', rarity: 'bronze', goal: 1000, reward: { coins: 50, xp: 0 } },
-  { id: 'xp_10000', name: 'XP Master', desc: 'Earn 10000 XP total', icon: '💫', category: 'dedication', rarity: 'silver', goal: 10000, reward: { coins: 150, xp: 0 } },
-  { id: 'xp_50000', name: 'XP Legend', desc: 'Earn 50000 XP total', icon: '🌠', category: 'dedication', rarity: 'gold', goal: 50000, reward: { coins: 400, xp: 0 } },
-  
-  { id: 'music_playlist', name: 'DJ', desc: 'Add 5 songs to your playlist', icon: '🎵', category: 'dedication', rarity: 'bronze', goal: 5, reward: { coins: 30, xp: 15 } },
-  { id: 'minigames_all', name: 'Jack of All Games', desc: 'Play all mini games', icon: '🎪', category: 'dedication', rarity: 'silver', goal: 1, reward: { coins: 150, xp: 75 } },
-  { id: 'favorites_5', name: 'Curator', desc: 'Favorite 5 games', icon: '⭐', category: 'dedication', rarity: 'bronze', goal: 5, reward: { coins: 30, xp: 15 } }
-];
-
-let achievementProgress = {};
-let unlockedAchievements = [];
-let totalCoinsEarned = 0;
-let totalXpEarned = 0;
-let loginStreak = 0;
-let gamesPlayedList = [];
-let pongWins = 0;
-
-// Load achievements from Firebase/localStorage
-async function loadAchievements() {
-  if (myProfile) {
-    achievementProgress = myProfile.achievementProgress || {};
-    unlockedAchievements = myProfile.unlockedAchievements || [];
-    totalCoinsEarned = myProfile.totalCoinsEarned || 0;
-    totalXpEarned = myProfile.totalXpEarned || 0;
-    loginStreak = myProfile.loginStreak || 0;
-    gamesPlayedList = myProfile.gamesPlayedList || [];
-    pongWins = myProfile.pongWins || 0;
-    
-    // Check daily login streak
-    checkLoginStreak();
-  }
-  
-  updateAchievementBadge();
-}
-
-// Save achievements to Firebase
-async function saveAchievements() {
-  if (!myProfile) return;
-  
-  try {
-    await db.collection("users").doc(userId).update({
-      achievementProgress: achievementProgress,
-      unlockedAchievements: unlockedAchievements,
-      totalCoinsEarned: totalCoinsEarned,
-      totalXpEarned: totalXpEarned,
-      loginStreak: loginStreak,
-      gamesPlayedList: gamesPlayedList,
-      pongWins: pongWins,
-      lastLoginDate: new Date().toDateString()
-    });
-  } catch (e) {
-    console.error("Error saving achievements:", e);
-  }
-}
-
-// Check login streak
-function checkLoginStreak() {
-  let today = new Date().toDateString();
-  let lastLogin = myProfile.lastLoginDate;
-  
-  if (!lastLogin) {
-    loginStreak = 1;
-  } else {
-    let lastDate = new Date(lastLogin);
-    let todayDate = new Date(today);
-    let diffTime = todayDate - lastDate;
-    let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 1) {
-      loginStreak++;
-      showNotification(`🔥 ${loginStreak} day streak!`, 'success');
-    } else if (diffDays > 1) {
-      loginStreak = 1;
-    }
-    // If same day, keep streak as is
-  }
-  
-  // Check streak achievements
-  checkAchievement('streak_3', loginStreak);
-  checkAchievement('streak_7', loginStreak);
-  checkAchievement('streak_30', loginStreak);
-  
-  saveAchievements();
-}
-
-
-
-// Show achievement category
-function showAchievementCategory(category, btn) {
-  document.querySelectorAll('.achievements-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  renderAchievements(category);
-}
-
-// Render achievements list
-function renderAchievements(category) {
-  let list = document.getElementById("achievementsList");
-  let filtered = category === 'all' 
-    ? ACHIEVEMENTS 
-    : ACHIEVEMENTS.filter(a => a.category === category);
-  
-  let unlocked = unlockedAchievements.length;
-  let total = ACHIEVEMENTS.length;
-  let percent = Math.round((unlocked / total) * 100);
-  
-  document.getElementById("achievementsUnlocked").textContent = unlocked;
-  document.getElementById("achievementsTotal").textContent = total;
-  document.getElementById("achievementsPercent").textContent = percent + '%';
-  
-  // Sort: unlocked first, then by rarity
-  let rarityOrder = { diamond: 0, platinum: 1, gold: 2, silver: 3, bronze: 4 };
-  
-  filtered.sort((a, b) => {
-    let aUnlocked = unlockedAchievements.includes(a.id);
-    let bUnlocked = unlockedAchievements.includes(b.id);
-    
-    if (aUnlocked && !bUnlocked) return -1;
-    if (!aUnlocked && bUnlocked) return 1;
-    
-    return rarityOrder[a.rarity] - rarityOrder[b.rarity];
-  });
-  
-  let html = "";
-  
-  filtered.forEach(achievement => {
-    let isUnlocked = unlockedAchievements.includes(achievement.id);
-    let progress = achievementProgress[achievement.id] || 0;
-    let progressPercent = Math.min((progress / achievement.goal) * 100, 100);
-    
-    html += `
-      <div class="achievement-sidebar-card ${isUnlocked ? 'unlocked' : 'locked'}">
-        <div class="achievement-sidebar-icon">${achievement.icon}</div>
-        <div class="achievement-sidebar-content">
-          <div class="achievement-sidebar-header">
-            <span class="achievement-sidebar-name">${achievement.name}</span>
-            <span class="achievement-sidebar-rarity rarity-${achievement.rarity}">${achievement.rarity}</span>
-          </div>
-          <div class="achievement-sidebar-desc">${achievement.desc}</div>
-          
-          ${!isUnlocked ? `
-            <div class="achievement-sidebar-progress">
-              <div class="achievement-sidebar-progress-fill" style="width: ${progressPercent}%"></div>
-            </div>
-            <div class="achievement-sidebar-progress-text">${progress} / ${achievement.goal}</div>
-          ` : `
-            <div class="achievement-sidebar-unlocked">✓ Unlocked</div>
-          `}
-          
-          <div class="achievement-sidebar-reward">
-            ${achievement.reward.coins > 0 ? `🪙 ${achievement.reward.coins}` : ''}
-            ${achievement.reward.xp > 0 ? ` ⭐ ${achievement.reward.xp} XP` : ''}
-          </div>
-        </div>
-      </div>
-    `;
-  });
-  
-  list.innerHTML = html || '<p style="text-align: center; color: var(--text-muted); padding: 20px;">No achievements yet!</p>';
-}
-
-    
-    // Check and potentially unlock an achievement
-function checkAchievement(achievementId, currentValue) {
-  if (unlockedAchievements.includes(achievementId)) return;
-  
-  let achievement = ACHIEVEMENTS.find(a => a.id === achievementId);
-  if (!achievement) return;
-  
-  // Update progress
-  achievementProgress[achievementId] = Math.max(
-    achievementProgress[achievementId] || 0,
-    currentValue
-  );
-  
-  // Check if goal reached
-  if (currentValue >= achievement.goal) {
-    unlockAchievement(achievementId);
-  }
-  
-  saveAchievements();
-}
-
-// Unlock an achievement
-function unlockAchievement(achievementId) {
-  if (unlockedAchievements.includes(achievementId)) return;
-  
-  let achievement = ACHIEVEMENTS.find(a => a.id === achievementId);
-  if (!achievement) return;
-  
-  unlockedAchievements.push(achievementId);
-  achievementProgress[achievementId] = achievement.goal;
-  
-  // Show notification
-  showAchievementNotification(achievement);
-  
-  // Give rewards (without triggering more achievement checks to avoid loops)
-  if (achievement.reward.coins > 0) {
-    myProfile.coins = (myProfile.coins || 0) + achievement.reward.coins;
-    document.getElementById("coinsDisplay").textContent = myProfile.coins;
-    document.getElementById("shopCoinsDisplay").textContent = myProfile.coins;
-  }
-  
-  if (achievement.reward.xp > 0) {
-    myProfile.xp = (myProfile.xp || 0) + achievement.reward.xp;
-    updateXPBar();
-  }
-  
-  // Save to Firebase
-  db.collection("users").doc(userId).update({
-    coins: myProfile.coins,
-    xp: myProfile.xp,
-    unlockedAchievements: unlockedAchievements,
-    achievementProgress: achievementProgress
-  });
-  
-  updateAchievementBadge();
-  playSound('notification');
-  createConfetti();
-}
-
-// Show achievement unlock notification
-function showAchievementNotification(achievement) {
-  let notif = document.createElement('div');
-  notif.className = 'achievement-notification';
-  
-  notif.innerHTML = `
-    <div class="achievement-notification-icon">${achievement.icon}</div>
-    <div class="achievement-notification-content">
-      <div class="achievement-notification-title">🏆 Achievement Unlocked!</div>
-      <div class="achievement-notification-name">${achievement.name}</div>
-      <div class="achievement-notification-reward">
-        ${achievement.reward.coins > 0 ? `+${achievement.reward.coins} 🪙` : ''}
-        ${achievement.reward.xp > 0 ? `+${achievement.reward.xp} XP` : ''}
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(notif);
-  
-  setTimeout(() => {
-    notif.remove();
-  }, 5000);
-}
-
-// Update badge on achievements button
-function updateAchievementBadge() {
-  // Achievement badge no longer needed (achievements in sidebar now)
-  // Just update the count silently
-  let newUnlocks = 0;
-  let lastSeen = parseInt(localStorage.getItem('achievementsSeen') || 0);
-  
-  if (unlockedAchievements.length > lastSeen) {
-    newUnlocks = unlockedAchievements.length - lastSeen;
-  }
-  
-  // Optional: Update sidebar tab if you want a notification dot
-  let ping = document.getElementById("achievementPing");
-  if (ping) {
-    if (newUnlocks > 0) {
-      ping.textContent = newUnlocks;
-      ping.style.display = 'flex';
-    } else {
-      ping.style.display = 'none';
-    }
-  }
-}
-// Mark achievements as seen when modal opened
-function markAchievementsSeen() {
-  localStorage.setItem('achievementsSeen', unlockedAchievements.length);
-  updateAchievementBadge();
-}
-
-// Track various stats for achievements
-function trackGamePlayed(gameName) {
-  if (!gamesPlayedList.includes(gameName)) {
-    gamesPlayedList.push(gameName);
-  }
-  
-  let totalGames = myProfile.gamesPlayed || 0;
-  
-  checkAchievement('first_game', 1);
-  checkAchievement('games_10', totalGames);
-  checkAchievement('games_50', totalGames);
-  checkAchievement('games_100', totalGames);
-  checkAchievement('games_500', totalGames);
-  
-  // Check if all minigames played
-  let allMiniGames = ['snake', 'minesweeper', 'tetris', 'pong', 'breakout', 'flappy', 'memory', 'tictactoe', 'clicker', '2048'];
-  let playedAll = allMiniGames.every(g => gamesPlayedList.includes(g));
-  if (playedAll) {
-    checkAchievement('minigames_all', 1);
-  }
-  
-  saveAchievements();
-}
-
-function trackCoinsEarned(amount) {
-  totalCoinsEarned += amount;
-  
-  checkAchievement('coins_100', totalCoinsEarned);
-  checkAchievement('coins_500', totalCoinsEarned);
-  checkAchievement('coins_1000', totalCoinsEarned);
-  checkAchievement('coins_5000', totalCoinsEarned);
-  checkAchievement('coins_10000', totalCoinsEarned);
-  
-  saveAchievements();
-}
-
-function trackXpEarned(amount) {
-  totalXpEarned += amount;
-  
-  checkAchievement('xp_1000', totalXpEarned);
-  checkAchievement('xp_10000', totalXpEarned);
-  checkAchievement('xp_50000', totalXpEarned);
-  
-  saveAchievements();
-}
-
-function trackLevelUp(newLevel) {
-  checkAchievement('level_5', newLevel);
-  checkAchievement('level_10', newLevel);
-  checkAchievement('level_25', newLevel);
-  checkAchievement('level_50', newLevel);
-  checkAchievement('level_100', newLevel);
-}
-
-function trackMessageSent() {
-  let messages = myProfile.messagesSent || 0;
-  
-  checkAchievement('first_message', 1);
-  checkAchievement('messages_50', messages);
-  checkAchievement('messages_200', messages);
-  checkAchievement('messages_500', messages);
-  checkAchievement('messages_1000', messages);
-}
-
-function trackFriendAdded() {
-  let friends = (myProfile.friends || []).length;
-  
-  checkAchievement('first_friend', 1);
-  checkAchievement('friends_5', friends);
-  checkAchievement('friends_10', friends);
-  checkAchievement('friends_25', friends);
-}
-
-function trackProfileUpdated(type) {
-  if (type === 'bio') checkAchievement('set_bio', 1);
-  if (type === 'pic') checkAchievement('set_pic', 1);
-  if (type === 'status') checkAchievement('set_status', 1);
-}
-
-function trackPurchase() {
-  let items = (myProfile.inventory || []).length;
-  
-  checkAchievement('first_purchase', 1);
-  checkAchievement('purchases_5', items);
-  checkAchievement('purchases_15', items);
-  
-  // Check if owns all items
-  if (items >= shopItems.length) {
-    checkAchievement('purchases_all', 1);
-  }
-}
-
-function trackMusicPlaylist() {
-  let songs = musicPlaylist.length;
-  checkAchievement('music_playlist', songs);
-}
-
-function trackFavorites() {
-  let favs = favorites.length;
-  checkAchievement('favorites_5', favs);
-}
-
-// Chat expand/collapse toggle
-let chatExpanded = true;
-
-function toggleChatExpand() {
-  chatExpanded = !chatExpanded;
-  let wrapper = document.getElementById("chatMessagesWrapper");
-  let arrow = document.getElementById("chatExpandArrow");
-  
-  if (chatExpanded) {
-    wrapper.classList.remove("collapsed");
-    arrow.textContent = "▲";
-  } else {
-    wrapper.classList.add("collapsed");
-    arrow.textContent = "▼";
-  }
-  
-  playSound('click');
-}
-
-
-    
-    
     // ===== INITIALIZATION =====
     async function init() {
-      try {
-        let savedTheme = localStorage.getItem("theme");
-        if (savedTheme) {
-          document.body.dataset.theme = savedTheme;
-          document.getElementById("themeSelect").value = savedTheme;
-        }
-
-        let savedFont = localStorage.getItem("font");
-        if (savedFont) {
-          document.body.className = `font-${savedFont}`;
-          document.getElementById("fontSelect").value = savedFont;
-        }
-
-        let savedParticles = localStorage.getItem("particles");
-        if (savedParticles && savedParticles !== 'none') {
-          changeParticles(savedParticles);
-          document.getElementById("particleSelect").value = savedParticles;
-        }
-
-        let savedCompact = localStorage.getItem("compactMode") === 'true';
-        if (savedCompact) {
-          document.body.classList.add("compact-mode");
-          document.getElementById("compactMode").checked = true;
-        }
-
-        let savedBg = localStorage.getItem("customBg");
-        if (savedBg) {
-          document.getElementById("customBg").style.backgroundImage = `url(${savedBg})`;
-          document.getElementById("bgUrl").value = savedBg;
-        }
-
-        let savedPanic = localStorage.getItem("panicUrl");
-        if (savedPanic) {
-          document.getElementById("panicUrl").value = savedPanic;
-          panicUrl = savedPanic;
-        }
-
-        document.getElementById("soundEnabled").checked = soundEnabled;
-        document.getElementById("notifSound").checked = notifSound;
-        document.getElementById("soundToggle").textContent = soundEnabled ? '🔊' : '🔇';
-
-        loadCloak();
-        document.getElementById("loadingQuote").textContent = getRandomQuote();
-
-        renderGameCards();
-        renderMiniGames();
-        renderCasinoGames();
-
-      } catch (e) {
-        console.error("Settings load error:", e);
+      // Loading quote
+      document.getElementById("loadingQuote").textContent = getRandomQuote();
+      
+      // Load saved settings
+      let savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        document.body.dataset.theme = savedTheme;
+        document.getElementById("themeSelect").value = savedTheme;
       }
-
-      try {
-        await checkFirstVisit();
-
-        if (await checkIfBanned()) return;
-
-        loadChat();
-        loadTypingIndicators();
-        loadAnnouncement();
-        loadOnlineUsers();
-
-        try {
-          let users = await db.collection("users").get();
-          document.getElementById("statTotalUsers").textContent = users.size;
-
-          let msgs = await db.collection("chat").get();
-          document.getElementById("statTotalMessages").textContent = msgs.size;
-        } catch (e) {
-          console.error("Stats load error:", e);
-        }
-
-        setInterval(loadOnlineUsers, 30000);
-
-      } catch (e) {
-        console.error("Firebase init error:", e);
-        showNotification("Some features may be unavailable", 'warning');
+      
+      let savedFont = localStorage.getItem("font");
+      if (savedFont) {
+        document.body.className = `font-${savedFont}`;
+        document.getElementById("fontSelect").value = savedFont;
       }
-
+      
+      let savedParticles = localStorage.getItem("particles");
+      if (savedParticles && savedParticles !== 'none') {
+        changeParticles(savedParticles);
+        document.getElementById("particleSelect").value = savedParticles;
+      }
+      
+      let savedCompact = localStorage.getItem("compactMode") === 'true';
+      if (savedCompact) {
+        document.body.classList.add("compact-mode");
+        document.getElementById("compactMode").checked = true;
+      }
+      
+      let savedBg = localStorage.getItem("customBg");
+      if (savedBg) {
+        document.getElementById("customBg").style.backgroundImage = `url(${savedBg})`;
+        document.getElementById("bgUrl").value = savedBg;
+      }
+      
+      let savedPanic = localStorage.getItem("panicUrl");
+      if (savedPanic) {
+        document.getElementById("panicUrl").value = savedPanic;
+        panicUrl = savedPanic;
+      }
+      
+      document.getElementById("soundEnabled").checked = soundEnabled;
+      document.getElementById("notifSound").checked = notifSound;
+      document.getElementById("soundToggle").textContent = soundEnabled ? '🔊' : '🔇';
+      
+      loadCloak();
+      
+      // Render content
+      renderGameCards();
+      renderMiniGames();
+      renderCasinoGames();
+      
+      // Check user
+      await checkFirstVisit();
+      
+      if (await checkIfBanned()) return;
+      
+      // Load real-time data
+      loadChat();
+      loadTypingIndicators();
+      loadAnnouncement();
+      loadOnlineUsers();
+      
+      // Update stats
+      let users = await db.collection("users").get();
+      document.getElementById("statTotalUsers").textContent = users.size;
+      
+      let msgs = await db.collection("chat").get();
+      document.getElementById("statTotalMessages").textContent = msgs.size;
+      
+      // Hide loading screen
       setTimeout(() => {
         document.getElementById("loadingScreen").classList.add("hidden");
       }, 1500);
+      
+      // Periodic updates
+      setInterval(loadOnlineUsers, 30000);
     }
 
     init();
