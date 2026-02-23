@@ -11179,20 +11179,20 @@ function initBrowser() {
 
         setInterval(loadOnlineUsers, 30000);
 
-      } catch (e) {
-        console.error("Firebase init error:", e);
-        showNotification("Some features may be unavailable", 'warning');
-      }
-
-      setTimeout(() => {
-        document.getElementById("loadingScreen").classList.add("hidden");
-      }, 1500);
- 
-      initBrowser();
-    
+          } catch (e) {
+      console.error("Firebase init error:", e);
+      showNotification("Some features may be unavailable", 'warning');
     }
 
-    init();
+    // ===== ALWAYS HIDE LOADING SCREEN NO MATTER WHAT =====
+    setTimeout(() => {
+      document.getElementById("loadingScreen").classList.add("hidden");
+    }, 1500);
+  }  // <-- This closes the FIRST try block (settings load)
+
+  initBrowser();
+
+  init();
   </script>
 </body>
 </html>
